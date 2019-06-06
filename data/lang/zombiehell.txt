@@ -1,0 +1,141 @@
+[en]
+//Game Titles
+ZH_TITLE1 = ^nDay %d - Beginning^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE2 = ^nDay %d - Incoming^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE3 = ^nDay %d - Find Way Out^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE4 = ^nDay %d - Lost Hope^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE5 = ^nDay %d - HopeLight In Darkness^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE6 = ^nDay %d - Killin WayOut^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE7 = ^nDay %d - Bloody Fight^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE8 = ^nDay %d - Living Hell^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE9 = ^nDay %d - Nightmare^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE10 = ^nDay %d - Final War^nBOSS[HP：%d/Speed：%.1f]^nZombie[HP：%d/Speed：%.1f/Respawns：%d]
+ZH_TITLE10S = ^nDay %d - Final War^nBOSS[HP：？？？/Speed：？？？]^nZombie[HP：？？？/Speed：？？？/Respawns：？？？]
+
+//Zombie Score Titles
+ZH_ZSCORE1 = %s Need To Eat More Human Brain!
+ZH_ZSCORE2 = %s cCn't Stop To Killing Humans!
+ZH_ZSCORE3 = %s is a Creazy Brain Eater!
+ZH_ZSCORE4 = %s is Deadly, He Can Eat Human Brain More and More!
+ZH_ZSCORE5 = %s is a Crazy Zombie!
+ZH_ZSCORE6 = %s is a Human Hunter!
+ZH_ZSCORE7 = %s is almost an Human Predator!
+ZH_ZSCORE8 = %s is Lord Of Zombies!
+ZH_ZSCORE9 = %s is God Of Zombies!
+
+//Human Score Titles
+ZH_HSCORE1 = %s Need To Shoot More Zombie Head!
+ZH_HSCORE2 = %s Can't Stop To Killing Zombies!
+ZH_HSCORE3 = %s is a Creazy Head Shooter!
+ZH_HSCORE4 = %s is Deadly, He Can Kill Zombie More and More!
+ZH_HSCORE5 = %s is a Crazy Warrior!
+ZH_HSCORE6 = %s is a Zombie Hunter!
+ZH_HSCORE7 = %s is almost an Human Predator!
+ZH_HSCORE8 = %s is Elite Of Humans!
+ZH_HSCORE9 = %s is God Of Humans!
+
+//Buy Menu
+ZH_BUYMENU = Weapon Buy Menu
+ZH_PRIMENU = Primary Weapon
+ZH_SECMENU = Secondary Weapon
+ZH_EQUIP = Eguipment
+ZH_ARMOR = Armor
+ZH_FIREBANG = FireBang
+ZH_FROZEBANG = FrozeBang
+ZH_FLAREBANG = Flare
+ZH_NVG = NightVision
+ZH_PRIAMMO = Primary Ammo(Single Clip)
+ZH_SECAMMO = Secondary Ammo(Single Clip)
+ZH_PRIAMMOS = Primary Ammo(Full)
+ZH_SECAMMOS = Secondary Ammo(Full)
+ZH_PREV = Back
+ZH_NEXT = Next
+ZH_QUIT = Exit
+
+//Other Stuff
+ZH_NEXTMAP = Congratulations!^nSystem Will Change Map Randomly...^nNext Map:[%s]
+ZH_ZWIN = Zombie Win!
+ZH_HWIN = Human Win!
+ZH_DRAW = Round Draw...
+ZH_ALLDEAD = All Dead...^nJust No One Alive...
+ZH_LASTMAN = %s Is The Last Human!
+ZH_BOSSAPPEAR = %s Has Being The Boss!!!
+ZH_BOSS_BONUS = %s Has Kill The Boss And Get $%d For a Big Bonus Reward!!!
+ZH_ZOMBIEHEAL = %s Eat %s's Head And Get %d HP!
+ZH_RESPAWN = You will get respawn in %.1f seconds.
+ZH_BUYZONE = You Must In BuyZone!
+ZH_ALREADYHAVE = You Are Already Have It!
+ZH_NOMONEY = Your Money Is Not Enough!
+ZH_FULL = You Can't Carry Anymore!
+ZH_AMORFULL = Your Armor is Full!
+
+[tc]
+//遊戲主標題
+ZH_TITLE1 = ^n第%d日 - 惡夢的開始^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE2 = ^n第%d日 - 群屍出現^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE3 = ^n第%d日 - 尋找出路^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE4 = ^n第%d日 - 希望落空^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE5 = ^n第%d日 - 絕望中的希望^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE6 = ^n第%d日 - 殺出重圍^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE7 = ^n第%d日 - 血戰^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE8 = ^n第%d日 - 人間地獄^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE9 = ^n第%d日 - 倖存者的惡夢^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE10 = ^n第%d日 - 最後一戰^n殭屍王[血量：%d/速度：%.1f]^n殭屍[血量：%d/速度：%.1f/重生%d次]
+ZH_TITLE10S = ^n第%d日 - 最後一戰^n殭屍王[血量：？？？/速度：？？？]^n殭屍[血量：？？？/速度：？？？/重生？？？次]
+
+//殭屍擊殺評語
+ZH_ZSCORE1 = %s需要吃更多人類當他的食物!
+ZH_ZSCORE2 = %s無法停止想獵殺人類的欲望!
+ZH_ZSCORE3 = %s是瘋狂的殭屍獵頭者!
+ZH_ZSCORE4 = %s是致命的,他可以不斷的獵殺更多的人類!
+ZH_ZSCORE5 = %s是一隻瘋狂的殭屍!
+ZH_ZSCORE6 = %s是獵殺人類的專家!
+ZH_ZSCORE7 = %s是人類的天敵!
+ZH_ZSCORE8 = %s是殭屍中的王者!
+ZH_ZSCORE9 = %s是殭屍中的魔神!
+
+//人類擊殺評語
+ZH_HSCORE1 = %s幾乎是一位殭屍殺手!
+ZH_HSCORE2 = %s無法停止想射殺殭屍的慾望!
+ZH_HSCORE3 = %s是瘋狂的人類獵頭者!
+ZH_HSCORE4 = %s是致命的,他可以不斷的獵殺更多的殭屍!
+ZH_HSCORE5 = %s是一位英勇的戰士!
+ZH_HSCORE6 = %s是獵殺殭屍的專家!
+ZH_HSCORE7 = %s是殭屍的天敵!
+ZH_HSCORE8 = %s是人類中的菁英!
+ZH_HSCORE9 = %s是人類中的神級高手!
+
+//購買選單
+ZH_BUYMENU = 選擇購買武器項目
+ZH_PRIMENU = 主要武器選單
+ZH_SECMENU = 輔助武器選單
+ZH_EQUIP = 其它裝備選單
+ZH_ARMOR = 護甲
+ZH_FIREBANG = 燃燒彈
+ZH_FROZEBANG = 冰凍彈
+ZH_FLAREBANG = 照明彈
+ZH_NVG = 夜視鏡
+ZH_PRIAMMO = 主要武器彈匣(單個)
+ZH_SECAMMO = 輔助武器彈匣(單個)
+ZH_PRIAMMOS = 主要武器彈匣(加滿)
+ZH_SECAMMOS = 輔助武器彈匣(加滿)
+ZH_PREV = 上一頁
+ZH_NEXT = 下一頁
+ZH_QUIT = 離開
+
+//其它雜項
+ZH_NEXTMAP = 恭喜各位通過10關的考驗!^n系統將會隨機切換至下一張地圖...^nNext Map:[%s]
+ZH_ZWIN = 殭屍已成功消滅所有人類!
+ZH_HWIN = 人類已成功殲滅所有殭屍!
+ZH_DRAW = 此回合雙方不分勝負...
+ZH_ALLDEAD = 人類和殭屍同歸於盡了...
+ZH_LASTMAN = %s是最後一位人類!
+ZH_BOSSAPPEAR = %s突變成為殭屍王!!!
+ZH_BOSS_BONUS = %s成功擊殺殭屍王並獲得$%d的額外獎勵!!!
+ZH_ZOMBIEHEAL = %s吃掉了%s的腦袋並增加%d點血量!
+ZH_RESPAWN = 你將會在%.1f秒後自動復活.
+ZH_BUYZONE = 你必須在購買區內才能購買裝備!
+ZH_ALREADYHAVE = 你已經擁有這項裝備了!
+ZH_NOMONEY = 你沒有足夠的錢!
+ZH_FULL = 你無法再攜帶更多!
+ZH_AMORFULL = 你的護甲已滿!
