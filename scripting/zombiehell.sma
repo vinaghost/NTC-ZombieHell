@@ -151,7 +151,7 @@ cvar_flare_size,cvar_remove_weapon_time, cvar_boss_dmg_multiplier, cvar_boss_lea
 cvar_nvg_size, cvar_armor_protect, cvar_level1_respawns, cvar_level1_health, cvar_level1_maxspeed, cvar_level1_bosshp, cvar_level1_bossmaxspeed, cvar_level1_lighting, cvar_level2_respawns,
 cvar_level2_health, cvar_level2_maxspeed, cvar_level2_bosshp, cvar_level2_bossmaxspeed, cvar_level2_lighting, cvar_zombie_random, cvar_level3_respawns, cvar_level3_health, cvar_level3_maxspeed,
 cvar_level3_bosshp, cvar_level3_bossmaxspeed, cvar_level3_lighting, cvar_level4_respawns, cvar_level4_health, cvar_level4_maxspeed, cvar_level4_bosshp, cvar_level4_bossmaxspeed, cvar_level4_lighting,
-cvar_level5_respawns, cvar_level5_health, cvar_level5_maxspeed, cvar_level5_bosshp, cvar_bot_type, cvar_level5_bossmaxspeed, cvar_level5_lighting, cvar_level6_respawns, cvar_level6_health,
+cvar_level5_respawns, cvar_level5_health, cvar_level5_maxspeed, cvar_level5_bosshp,/* cvar_bot_type, */cvar_level5_bossmaxspeed, cvar_level5_lighting, cvar_level6_respawns, cvar_level6_health,
 cvar_level6_maxspeed, cvar_level6_bosshp, cvar_level6_bossmaxspeed, cvar_level6_lighting, cvar_level7_respawns, cvar_level7_health, cvar_level7_maxspeed, cvar_level7_bosshp, cvar_level7_bossmaxspeed,
 cvar_level7_lighting, cvar_level8_respawns, cvar_cvar_zombiebar, cvar_level8_health, cvar_level8_maxspeed, cvar_level8_bosshp, cvar_level8_bossmaxspeed, cvar_level8_lighting, cvar_level9_respawns,
 cvar_level9_health, cvar_level9_maxspeed, cvar_removedoors, cvar_level9_bosshp, cvar_level9_bossmaxspeed, cvar_level9_lighting, cvar_level10_respawns, cvar_level10_health, cvar_level10_maxspeed,
@@ -574,7 +574,7 @@ public plugin_init()
 	cvar_zombie_knife = register_cvar("zh_zombie_onehitkill", "0") 	 	//殭屍是否有一擊死的能力
 	cvar_zombiearmor = register_cvar("zh_zombie_armor", "100")		//是否給予殭屍護甲(預設100=100x關卡數)
 	cvar_zombieappear = register_cvar("zh_zombie_appeartime", "3.0")	//玩家進入遊戲幾秒後才開始加入殭屍(單位:秒)
-	cvar_bot_type = register_cvar("zh_bot_type", "1") 			//選擇BOT種類(1=PBOT/2=ZBOT)
+	//cvar_bot_type = register_cvar("zh_bot_type", "1") 			//選擇BOT種類(1=PBOT/2=ZBOT)
 	cvar_zombie_maxslots = register_cvar("zh_zombie_maxslots", "0") 	//加入多少BOT當殭屍(預設0=自動取得當前地圖的T重生點總數-X(X=預留1~3個空位以防止快速重生時出現SpawnKill))
 	cvar_zombie_effect = register_cvar("zh_zombie_effect", "0")		//開啟殭屍死亡時和重生時的特效[1=開啟/0=關閉]
 	cvar_zombie_spawnpoint = register_cvar("zh_zombie_spawnpoint", "1")	//殭屍死亡後,重生時是否會隨機重生[1=載入CSDM重生點隨機重生/2=不載入CSDM重生點正常重生]
@@ -1448,17 +1448,9 @@ public bot_cfg()
 		{
 			if (h < 1)
 			{
-				if (get_pcvar_num(cvar_bot_type) == 1)
-				{
-					server_cmd("pb removebots")
-					server_cmd("pb_minbotskill 90")
-					server_cmd("pb_maxbotskill 100")
-				}
 
-				if (get_pcvar_num(cvar_bot_type) == 2)
-				{
-					server_cmd("bot_quota 0")
-				}
+				server_cmd("yb_quota 0")
+
 			}
 			g_botslots = 0
 			g_bot_slotsadded = 0
@@ -1518,19 +1510,10 @@ public add_bot(bot_add)
 	{
 		if (g_botslots < bot_add)
 		{
-			if (get_pcvar_num(cvar_bot_type) == 1)
-			{
-				server_cmd("pb add 101 5 1")
-				g_botslots++
-				set_task(0.5, "add_bot", bot_add)
-			}
+			server_cmd("add")
+			g_botslots++
+			set_task(0.0, "add_bot", bot_add)
 
-			if (get_pcvar_num(cvar_bot_type) == 2)
-			{
-				server_cmd("bot_add_t")
-				g_botslots++
-				set_task(0.0, "add_bot", bot_add)
-			}
 		}
 		else
 		{
@@ -1591,7 +1574,7 @@ public _Debug(id)
 ///////////////////////////////////////////////////////////////////
 // Player Disconnected                                           //
 ///////////////////////////////////////////////////////////////////
-public client_disconnect(id)
+public client_disconnected(id)
 {
 	remove_task(id)
 	remove_task(id+TASK_MODEL)
@@ -4662,18 +4645,9 @@ public change_to_next_map()
 {
 	if (g_level >= 10)
 	{
-		if (get_pcvar_num(cvar_bot_type) == 1)
-		{
-			server_cmd("pb_minbots 0")
-			server_cmd("pb_maxbots 0")
-			server_cmd("pb_bot_quota_match 0")
-			server_cmd("pb removebots")
-		}
 
-		if (get_pcvar_num(cvar_bot_type) == 2)
-		{
-			server_cmd("bot_quota 0")
-		}
+		server_cmd("yb_quota 0")
+
 		server_cmd("changelevel %s", Random_Map[nextmap])
 		set_task(0.1, "change_to_next_map")
 	}
