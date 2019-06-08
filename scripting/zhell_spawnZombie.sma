@@ -25,6 +25,11 @@ public plugin_init() {
 
     register_message( get_user_msgid( "DeathMsg" ), "MsgDeathMsg" );
 }
+
+pubic plugin_natives() {
+    register_native("zhell_get_id_fakeCt","_zhell_get_id_fakeCt");
+    register_native("zhell_get_id_fakeT","_zhell_get_id_fakeT");
+}
 public client_authorized(id) {
     if(is_user_bot(id)) return;
     if(id == g_fakePlayer[0] || id == g_fakePlayer[1]) return;
@@ -134,3 +139,11 @@ public MsgDeathMsg( const iMsgId, const iMsgDest, const id ) {
     return PLUGIN_CONTINUE;
 }
 
+public _zhell_get_id_fakeCt(iPlugin,iParams)
+{
+    return g_fakePlayer[0];
+}
+public _zhell_get_id_fakeT(iPlugin,iParams)
+{
+    return g_fakePlayer[1];
+}
