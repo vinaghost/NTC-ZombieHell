@@ -24,7 +24,6 @@ public plugin_init() {
     set_task( 5.0, "creatBot" );
 
     register_message( get_user_msgid( "DeathMsg" ), "MsgDeathMsg" );
-
 }
 public client_authorized(id) {
     if(is_user_bot(id)) return;

@@ -15,5 +15,6 @@ public plugin_cfg() {
     server_cmd("mp_freezetime 0");
     server_cmd("mp_roundtime 5");
     server_cmd("mp_buytime 5");
+    server_cmd("mp_limitteams 0");
 }
 

@@ -113,7 +113,7 @@ new const MAX_BPAMMO[] = { -1, 250, -1, 250, 1, 250, 1, 250, 250, 1, 250, 250, 2
 // 顯示在武器選單上的各項武器名稱
 new const WEAPON_NAME[CSW_P90+1][] = { "", "P228", "", "Scout", "", "XM1014", "", "MAC10", "AUG",
 "", "Elite", "Five-Seven", "UMP45", "SG550", "Galil", "Famas", "USP", "Glock18", "AWP", "MP5",
-"M249", "M3", "M4A1", "TMP", "G3SG1", "", "Desert-Eagle", "SG552", "AK47", "", "P90" }
+"M249", "M3", "M4A1", "TMP", "G3SG1", "", "Desert-Eagle", "SG5g52", "AK47", "", "P90" }
 
 // Weapons calssname
 new const WEAPON_CLASSNAME[CSW_P90+1][] = { "", "weapon_p228", "", "weapon_scout", "", "weapon_xm1014", "", "weapon_mac10",
