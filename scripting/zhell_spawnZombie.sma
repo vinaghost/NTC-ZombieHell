@@ -21,6 +21,8 @@ new g_player = 0;
 public plugin_init() {
 
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
+
+    RegisterHam(Ham_Spawn, "player", "fwHamPlayerSpawnPost", 1);
     set_task( 5.0, "creatBot" );
 
     register_message( get_user_msgid( "DeathMsg" ), "MsgDeathMsg" );
@@ -39,8 +41,15 @@ public client_authorized(id) {
     set_task( 5.0, "creatZombie" );
 }
 public client_disconnected(id) {
+    if(is_user_bot(id)) return;
+
     g_player--;
     set_task( 5.0, "creatZombie" );
+}
+public fwHamPlayerSpawnPost(id) {
+    if( id == g_fakePlayer[0] || id == g_fakePlayer[1] ) {
+        set_user_origin(id, {999,999,999} )
+    }
 }
 public creatBot( ) {
 
@@ -71,14 +80,17 @@ public creatBot( ) {
             dllfunc( DLLFunc_ClientPutInServer, id );
 
             cs_set_user_team( id, CS_TEAM_T );
-            set_user_origin(id, {999, 999, 999})
+
             ExecuteHamB( Ham_CS_RoundRespawn, id );
+
+
 
             set_pev( id, pev_effects, pev( id, pev_effects ) | EF_NODRAW );
             set_pev( id, pev_solid, SOLID_NOT );
             dllfunc( DLLFunc_Think, id );
 
             g_fakePlayer[0] = id;
+            set_user_origin(id, {500, 500, 500})
         }
 
         id = find_player("a", sBotName[1]);
@@ -108,8 +120,10 @@ public creatBot( ) {
                 dllfunc( DLLFunc_ClientPutInServer, id );
 
                 cs_set_user_team( id, CS_TEAM_CT );
-                set_user_origin(id, {-999, -999, -999})
+
                 ExecuteHamB( Ham_CS_RoundRespawn, id );
+
+
 
                 set_pev( id, pev_effects, pev( id, pev_effects ) | EF_NODRAW );
                 set_pev( id, pev_solid, SOLID_NOT );

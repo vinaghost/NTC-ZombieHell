@@ -6,6 +6,7 @@
 #include <cstrike>
 
 #include <cs_maxspeed_api>
+#include <cs_ham_bots_api>
 
 #include <zhell>
 #include <zhell_const>
@@ -35,9 +36,9 @@ new g_boss_health, Float: g_boss_maxspeed;
 new g_boss;
 new g_spawn[33];
 
-new g_round_starting;
+new g_round_starting, g_game_restart, g_roundend;
 
-new g_maxPlayer;
+//new g_maxPlayer;
 new g_msgCrosshair;
 
 public plugin_init() {
@@ -45,18 +46,21 @@ public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
     register_event("HLTV", "event_round_start", "a", "1=0", "2=0");
+    register_logevent("logevent_round_end", 2, "1=Round_End");
 
-
-    RegisterHam(Ham_Spawn, "player", "fwHamPlayerSpawnPost", 1)
-    RegisterHam(Ham_Killed, "player", "fwHamPlayerKilledPost", 1)
+    RegisterHam(Ham_Spawn, "player", "fwHamPlayerSpawnPost", 1);
+    RegisterHamBots(Ham_Spawn, "fwHamPlayerSpawnPost", 1);
+    RegisterHam(Ham_Killed, "player", "fwHamPlayerKilledPost", 1);
+    RegisterHamBots(Ham_Killed, "fwHamPlayerKilledPost", 1);
 
 
     register_message(get_user_msgid("Money"), "message_Money")
-
+    register_message(get_user_msgid("TextMsg"), "message_TextMsg")
 
 
     g_msgCrosshair = get_user_msgid("Crosshair");
-    g_maxPlayer = get_maxplayers();
+    //g_maxPlayer = get_maxplayers();
+
 
 
     cvar_zombiearmor = register_cvar("zhell_zombie_armor", "100");
@@ -151,7 +155,37 @@ public event_round_start() {
         zombie_power(player);
     }
     g_round_starting = false;
+    g_game_restart = false;
 }
+public logevent_round_end() {
+    if (g_game_restart) return;
+
+    g_roundend = true
+
+    // Prevent this from getting called twice when restarting (bugfix)
+    static Float:lastendtime, Float:current_time;
+    current_time = get_gametime();
+
+    if (current_time - lastendtime < 0.5) return;
+
+    lastendtime = current_time;
+
+    static ts[32], ts_num, cts[32], cts_num;
+    get_alive_players(ts, ts_num, cts, cts_num);
+
+
+    if (ts_num > 0) {
+        set_dhudmessage(255, 0, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+        show_dhudmessage( 0, "Zombie win." );
+        set_level(0);
+    }
+    else {
+        set_dhudmessage(0, 0, 255, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+        show_dhudmessage( 0, "Human win." );
+        set_level(1);
+    }
+}
+
 public fwHamPlayerSpawnPost(id) {
     if( !is_user_alive(id) ) return;
 
@@ -172,6 +206,21 @@ public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
     }
 
 
+}
+public message_TextMsg()
+{
+    static message[32]
+    get_msg_arg_string(2, message, charsmax(message))
+    if (equal(message, "#Game_Commencing") || equal(message, "#Game_will_restart_in"))
+    {
+        g_game_restart = true
+    }
+    else if (equal(message, "#Hostages_Not_Rescued") || equal(message, "#Round_Draw") || equal(message, "#Terrorists_Win")
+             || equal(message, "#CTs_Win"))
+    {
+        return PLUGIN_HANDLED;
+    }
+    return PLUGIN_CONTINUE;
 }
 get_level_data() {
     g_zombie_spawn = get_pcvar_num(cvar_level_spawn[g_level - 1]);
@@ -208,7 +257,7 @@ public zombie_power(id) {
 public hide_user_money(id){
     // Not alive
     if (!is_user_alive(id))
-        return;
+    return;
 
     // Hide money
     message_begin(MSG_ONE, get_user_msgid("HideWeapon"), _, id)
@@ -224,11 +273,11 @@ public hide_user_money(id){
 // Take off player's money
 public message_Money(msg_id, msg_dest, msg_entity) {
     if (!is_user_connected(msg_entity))
-        return PLUGIN_CONTINUE;
+    return PLUGIN_CONTINUE;
 
     // Block zombies money message
     if (cs_get_user_team(msg_entity) == CS_TEAM_T)
-        return PLUGIN_HANDLED;
+    return PLUGIN_HANDLED;
     return PLUGIN_CONTINUE;
 }
 
@@ -236,6 +285,32 @@ public reSpawn(id) {
     id -= TASK_RESPAWN;
 
     if( is_user_connected(id ) )
-        ExecuteHamB(Ham_CS_RoundRespawn, id);
+    ExecuteHamB(Ham_CS_RoundRespawn, id);
+
+}
+
+set_level(level_up) // level_up:[1=level up/0=level back]
+{
+    if (level_up)
+    {
+        if (g_level >= 10)
+        {
+            server_cmd("restart");
+        }
+        else
+        {
+            g_level ++
+        }
+    }
+    else
+    {
+        g_level --;
+        if( g_level < 1 ) g_level = 1;
+    }
+}
+get_alive_players(ts[32], &ts_num, cts[32], &cts_num)
+{
+    get_players(ts, ts_num, "ae", "TERRORIST");
+    get_players(cts, cts_num, "ae", "CT");
 
 }

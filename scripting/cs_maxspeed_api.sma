@@ -13,6 +13,8 @@
 #include <amxmodx>
 #include <fun>
 #include <hamsandwich>
+#include <cs_ham_bots_api>
+#include <cs_maxspeed_api_const>
 
 #define MAXPLAYERS 32
 
@@ -34,6 +36,7 @@ public plugin_init()
     register_event("HLTV", "event_round_start", "a", "1=0", "2=0")
     register_logevent("logevent_round_start",2, "1=Round_Start")
     RegisterHam(Ham_Player_ResetMaxSpeed, "player", "fw_ResetMaxSpeed_Post", 1)
+    RegisterHamBots(Ham_Player_ResetMaxSpeed, "fw_ResetMaxSpeed_Post", 1)
 }
 
 public plugin_cfg()
