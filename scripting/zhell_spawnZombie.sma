@@ -26,7 +26,7 @@ public plugin_init() {
     register_message( get_user_msgid( "DeathMsg" ), "MsgDeathMsg" );
 }
 
-pubic plugin_natives() {
+public plugin_natives() {
     register_native("zhell_get_id_fakeCt","_zhell_get_id_fakeCt");
     register_native("zhell_get_id_fakeT","_zhell_get_id_fakeT");
 }
@@ -36,6 +36,10 @@ public client_authorized(id) {
 
     g_player++;
 
+    set_task( 5.0, "creatZombie" );
+}
+public client_disconnected(id) {
+    g_player--;
     set_task( 5.0, "creatZombie" );
 }
 public creatBot( ) {
@@ -118,15 +122,20 @@ public creatBot( ) {
 }
 
 public creatZombie() {
-    const fakePlayer = 2;
-    const antiFull = 2;
-
-    const antiLag = 16;
-    new count = get_maxplayers() - fakePlayer - antiFull ;
-    if ( count > antiLag ) {
-        count = antiLag;
+    if( g_player < 1) {
+        server_cmd("amx_cvar yb_quota 0");
     }
-    server_cmd("amx_cvar yb_quota %d", count);
+    else {
+        const fakePlayer = 2;
+        const antiFull = 2;
+
+        const antiLag = 16;
+        new count = get_maxplayers() - fakePlayer - antiFull ;
+        if ( count > antiLag ) {
+            count = antiLag;
+        }
+        server_cmd("amx_cvar yb_quota %d", count);
+    }
 }
 
 public MsgDeathMsg( const iMsgId, const iMsgDest, const id ) {

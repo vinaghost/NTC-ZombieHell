@@ -5,15 +5,21 @@
 #include <hamsandwich>
 #include <cstrike>
 
+#include <cs_maxspeed_api>
+
 #include <zhell>
 #include <zhell_const>
+
 
 #define PLUGIN_NAME "Zombie Hell: Level Zombie"
 #define PLUGIN_VERSION  "1.0"
 #define PLUGIN_AUTHOR   "VINAGHOST"
 
+enum {
+    TASK_RESPAWN = 1000
+};
+
 /*==============cvar==============*/
-new cvar_level;
 new cvar_zombiearmor;
 
 new cvar_level_spawn[10];
@@ -22,12 +28,12 @@ new cvar_level_bosshp[10], cvar_level_bossmaxspeed[10]
 new cvar_level_lighting[10];
 
 /*==============variable==============*/
-new g_level = 0;
+new g_level = 0, g_zombie_spawn = 0;
 new g_zombie_health, Float:g_zombie_maxspeed;
 new g_boss_health, Float: g_boss_maxspeed;
 
 new g_boss;
-new g_spawn, Float:g_user_maxspeed[33];
+new g_spawn[33];
 
 new g_round_starting;
 
@@ -53,7 +59,6 @@ public plugin_init() {
     g_maxPlayer = get_maxplayers();
 
 
-    cvar_level = register_cvar("zhell_level", "1")
     cvar_zombiearmor = register_cvar("zhell_zombie_armor", "100");
 
     cvar_level_health[0] = register_cvar("zh_level1_health", "100")
@@ -142,8 +147,8 @@ public event_round_start() {
         if( player == zhell_get_id_fakeT() ) continue;
 
 
-        g_spawn[id] = g_zombie_spawn;
-        zombie_power(Players[i]);
+        g_spawn[player] = g_zombie_spawn;
+        zombie_power(player);
     }
     g_round_starting = false;
 }
@@ -157,10 +162,12 @@ public fwHamPlayerSpawnPost(id) {
 
 }
 public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
-    if( !is_user_connected(id) ) return;
+    if( !is_user_connected(victim) ) return;
 
+    cs_reset_player_maxspeed(victim);
 
-    if( (cs_get_user_team(id) == CS_TEAM_T && g_spawn[id] > 0 ) || (cs_get_user_team(id) == CS_TEAM_CT) ){
+    if( (cs_get_user_team(victim) == CS_TEAM_T && g_spawn[victim] > 0 ) || (cs_get_user_team(victim) == CS_TEAM_CT) ) {
+        client_print(victim, print_center, "HOI SINH SAU 10 GIAY NUA");
         set_task(10.0, "reSpawn", victim + TASK_RESPAWN)
     }
 
@@ -186,9 +193,8 @@ lighting_effects() {
 
 public zombie_power(id) {
     UnSet_BitVar(g_boss,id);
-    g_user_maxspeed[id] = g_zombie_maxspeed;
 
-    set_pev(id, pev_maxspeed, g_user_maxspeed[id]);
+    cs_set_player_maxspeed_auto(id, g_zombie_maxspeed);
     fm_set_user_health(id, g_zombie_health);
     cs_set_user_armor(id, (get_pcvar_num(cvar_zombiearmor)*g_level), CS_ARMOR_VESTHELM);
 
@@ -224,4 +230,12 @@ public message_Money(msg_id, msg_dest, msg_entity) {
     if (cs_get_user_team(msg_entity) == CS_TEAM_T)
         return PLUGIN_HANDLED;
     return PLUGIN_CONTINUE;
+}
+
+public reSpawn(id) {
+    id -= TASK_RESPAWN;
+
+    if( is_user_connected(id ) )
+        ExecuteHamB(Ham_CS_RoundRespawn, id);
+
 }
