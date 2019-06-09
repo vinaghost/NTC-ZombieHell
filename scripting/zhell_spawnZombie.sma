@@ -27,9 +27,9 @@ public client_disconnected(id) {
 }
 public creatZombie() {
     if( g_player < 1) {
-        server_cmd("amx_cvar yb_quota 0");
+        server_cmd("yb_quota 0");
     }
     else {
-        server_cmd("amx_cvar yb_quota 16");
+        server_cmd("yb_quota 16");
     }
 }
