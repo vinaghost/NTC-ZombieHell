@@ -47,14 +47,12 @@ public plugin_init() {
 
     register_event("HLTV", "event_round_start", "a", "1=0", "2=0");
 
-    RegisterHam(Ham_Spawn, "player", "fwHamPlayerSpawnPost", 1);
-    RegisterHamBots(Ham_Spawn, "fwHamPlayerSpawnPost", 1);
-    RegisterHam(Ham_Killed, "player", "fwHamPlayerKilledPost", 1);
-    RegisterHamBots(Ham_Killed, "fwHamPlayerKilledPost", 1);
+
+
 
 
     register_message(get_user_msgid("Money"), "message_Money")
-    register_message(get_user_msgid("TextMsg"), "message_TextMsg")
+
 
 
     g_msgCrosshair = get_user_msgid("Crosshair");
@@ -135,7 +133,6 @@ public plugin_init() {
 }
 
 public event_round_start() {
-    g_round_starting = true;
     get_level_data();
     lighting_effects();
 
@@ -149,8 +146,6 @@ public event_round_start() {
         g_spawn[player] = g_zombie_spawn;
         zombie_power(player);
     }
-    g_round_starting = false;
-    g_game_restart = false;
 }
 public logevent_round_end() {
     if (g_game_restart) return;
@@ -186,8 +181,10 @@ public fwHamPlayerSpawnPost(id) {
 
     if( g_round_starting ) return;
 
-    g_spawn[id] --;
-    zombie_power(id);
+    if( cs_get_user_team(id) == CS_TEAM_T ) {
+        g_spawn[id] --;
+        zombie_power(id);
+    }
 
 }
 public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
@@ -202,21 +199,7 @@ public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
 
 
 }
-public message_TextMsg()
-{
-    static message[32]
-    get_msg_arg_string(2, message, charsmax(message))
-    if (equal(message, "#Game_Commencing") || equal(message, "#Game_will_restart_in"))
-    {
-        g_game_restart = true
-    }
-    else if (equal(message, "#Hostages_Not_Rescued") || equal(message, "#Round_Draw") || equal(message, "#Terrorists_Win")
-             || equal(message, "#CTs_Win"))
-    {
-        return PLUGIN_HANDLED;
-    }
-    return PLUGIN_CONTINUE;
-}
+
 get_level_data() {
     g_zombie_spawn = get_pcvar_num(cvar_level_spawn[g_level - 1]);
     g_zombie_health = get_pcvar_num(cvar_level_health[g_level - 1 ]);
@@ -251,8 +234,7 @@ public zombie_power(id) {
 
 public hide_user_money(id){
     // Not alive
-    if (!is_user_alive(id))
-        return;
+    if (!is_user_alive(id)) return;
 
     // Hide money
     message_begin(MSG_ONE, get_user_msgid("HideWeapon"), _, id)
@@ -271,6 +253,7 @@ public message_Money(msg_id, msg_dest, msg_entity) {
 
     // Block zombies money message
     if (cs_get_user_team(msg_entity) == CS_TEAM_T) return PLUGIN_HANDLED;
+
     return PLUGIN_CONTINUE;
 }
 
@@ -278,7 +261,7 @@ public reSpawn(id) {
     id -= TASK_RESPAWN;
 
     if( is_user_connected(id ) )
-    ExecuteHamB(Ham_CS_RoundRespawn, id);
+        ExecuteHamB(Ham_CS_RoundRespawn, id);
 
 }
 
@@ -296,9 +279,4 @@ set_level(level_up) // level_up:[1=level up/0=level back]
         g_level --;
         if( g_level < 1 ) g_level = 1;
     }
-}
-get_alive_players(ts[32], &ts_num, cts[32], &cts_num) {
-    get_players(ts, ts_num, "ae", "TERRORIST");
-    get_players(cts, cts_num, "ae", "CT");
-
 }
