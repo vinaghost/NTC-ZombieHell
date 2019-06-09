@@ -29,7 +29,7 @@ new cvar_level_bosshp[10], cvar_level_bossmaxspeed[10]
 new cvar_level_lighting[10];
 
 /*==============variable==============*/
-new g_level = 0, g_zombie_spawn = 0;
+new g_level = 1, g_zombie_spawn = 0;
 new g_zombie_health, Float:g_zombie_maxspeed;
 new g_boss_health, Float: g_boss_maxspeed;
 
@@ -46,7 +46,6 @@ public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
     register_event("HLTV", "event_round_start", "a", "1=0", "2=0");
-    register_logevent("logevent_round_end", 2, "1=Round_End");
 
     RegisterHam(Ham_Spawn, "player", "fwHamPlayerSpawnPost", 1);
     RegisterHamBots(Ham_Spawn, "fwHamPlayerSpawnPost", 1);
@@ -60,8 +59,6 @@ public plugin_init() {
 
     g_msgCrosshair = get_user_msgid("Crosshair");
     //g_maxPlayer = get_maxplayers();
-
-
 
     cvar_zombiearmor = register_cvar("zhell_zombie_armor", "100");
 
@@ -147,9 +144,7 @@ public event_round_start() {
     get_players(Players, playerCount, "ae", "TERRORIST");
     for (i=0; i<playerCount; i++) {
 
-        player = Players[i]
-        if( player == zhell_get_id_fakeT() ) continue;
-
+        player = Players[i];
 
         g_spawn[player] = g_zombie_spawn;
         zombie_power(player);
@@ -257,7 +252,7 @@ public zombie_power(id) {
 public hide_user_money(id){
     // Not alive
     if (!is_user_alive(id))
-    return;
+        return;
 
     // Hide money
     message_begin(MSG_ONE, get_user_msgid("HideWeapon"), _, id)
@@ -272,12 +267,10 @@ public hide_user_money(id){
 
 // Take off player's money
 public message_Money(msg_id, msg_dest, msg_entity) {
-    if (!is_user_connected(msg_entity))
-    return PLUGIN_CONTINUE;
+    if (!is_user_connected(msg_entity))   return PLUGIN_CONTINUE;
 
     // Block zombies money message
-    if (cs_get_user_team(msg_entity) == CS_TEAM_T)
-    return PLUGIN_HANDLED;
+    if (cs_get_user_team(msg_entity) == CS_TEAM_T) return PLUGIN_HANDLED;
     return PLUGIN_CONTINUE;
 }
 
@@ -291,25 +284,20 @@ public reSpawn(id) {
 
 set_level(level_up) // level_up:[1=level up/0=level back]
 {
-    if (level_up)
-    {
-        if (g_level >= 10)
-        {
+    if (level_up) {
+        if (g_level >= 10) {
             server_cmd("restart");
         }
-        else
-        {
+        else {
             g_level ++
         }
     }
-    else
-    {
+    else {
         g_level --;
         if( g_level < 1 ) g_level = 1;
     }
 }
-get_alive_players(ts[32], &ts_num, cts[32], &cts_num)
-{
+get_alive_players(ts[32], &ts_num, cts[32], &cts_num) {
     get_players(ts, ts_num, "ae", "TERRORIST");
     get_players(cts, cts_num, "ae", "CT");
 
