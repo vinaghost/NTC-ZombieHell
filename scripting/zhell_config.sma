@@ -27,6 +27,8 @@ public plugin_cfg() {
     server_cmd("mp_refill_bpammo_weapons 1");
     server_cmd("mp_auto_join_team 1");
 
+     server_cmd("mp_scoreboard_showhealth 5");
+
 
 }
 
