@@ -24,7 +24,7 @@ public plugin_cfg() {
     server_cmd("mp_nadedrops 1");
     server_cmd("mp_roundrespawn_time 300");
     server_cmd("mp_auto_reload_weapons 1");
-    server_cmd("mp_refill_bpammo_weapons 3");
+    server_cmd("mp_refill_bpammo_weapons 1");
     server_cmd("mp_auto_join_team 1");
 
      server_cmd("mp_scoreboard_showhealth 5");
