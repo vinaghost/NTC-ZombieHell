@@ -41,6 +41,9 @@ public plugin_precache() {
     g_fwSpawn = register_forward(FM_Spawn, "fw_Spawn")
 
     g_fwPrecacheSound = register_forward(FM_PrecacheSound, "fw_PrecacheSound")
+
+
+    disable_buyzone();
 }
 
 // Entity Spawn Forward
@@ -92,4 +95,15 @@ public message_scenario() {
 
 public message_hostagepos() {
     return PLUGIN_HANDLED;
+}
+public disable_buyzone() {
+    new ent = find_ent_by_class(-1,"info_map_parameters");
+
+    // if we couldn't find one, make our own
+    if(!ent)
+        ent = create_entity("info_map_parameters");
+
+    // disable buying for TS team
+    DispatchKeyValue(ent,"buying","1");
+    DispatchSpawn(ent);
 }
