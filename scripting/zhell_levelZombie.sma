@@ -34,9 +34,8 @@ new g_zombie_health, Float:g_zombie_maxspeed;
 new g_boss_health, Float: g_boss_maxspeed;
 
 new g_boss;
+new g_spawn_first;
 new g_spawn[33];
-
-new g_round_starting, g_game_restart, g_roundend;
 
 //new g_maxPlayer;
 new g_msgCrosshair;
@@ -44,12 +43,6 @@ new g_msgCrosshair;
 public plugin_init() {
 
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
-
-    register_event("HLTV", "event_round_start", "a", "1=0", "2=0");
-
-
-
-
 
     register_message(get_user_msgid("Money"), "message_Money")
 
@@ -130,41 +123,19 @@ public plugin_init() {
     cvar_level_lighting[9] = register_cvar("zh_level10_lighting", "a")
     cvar_level_spawn[9] = register_cvar("zh_level10_spawn", "10");
 
+    zhell_round_start();
 }
 
-public event_round_start() {
+public zhell_round_start() {
+
     get_level_data();
     lighting_effects();
 
-    new Players[32]
-    new playerCount, i, player ;
-    get_players(Players, playerCount, "ae", "TERRORIST");
-    for (i=0; i<playerCount; i++) {
-
-        player = Players[i];
-
-        g_spawn[player] = g_zombie_spawn;
-        zombie_power(player);
-    }
+    g_spawn_first = 0;
 }
-public logevent_round_end() {
-    if (g_game_restart) return;
+public zhell_round_end() {
 
-    g_roundend = true
-
-    // Prevent this from getting called twice when restarting (bugfix)
-    static Float:lastendtime, Float:current_time;
-    current_time = get_gametime();
-
-    if (current_time - lastendtime < 0.5) return;
-
-    lastendtime = current_time;
-
-    static ts[32], ts_num, cts[32], cts_num;
-    get_alive_players(ts, ts_num, cts, cts_num);
-
-
-    if (ts_num > 0) {
+    if (zhell_get_count_zombie() > 0) {
         set_dhudmessage(255, 0, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
         show_dhudmessage( 0, "Zombie win." );
         set_level(0);
@@ -176,30 +147,39 @@ public logevent_round_end() {
     }
 }
 
-public fwHamPlayerSpawnPost(id) {
+public zhell_spawn_zombie(id) {
     if( !is_user_alive(id) ) return;
 
-    if( g_round_starting ) return;
-
-    if( cs_get_user_team(id) == CS_TEAM_T ) {
+    if( !Get_BitVar(g_spawn_first, id) ) {
+        Set_BitVar(g_spawn_first, id);
+        g_spawn[id] = g_zombie_spawn;
+    }
+    else {
         g_spawn[id] --;
         zombie_power(id);
     }
 
+
 }
-public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
-    if( !is_user_connected(victim) ) return;
-
-    cs_reset_player_maxspeed(victim);
-
-    if( (cs_get_user_team(victim) == CS_TEAM_T && g_spawn[victim] > 0 ) || (cs_get_user_team(victim) == CS_TEAM_CT) ) {
-        client_print(victim, print_center, "HOI SINH SAU 10 GIAY NUA");
-        set_task(10.0, "reSpawn", victim + TASK_RESPAWN)
+public zhell_killed_zombie(id) {
+    cs_reset_player_maxspeed(id);
+    if( g_spawn[id] > 0) {
+        set_task(5.0, "reSpawn", id + TASK_RESPAWN);
+        g_spawn[id] --;
+        return;
     }
-
-
 }
-
+public zhell_killed_human(id) {
+    client_print(id, print_center, "HOI SINH SAU 10 GIAY NUA");
+    set_task(10.0, "reSpawn", id + TASK_RESPAWN);
+}
+public zhell_last_zombie(id) {
+    Set_BitVar(g_boss, id);
+    fm_set_user_health(id, get_user_health(id) + g_boss_health);
+    cs_set_user_armor(id, ((get_pcvar_num(cvar_zombiearmor)*g_level)*2), CS_ARMOR_VESTHELM);
+    cs_set_player_maxspeed_auto(id, g_boss_maxspeed);
+    set_pev(id, pev_gravity, 0.7);
+}
 get_level_data() {
     g_zombie_spawn = get_pcvar_num(cvar_level_spawn[g_level - 1]);
     g_zombie_health = get_pcvar_num(cvar_level_health[g_level - 1 ]);

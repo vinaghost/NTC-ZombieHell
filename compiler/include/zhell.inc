@@ -17,3 +17,9 @@ forward zhell_round_start();
 native zhell_is_round_start();
 native zhell_is_round_restart();
 native zhell_is_round_end();
+
+native zhell_is_zombie(id);
+
+native zhell_get_count_human();
+native zhell_get_count_zombie();
+
