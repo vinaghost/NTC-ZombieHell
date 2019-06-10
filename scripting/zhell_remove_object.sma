@@ -1,7 +1,7 @@
 #include <amxmodx>
 #include <fakemeta>
 
-#define PLUGIN_NAME "Zombie Hell: Level Zombie"
+#define PLUGIN_NAME "Zombie Hell: Remove Object"
 #define PLUGIN_VERSION  "1.0"
 #define PLUGIN_AUTHOR   "VINAGHOST"
 
