@@ -16,5 +16,17 @@ public plugin_cfg() {
     server_cmd("mp_roundtime 5");
     server_cmd("mp_buytime 5");
     server_cmd("mp_limitteams 0");
+    server_cmd("mp_timelimit 60");
+    server_cmd("humans_join_team CT");
+
+    //reGameDLL
+    server_cmd("mp_maxmoney 999999");
+    server_cmd("mp_nadedrops 1");
+    server_cmd("mp_roundrespawn_time 300");
+    server_cmd("mp_auto_reload_weapons 1");
+    server_cmd("mp_refill_bpammo_weapons 1");
+    server_cmd("mp_auto_join_team 1");
+
+
 }
 
