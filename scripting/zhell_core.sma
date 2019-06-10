@@ -45,14 +45,15 @@ public plugin_init() {
     RegisterHamBots(Ham_Killed, "fwHamPlayerKilledPost", 1);
 
 
-    register_message(get_user_msgid("TextMsg"), "message_TextMsg")
+    register_message(get_user_msgid("TextMsg"), "message_textMsg")
+    register_message( get_user_msgid( "SendAudio" ),"message_sendAudio" );
 
     g_Forwards[FW_USER_SPAWN_ZOMBIE] = CreateMultiForward("zhell_spawn_zombie", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_SPAWN_HUMAN] = CreateMultiForward("zhell_spawn_human", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_KILLED_ZOMBIE] = CreateMultiForward("zhell_killed_zombie", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_KILLED_HUMAN] = CreateMultiForward("zhell_killed_human", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_LAST_ZOMBIE] = CreateMultiForward("zhell_last_human", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_LAST_HUMAN] = CreateMultiForward("zhell_last_zombie", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_ZOMBIE] = CreateMultiForward("zhell_last_zombie", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_HUMAN] = CreateMultiForward("zhell_last_human", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_ROUND_START] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
     g_Forwards[FW_ROUND_END] = CreateMultiForward("zhell_round_end", ET_CONTINUE);
 
@@ -151,7 +152,7 @@ CheckLastZombieHuman()
     }
 }
 
-public message_TextMsg()
+public message_textMsg()
 {
     static message[32]
     get_msg_arg_string(2, message, charsmax(message))
@@ -163,7 +164,19 @@ public message_TextMsg()
     }
     return PLUGIN_CONTINUE;
 }
+public message_sendAudio( msg_id, msg_dest, msg_entity )
+    {
+        static message[10];
+        get_msg_arg_string( 2, message, sizeof message - 1 );
 
+        switch( message[7] )
+        {
+            // -- %!MRAD_terwin ; %!MRAD_ctwin ; %!MRAD_rounddraw
+            case 'c', 't', 'r' : return PLUGIN_HANDLED;
+        }
+
+        return PLUGIN_CONTINUE;
+    }
 public _zhell_is_round_start(iPlugin,iParams) {
     return g_round_start;
 }
