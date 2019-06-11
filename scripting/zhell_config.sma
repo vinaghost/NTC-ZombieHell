@@ -18,7 +18,9 @@ public plugin_cfg() {
     server_cmd("mp_limitteams 0");
     server_cmd("mp_timelimit 60");
     server_cmd("humans_join_team CT");
-
+    server_cmd("sv_skycolor_r 0")
+    server_cmd("sv_skycolor_g 0")
+    server_cmd("sv_skycolor_b 0")
     //reGameDLL
     server_cmd("mp_maxmoney 999999");
     server_cmd("mp_nadedrops 1");
@@ -28,7 +30,5 @@ public plugin_cfg() {
     server_cmd("mp_auto_join_team 1");
 
      server_cmd("mp_scoreboard_showhealth 5");
-
-
 }
 
