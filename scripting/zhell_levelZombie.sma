@@ -1,8 +1,8 @@
 #include <amxmodx>
 #include <fakemeta>
-#include <fakemeta_util>
 #include <engine>
 #include <hamsandwich>
+#include <fun>
 #include <cstrike>
 
 #include <cs_maxspeed_api>
@@ -30,9 +30,8 @@ new cvar_level_lighting[10];
 /*==============variable==============*/
 new g_level = 1, g_zombie_spawn = 0;
 new g_zombie_health, Float:g_zombie_maxspeed;
-new g_boss_health, Float: g_boss_maxspeed;
 
-new boss;
+new boss, g_last_zombie;
 
 new g_boss;
 new g_spawn_first;
@@ -126,8 +125,18 @@ public zhell_round_start() {
 
     get_level_data();
     lighting_effects();
-    boss = false;
+    boss = 0;
     g_spawn_first = 0;
+
+    new players[32], num;
+
+    getHuman(players, num);
+    //new id;
+    for(new i = 0; i < num; i++) {
+        //id = players[i];
+
+        remove_task(players[i] + TASK_RESPAWN);
+    }
 }
 public zhell_round_end() {
 
@@ -161,30 +170,41 @@ public zhell_killed_zombie(id) {
     cs_reset_player_maxspeed(id);
     if( g_spawn[id] > 0) {
         set_task(5.0, "reSpawn", id + TASK_RESPAWN);
+
+        g_last_zombie = 0;
+
         g_spawn[id] --;
         return;
     }
+
+    g_last_zombie = 1;
 }
 public zhell_killed_human(id) {
     client_print(id, print_center, "HOI SINH SAU 10 GIAY NUA");
     set_task(10.0, "reSpawn", id + TASK_RESPAWN);
 }
-public zhell_last_zombie(id) {
-    if( !boss ) {
-        Set_BitVar(g_boss, id);
-        fm_set_user_health(id, get_user_health(id) + g_boss_health);
-        cs_set_user_armor(id, ((get_pcvar_num(cvar_zombiearmor)*g_level)*2), CS_ARMOR_VESTHELM);
-        cs_set_player_maxspeed_auto(id, g_boss_maxspeed);
-        set_pev(id, pev_gravity, 0.7);
-        boss = true;
-    }
+public zhell_last_zombie_pre(id) {
+
+    if( !g_last_zombie ) return PLUGIN_HANDLED;
+    if( boss ) return PLUGIN_HANDLED;
+
+    return PLUGIN_CONTINUE;
+
+}
+public zhell_last_zombie_post(id) {
+
+    Set_BitVar(g_boss, id);
+
+    set_user_health(id, get_user_health(id) + g_zombie_health * (3 + g_level ));
+    cs_set_user_armor(id, ((get_pcvar_num(cvar_zombiearmor)*g_level)*2), CS_ARMOR_VESTHELM);
+    cs_set_player_maxspeed_auto(id, g_zombie_maxspeed * (1.5 + g_level / 10 ));
+    set_pev(id, pev_gravity, 0.7);
+
 }
 get_level_data() {
     g_zombie_spawn = g_level;
     g_zombie_health = get_pcvar_num(cvar_level_health[g_level - 1 ]);
     g_zombie_maxspeed = get_pcvar_float(cvar_level_maxspeed[g_level - 1 ]);
-    g_boss_health = get_pcvar_num(cvar_level_bosshp[g_level -1 ]);
-    g_boss_maxspeed = get_pcvar_float(cvar_level_bossmaxspeed[g_level - 1 ]);
 }
 lighting_effects() {
 
@@ -201,11 +221,11 @@ public zombie_power(id) {
     UnSet_BitVar(g_boss,id);
 
     cs_set_player_maxspeed_auto(id, g_zombie_maxspeed);
-    fm_set_user_health(id, g_zombie_health);
+    set_user_health(id, g_zombie_health);
     cs_set_user_armor(id, (get_pcvar_num(cvar_zombiearmor)*g_level), CS_ARMOR_VESTHELM);
 
-    fm_strip_user_weapons(id);
-    fm_give_item(id, "weapon_knife");
+    strip_user_weapons(id);
+    give_item(id, "weapon_knife");
     cs_set_user_money(id, 0);
     set_task(0.1, "hide_user_money", id)
 }
@@ -267,12 +287,12 @@ public _zhell_get_zombie_health() {
     return g_zombie_health;
 }
 
-public _zhell_get_zombie_speed() {
+public Float:_zhell_get_zombie_speed() {
     return g_zombie_maxspeed;
 }
 public _zhell_get_boss_health() {
-    return g_boss_health;
+    return g_zombie_health * (3 + g_level );
 }
-public _zhell_get_boss_speed() {
-    return g_boss_maxspeed;
+public Float:_zhell_get_boss_speed() {
+    return g_zombie_maxspeed * (1.5 + g_level / 10 );
 }

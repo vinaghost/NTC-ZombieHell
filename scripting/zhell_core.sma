@@ -23,8 +23,10 @@ enum _:TOTAL_FORWARDS
     FW_USER_KILLED_ZOMBIE,
     FW_USER_KILLED_HUMAN,
 
-    FW_USER_LAST_ZOMBIE,
-    FW_USER_LAST_HUMAN,
+    FW_USER_LAST_ZOMBIE_PRE,
+    FW_USER_LAST_ZOMBIE_POST,
+    FW_USER_LAST_HUMAN_PRE,
+    FW_USER_LAST_HUMAN_POST,
 
     FW_ROUND_START,
     FW_ROUND_END
@@ -51,8 +53,10 @@ public plugin_init() {
     g_Forwards[FW_USER_SPAWN_HUMAN] = CreateMultiForward("zhell_spawn_human", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_KILLED_ZOMBIE] = CreateMultiForward("zhell_killed_zombie", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_KILLED_HUMAN] = CreateMultiForward("zhell_killed_human", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_LAST_ZOMBIE] = CreateMultiForward("zhell_last_human", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_LAST_HUMAN] = CreateMultiForward("zhell_last_zombie", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_ZOMBIE_PRE] = CreateMultiForward("zhell_last_human_pre", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_ZOMBIE_POST] = CreateMultiForward("zhell_last_human_post", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_HUMAN_PRE] = CreateMultiForward("zhell_last_zombie_pre", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_HUMAN_POST] = CreateMultiForward("zhell_last_zombie_post", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_ROUND_START] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
     g_Forwards[FW_ROUND_END] = CreateMultiForward("zhell_round_end", ET_CONTINUE);
 
@@ -72,7 +76,8 @@ public plugin_natives() {
     register_native("zhell_get_count_zombie", "_zhell_get_count_zombie");
     register_native("zhell_get_count_human", "_zhell_get_count_human");
 
-
+    register_native("zhell_get_zombie", "_zhell_get_zombie");
+    register_native("zhell_get_human", "_zhell_get_human");
 
 }
 
@@ -127,6 +132,7 @@ public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
     else {
         ExecuteForward(g_Forwards[FW_USER_KILLED_HUMAN], g_ForwardResult, victim);
     }
+
     CheckLastZombieHuman();
 }
 
@@ -137,15 +143,25 @@ CheckLastZombieHuman() {
     new humanPlayers[32], zombiePlayers[32];
     new humanCount, zombieCount;
 
-    getZombieCount(zombiePlayers, zombieCount);
-    getHumanCount(humanPlayers, humanCount);
+    getZombie(zombiePlayers, zombieCount);
+    getHuman(humanPlayers, humanCount);
 
     if(zombieCount == 0) {
-        ExecuteForward(g_Forwards[FW_USER_LAST_ZOMBIE], g_ForwardResult, zombiePlayers[0]);
+        ExecuteForward(g_Forwards[FW_USER_LAST_ZOMBIE_PRE], g_ForwardResult, zombiePlayers[0]);
+
+        if(g_ForwardResult < PLUGIN_HANDLED ){
+            ExecuteForward(g_Forwards[FW_USER_LAST_ZOMBIE_POST], g_ForwardResult, zombiePlayers[0]);
+        }
     }
 
     if (humanCount == 0) {
-        ExecuteForward(g_Forwards[FW_USER_LAST_HUMAN], g_ForwardResult, humanPlayers[0]);
+
+        ExecuteForward(g_Forwards[FW_USER_LAST_HUMAN_PRE], g_ForwardResult, humanPlayers[0]);
+
+         if(g_ForwardResult < PLUGIN_HANDLED ){
+            ExecuteForward(g_Forwards[FW_USER_LAST_HUMAN_POST], g_ForwardResult, zombiePlayers[0]);
+        }
+
     }
 }
 
@@ -182,17 +198,11 @@ public _zhell_is_zombie(iPlugin, iParams) {
 
 public _zhell_get_count_human(iPlugin, iParams) {
     new players[32], num;
-    getHumanCount(players, num);
+    getHuman(players, num);
     return num;
 }
 public _zhell_get_count_zombie(iPlugin, iParams) {
     new players[32], num;
-    getZombieCount(players, num);
+    getZombie(players, num);
     return num;
-}
-getHumanCount(players[32], &num) {
-    get_players(players, num, "ae", "CT");
-}
-getZombieCount(players[32], &num) {
-    get_players(players, num, "ae", "TERRORIST");
 }
