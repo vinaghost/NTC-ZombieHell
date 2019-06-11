@@ -35,7 +35,7 @@ public plugin_init() {
 
     new Ent = engfunc(EngFunc_CreateNamedEntity,engfunc(EngFunc_AllocString,"info_target"))
     set_pev(Ent,pev_classname,g_Classname)
-    set_pev(Ent,pev_nextthink,20.0)
+    set_pev(Ent,pev_nextthink,5.0)
 
     register_forward(FM_Think,"ForwardThink")
 
@@ -59,7 +59,6 @@ public ForwardThink(Ent)
     pev(Ent,pev_classname,Classname,32);
 
     if(!equal(Classname,g_Classname)) return FMRES_IGNORED;
-
     set_hudmessage(0, 255, 0, -1.0, 0.0, 0, 0.0, 0.5, 0.0, 0.2, -1);
     ShowSyncHudMsg(0, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f])",
                                     g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed);

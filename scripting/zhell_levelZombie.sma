@@ -27,7 +27,7 @@ new cvar_zombieHealth, cvar_zombieMaxSpeed;
 new cvar_level_lighting[10];
 
 /*==============variable==============*/
-new g_level = 1, g_zombie_spawn = 0;
+new g_level, g_zombie_spawn = 0;
 new g_zombie_health, Float:g_zombie_maxspeed;
 
 new boss, g_last_zombie;
@@ -73,7 +73,7 @@ public plugin_init() {
     cvar_level_lighting[8] = register_cvar("zh_level9_lighting", "b");
 
     cvar_level_lighting[9] = register_cvar("zh_level10_lighting", "a");
-
+    g_level = 1;
     zhell_round_start();
 }
 public plugin_natives() {
