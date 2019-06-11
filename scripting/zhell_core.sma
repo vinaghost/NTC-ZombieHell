@@ -79,7 +79,7 @@ public plugin_natives() {
 
 public event_round_start() {
 
-    g_round_start= true;
+    g_round_start = true;
 
 
     ExecuteForward(g_Forwards[FW_ROUND_START], g_ForwardResult);

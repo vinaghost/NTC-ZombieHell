@@ -24,7 +24,7 @@ public client_disconnected(iId) UnSet_BitVar(g_bIsConnected,iId);
 
 public fw_Player_TakeDamage_Post(iVictim, iInflictor, iAttacker, Float:flDamage, iDamageType)
 {
-    if(Get_BitVar(g_bIsConnected,iAttacker) || iVictim == iAttacker)
+    if( !Get_BitVar(g_bIsConnected,iAttacker) || iVictim == iAttacker)
         return HAM_IGNORED;
 
     if(zhell_is_zombie(iVictim)) {
