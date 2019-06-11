@@ -42,6 +42,8 @@ public plugin_init() {
 
     g_hudSync = CreateHudSyncObj();
     g_hudSync1 = CreateHudSyncObj();
+
+    zhell_round_start();
 }
 
 public zhell_round_start() {
@@ -60,7 +62,7 @@ public ForwardThink(Ent)
 
     if(!equal(Classname,g_Classname)) return FMRES_IGNORED;
     set_hudmessage(0, 255, 0, -1.0, 0.0, 0, 0.0, 0.5, 0.0, 0.2, -1);
-    ShowSyncHudMsg(0, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f])",
+    ShowSyncHudMsg(0, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]",
                                     g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed);
 
     set_pev(Ent,pev_nextthink, 0.5);
