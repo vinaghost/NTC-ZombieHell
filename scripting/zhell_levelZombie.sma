@@ -23,8 +23,7 @@ enum {
 /*==============cvar==============*/
 new cvar_zombiearmor;
 
-new cvar_level_health[10], cvar_level_maxspeed[10]
-new cvar_level_bosshp[10], cvar_level_bossmaxspeed[10]
+new cvar_zombieHealth, cvar_zombieMaxSpeed;
 new cvar_level_lighting[10];
 
 /*==============variable==============*/
@@ -51,63 +50,28 @@ public plugin_init() {
 
     cvar_zombiearmor = register_cvar("zhell_zombie_armor", "100");
 
-    cvar_level_health[0] = register_cvar("zh_level1_health", "100")
-    cvar_level_maxspeed[0] = register_cvar("zh_level1_maxspeed", "250.0")
-    cvar_level_bosshp[0] = register_cvar("zh_level1_bosshp", "15000")
-    cvar_level_bossmaxspeed[0] = register_cvar("zh_level1_bossmaxspeed", "275.0")
+    cvar_zombieHealth = register_cvar("zh_zombie_health", "100");
+    cvar_zombieMaxSpeed = register_cvar("zh_zombe_maxspeed", "250.0");
+
+
     cvar_level_lighting[0] = register_cvar("zh_level1_lighting", "f")
 
-    cvar_level_health[1] = register_cvar("zh_level2_health", "200")
-    cvar_level_maxspeed[1] = register_cvar("zh_level2_maxspeed", "255.0")
-    cvar_level_bosshp[1] = register_cvar("zh_level2_bosshp", "20000")
-    cvar_level_bossmaxspeed[1] = register_cvar("zh_level2_bossmaxspeed", "280.0")
     cvar_level_lighting[1] = register_cvar("zh_level2_lighting", "e");
 
-    cvar_level_health[2] = register_cvar("zh_level3_health", "300")
-    cvar_level_maxspeed[2] = register_cvar("zh_level3_maxspeed", "260.0")
-    cvar_level_bosshp[2] = register_cvar("zh_level3_bosshp", "30000")
-    cvar_level_bossmaxspeed[2] = register_cvar("zh_level3_bossmaxspeed", "285.0")
     cvar_level_lighting[2] = register_cvar("zh_level3_lighting", "d");
 
-    cvar_level_health[3]     = register_cvar("zh_level4_health", "400")
-    cvar_level_maxspeed[3]      = register_cvar("zh_level4_maxspeed", "265.0")
-    cvar_level_bosshp[3]       = register_cvar("zh_level4_bosshp", "40000")
-    cvar_level_bossmaxspeed[3]  = register_cvar("zh_level4_bossmaxspeed", "290.0")
-    cvar_level_lighting[3]     = register_cvar("zh_level4_lighting", "c");
+    cvar_level_lighting[3] = register_cvar("zh_level4_lighting", "c");
 
-    cvar_level_health[4] = register_cvar("zh_level5_health", "500")
-    cvar_level_maxspeed[4] = register_cvar("zh_level5_maxspeed", "275.0")
-    cvar_level_bosshp[4] = register_cvar("zh_level5_bosshp", "50000")
-    cvar_level_bossmaxspeed[4] = register_cvar("zh_level5_bossmaxspeed", "300.0")
     cvar_level_lighting[4] = register_cvar("zh_level5_lighting", "b");
 
-    cvar_level_health[5] = register_cvar("zh_level6_health", "600")
-    cvar_level_maxspeed[5] = register_cvar("zh_level6_maxspeed", "280.0")
-    cvar_level_bosshp[5] = register_cvar("zh_level6_bosshp", "70000")
-    cvar_level_bossmaxspeed[5] = register_cvar("zh_level6_bossmaxspeed", "305.0")
     cvar_level_lighting[5] = register_cvar("zh_level6_lighting", "c");
 
-    cvar_level_health[6] = register_cvar("zh_level7_health", "750")
-    cvar_level_maxspeed[6] = register_cvar("zh_level7_maxspeed", "285.0")
-    cvar_level_bosshp[6] = register_cvar("zh_level7_bosshp", "80000")
-    cvar_level_bossmaxspeed[6] = register_cvar("zh_level7_bossmaxspeed", "310.0")
     cvar_level_lighting[6] = register_cvar("zh_level7_lighting", "d");
 
-    cvar_level_health[7] = register_cvar("zh_level8_health", "850")
-    cvar_level_maxspeed[7] = register_cvar("zh_level8_maxspeed", "290.0")
-    cvar_level_bosshp[7] = register_cvar("zh_level8_bosshp", "100000")
-    cvar_level_bossmaxspeed[7] = register_cvar("zh_level8_bossmaxspeed", "315.0")
     cvar_level_lighting[7] = register_cvar("zh_level8_lighting", "c");
 
-    cvar_level_health[8] = register_cvar("zh_level9_health", "1000");
-    cvar_level_bosshp[8] = register_cvar("zh_level9_bosshp", "500000");
-    cvar_level_bossmaxspeed[8] = register_cvar("zh_level9_bossmaxspeed", "325.0");
     cvar_level_lighting[8] = register_cvar("zh_level9_lighting", "b");
 
-    cvar_level_health[9] = register_cvar("zh_level10_health", "1500");
-    cvar_level_maxspeed[9] = register_cvar("zh_level10_maxspeed", "325.0");
-    cvar_level_bosshp[9] = register_cvar("zh_level10_bosshp", "1000000");
-    cvar_level_bossmaxspeed[9] = register_cvar("zh_level10_bossmaxspeed", "350.0");
     cvar_level_lighting[9] = register_cvar("zh_level10_lighting", "a");
 
     zhell_round_start();
@@ -204,8 +168,8 @@ public zhell_last_zombie_post(id) {
 }
 get_level_data() {
     g_zombie_spawn = g_level;
-    g_zombie_health = get_pcvar_num(cvar_level_health[g_level - 1 ]);
-    g_zombie_maxspeed = get_pcvar_float(cvar_level_maxspeed[g_level - 1 ]);
+    g_zombie_health = get_pcvar_num(cvar_zombieHealth);
+    g_zombie_maxspeed = get_pcvar_float(cvar_zombieMaxSpeed);
 }
 lighting_effects() {
 
