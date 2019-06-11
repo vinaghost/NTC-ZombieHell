@@ -75,10 +75,6 @@ public plugin_natives() {
 
     register_native("zhell_get_count_zombie", "_zhell_get_count_zombie");
     register_native("zhell_get_count_human", "_zhell_get_count_human");
-
-    register_native("zhell_get_zombie", "_zhell_get_zombie");
-    register_native("zhell_get_human", "_zhell_get_human");
-
 }
 
 public event_round_start() {
