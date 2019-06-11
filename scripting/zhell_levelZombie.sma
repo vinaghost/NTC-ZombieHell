@@ -111,6 +111,14 @@ public plugin_init() {
 
     zhell_round_start();
 }
+public plugin_natives() {
+    register_native("zhell_get_level", "_zhell_get_level");
+
+    register_native("zhell_get_zombie_health", "_zhell_get_zombie_health");
+    register_native("zhell_get_zombie_speed", "_zhell_get_zombie_speed");
+    register_native("zhell_get_boss_health", "_zhell_get_boss_health");
+    register_native("zhell_get_boss_speed", "_zhell_get_boss_speed");
+}
 
 public zhell_round_start() {
 
@@ -245,4 +253,21 @@ set_level(level_up) // level_up:[1=level up/0=level back]
         g_level --;
         if( g_level < 1 ) g_level = 1;
     }
+}
+public _zhell_get_level() {
+    return g_level;
+}
+
+public _zhell_get_zombie_health() {
+    return g_zombie_health;
+}
+
+public _zhell_get_zombie_speed() {
+    return g_zombie_maxspeed;
+}
+public _zhell_get_boss_health() {
+    return g_boss_health;
+}
+public _zhell_get_boss_speed() {
+    return g_boss_maxspeed;
 }
