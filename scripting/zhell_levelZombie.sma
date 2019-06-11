@@ -161,8 +161,9 @@ public zhell_spawn_zombie(id) {
     }
     else {
         g_spawn[id] --;
-        zombie_power(id);
     }
+
+    zombie_power(id);
 
 
 }
