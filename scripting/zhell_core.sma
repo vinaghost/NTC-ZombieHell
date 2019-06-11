@@ -133,20 +133,18 @@ public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
 public client_authorized(id) {
     UnSet_BitVar(p_zombie, id);
 }
-
-CheckLastZombieHuman()
-{
+CheckLastZombieHuman() {
     new humanPlayers[32], zombiePlayers[32];
     new humanCount, zombieCount;
 
     getZombieCount(zombiePlayers, zombieCount);
     getHumanCount(humanPlayers, humanCount);
 
-    if(zombieCount == 1) {
+    if(zombieCount == 0) {
         ExecuteForward(g_Forwards[FW_USER_LAST_ZOMBIE], g_ForwardResult, zombiePlayers[0]);
     }
 
-    if (humanCount == 1) {
+    if (humanCount == 0) {
         ExecuteForward(g_Forwards[FW_USER_LAST_HUMAN], g_ForwardResult, humanPlayers[0]);
     }
 }

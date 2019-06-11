@@ -32,6 +32,8 @@ new g_level = 1, g_zombie_spawn = 0;
 new g_zombie_health, Float:g_zombie_maxspeed;
 new g_boss_health, Float: g_boss_maxspeed;
 
+new boss;
+
 new g_boss;
 new g_spawn_first;
 new g_spawn[33];
@@ -124,19 +126,19 @@ public zhell_round_start() {
 
     get_level_data();
     lighting_effects();
-
+    boss = false;
     g_spawn_first = 0;
 }
 public zhell_round_end() {
 
-    if (zhell_get_count_zombie() > 0) {
-        set_dhudmessage(255, 0, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
-        show_dhudmessage( 0, "Zombie win." );
+    if (zhell_get_count_human() > 0) {
+        set_dhudmessage(0, 0, 255, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+        show_dhudmessage( 0, "Human win." );
         set_level(0);
     }
     else {
-        set_dhudmessage(0, 0, 255, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
-        show_dhudmessage( 0, "Human win." );
+        set_dhudmessage(255, 0, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+        show_dhudmessage( 0, "Zombie win." );
         set_level(1);
     }
 }
@@ -168,11 +170,14 @@ public zhell_killed_human(id) {
     set_task(10.0, "reSpawn", id + TASK_RESPAWN);
 }
 public zhell_last_zombie(id) {
-    Set_BitVar(g_boss, id);
-    fm_set_user_health(id, get_user_health(id) + g_boss_health);
-    cs_set_user_armor(id, ((get_pcvar_num(cvar_zombiearmor)*g_level)*2), CS_ARMOR_VESTHELM);
-    cs_set_player_maxspeed_auto(id, g_boss_maxspeed);
-    set_pev(id, pev_gravity, 0.7);
+    if( !boss ) {
+        Set_BitVar(g_boss, id);
+        fm_set_user_health(id, get_user_health(id) + g_boss_health);
+        cs_set_user_armor(id, ((get_pcvar_num(cvar_zombiearmor)*g_level)*2), CS_ARMOR_VESTHELM);
+        cs_set_player_maxspeed_auto(id, g_boss_maxspeed);
+        set_pev(id, pev_gravity, 0.7);
+        boss = true;
+    }
 }
 get_level_data() {
     g_zombie_spawn = g_level;
