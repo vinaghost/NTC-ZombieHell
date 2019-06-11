@@ -5,6 +5,7 @@
 
 #include <cs_ham_bots_api>
 
+#include <zhell>
 #include <zhell_const>
 
 
@@ -20,9 +21,6 @@ public plugin_init( ) {
 
 	register_event( "DeathMsg", "evDeathMsg", "a" );
 	register_event( "Health", "evHealth", "be" );
-
-	RegisterHam( Ham_Spawn, "player", "fwHamSpawn", true );
-	RegisterHamBots( Ham_Spawn, "fwHamSpawn", true);
 
 	register_forward(FM_AddToFullPack, "fwAddToFullPack", 1)
 
@@ -73,22 +71,24 @@ public fwAddToFullPack( es, e, user, host, host_flags, player, p_set ) {
 
 	new Float:PlayerOrigin[3]
 	pev(user, pev_origin, PlayerOrigin)
-	PlayerOrigin[2] += 30.0
+	PlayerOrigin[2] += 15.0
 	engfunc(EngFunc_SetOrigin, g_playerBar[user], PlayerOrigin)
 	set_pev(g_playerBar[user], pev_effects, pev(g_playerBar[user], pev_effects) & ~EF_NODRAW)
 	return FMRES_HANDLED
 }
 
-public fwHamSpawn( id ) {
-	if(is_user_alive( id ) ) {
-		new Float: playerOrigin[ 3 ];
-		pev( id, pev_origin, playerOrigin );
+public zhell_spawn_zombie( id ) {
+	new Float: playerOrigin[ 3 ];
+	pev( id, pev_origin, playerOrigin );
 
-		Set_BitVar(g_isAlive, id);
+	Set_BitVar(g_isAlive, id);
 
-		engfunc( EngFunc_SetOrigin, g_playerBar[ id ], playerOrigin );
-		evHealth( id );
-	}
+	engfunc( EngFunc_SetOrigin, g_playerBar[ id ], playerOrigin );
+	evHealth( id );
+}
+
+public zhell_last_zombie(id) {
+	evHealth(id);
 }
 
 public evDeathMsg( ) {
