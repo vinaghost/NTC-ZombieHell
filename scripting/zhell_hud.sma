@@ -34,7 +34,7 @@ public plugin_init() {
 public zhell_round_start() {
     set_hudmessage(0, 255, 0, -1.0, 0.0, 0, 0.0, 300.0, 0.0, 0.2, -1);
     ShowSyncHudMsg(0, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f])",
-                                   zhell_get_level() + 1, g_info[zhell_get_level()],
+                                   zhell_get_level(), g_info[zhell_get_level() - 1],
                                    zhell_get_boss_health(), zhell_get_boss_speed(),
                                    zhell_get_zombie_health(), zhell_get_zombie_speed());
 
