@@ -24,6 +24,8 @@ public plugin_init( ) {
 	RegisterHam( Ham_Spawn, "player", "fwHamSpawn", true );
 	RegisterHamBots( Ham_Spawn, "fwHamSpawn", true);
 
+	register_forward(FM_AddToFullPack, "fwAddToFullPack", 1)
+
 	g_maxPlayers = get_maxplayers( );
 
 	new playerBar, allocString = engfunc( EngFunc_AllocString, "env_sprite" );
@@ -65,28 +67,16 @@ public client_disconnected( id )
 	g_playerMaxHealth[ id ] = 0;
 }
 
-public fwAddToFullPack( es, e, ent, host, host_flags, player, p_set ) {
-	if( !player && !Get_BitVar(g_isBot, host) ) {
-		new user;
+public fwAddToFullPack( es, e, user, host, host_flags, player, p_set ) {
+	if(!player || !Get_BitVar(g_isAlive, user) || !Get_BitVar(g_isBot, user))
+		return FMRES_IGNORED
 
-		for( user = g_maxPlayers; user > 0; -- user ) {
-			if( g_playerBar[ user ] == ent  ) {
-				if( user != host && Get_BitVar(g_isAlive, user) && Get_BitVar(g_isBot, user )) {
-					new Float: playerOrigin[ 3 ];
-					pev( user, pev_origin, playerOrigin );
-
-					playerOrigin[ 2 ] += 30.0;
-
-					set_es( es, ES_Origin, playerOrigin );
-				}
-				else {
-					set_es( es, ES_Effects, EF_NODRAW );
-				}
-
-				break;
-			}
-		}
-	}
+	new Float:PlayerOrigin[3]
+	pev(user, pev_origin, PlayerOrigin)
+	PlayerOrigin[2] += 30.0
+	engfunc(EngFunc_SetOrigin, g_playerBar[user], PlayerOrigin)
+	set_pev(g_playerBar[user], pev_effects, pev(g_playerBar[user], pev_effects) & ~EF_NODRAW)
+	return FMRES_HANDLED
 }
 
 public fwHamSpawn( id ) {
