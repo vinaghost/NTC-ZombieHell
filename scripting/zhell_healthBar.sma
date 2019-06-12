@@ -31,7 +31,7 @@ public fw_Player_TakeDamage_Post(iVictim, iInflictor, iAttacker, Float:flDamage,
         static iVictimHealth;
         iVictimHealth = get_user_health(iVictim);
 
-        if(iVictimHealth)
+        if(iVictimHealth > 0)
             client_print(iAttacker, print_center, "HP: %d", iVictimHealth)
         else
             client_print(iAttacker, print_center, "CHẾT");
