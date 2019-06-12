@@ -94,11 +94,10 @@ public zhell_round_start() {
 
     new players[32], num;
 
-    getHuman(players, num);
+    get_players(players, num, "e", "CT");
     //new id;
     for(new i = 0; i < num; i++) {
         //id = players[i];
-
         remove_task(players[i] + TASK_RESPAWN);
     }
 }
@@ -107,12 +106,12 @@ public zhell_round_end() {
     if (zhell_get_count_human() > 0) {
         set_dhudmessage(0, 0, 255, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
         show_dhudmessage( 0, "Human win." );
-        set_level(0);
+        set_level(1);
     }
     else {
         set_dhudmessage(255, 0, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
         show_dhudmessage( 0, "Zombie win." );
-        set_level(1);
+        set_level(0);
     }
 }
 
