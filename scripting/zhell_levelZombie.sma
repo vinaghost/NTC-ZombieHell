@@ -159,9 +159,9 @@ public zhell_last_zombie_post(id) {
 
     Set_BitVar(g_boss, id);
 
-    set_user_health(id, get_user_health(id) + g_zombie_health * (3 + g_level ));
+    set_user_health(id, get_user_health(id) + g_zombie_health * ( 1 + g_level ) * ( 5 ) );
     cs_set_user_armor(id, ((get_pcvar_num(cvar_zombiearmor)*g_level)*2), CS_ARMOR_VESTHELM);
-    cs_set_player_maxspeed_auto(id, g_zombie_maxspeed * (1.5 + g_level / 10 ));
+    cs_set_player_maxspeed_auto(id, g_zombie_maxspeed * (1.5 + g_level / 10.0 ));
     set_pev(id, pev_gravity, 0.7);
 
 }
@@ -184,8 +184,8 @@ lighting_effects() {
 public zombie_power(id) {
     UnSet_BitVar(g_boss,id);
 
-    cs_set_player_maxspeed_auto(id, g_zombie_maxspeed);
-    set_user_health(id, g_zombie_health);
+    cs_set_player_maxspeed_auto(id, g_zombie_maxspeed* ( 1 + g_level / 10.0));
+    set_user_health(id, g_zombie_health * ( g_level));
     cs_set_user_armor(id, (get_pcvar_num(cvar_zombiearmor)*g_level), CS_ARMOR_VESTHELM);
 
     strip_user_weapons(id);
@@ -248,15 +248,15 @@ public _zhell_get_level() {
 }
 
 public _zhell_get_zombie_health() {
-    return g_zombie_health;
+    return g_zombie_health * ( g_level);
 }
 
 public Float:_zhell_get_zombie_speed() {
-    return g_zombie_maxspeed;
+    return g_zombie_maxspeed* ( 1 + g_level / 10.0);
 }
 public _zhell_get_boss_health() {
-    return g_zombie_health * (3 + g_level );
+    return g_zombie_health * ( 1 + g_level ) * ( 5 ) ;
 }
 public Float:_zhell_get_boss_speed() {
-    return g_zombie_maxspeed * (1.5 + g_level / 10 );
+    return g_zombie_maxspeed * (1.5 + g_level / 10.0 );
 }
