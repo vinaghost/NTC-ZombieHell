@@ -114,7 +114,7 @@ native bool:crxranks_get_setting(key[], value[], len)
  * @param len 			Maximum buffer length.
  * @noreturn
  */
-native crxranks_get_user_hudinfo(id, buffer[], len)
+//native crxranks_get_user_hudinfo(id, buffer[], len)
 
 /**
  * Returns the client's current level.
