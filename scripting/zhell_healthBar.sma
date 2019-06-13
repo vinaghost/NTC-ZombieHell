@@ -11,12 +11,14 @@
 #define PLUGIN_AUTHOR "meTaLiCroSS"
 
 new g_bIsConnected;
+
 public plugin_init()
 {
     register_plugin("Zombie Hell: Health show", PLUGIN_VERSION, PLUGIN_AUTHOR)
 
     RegisterHam(Ham_TakeDamage, "player", "fw_Player_TakeDamage_Post", 1);
     RegisterHamBots(Ham_TakeDamage, "fw_Player_TakeDamage_Post", 1);
+
 }
 
 public client_putinserver(iId) Set_BitVar(g_bIsConnected,iId);

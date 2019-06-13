@@ -30,7 +30,7 @@ new cvar_level_lighting[10];
 new g_level, g_zombie_spawn = 0;
 new g_zombie_health, Float:g_zombie_maxspeed;
 
-new boss, g_last_zombie;
+new g_last_zombie;
 
 new g_boss;
 new g_spawn_first;
@@ -83,13 +83,15 @@ public plugin_natives() {
     register_native("zhell_get_zombie_speed", "_zhell_get_zombie_speed");
     register_native("zhell_get_boss_health", "_zhell_get_boss_health");
     register_native("zhell_get_boss_speed", "_zhell_get_boss_speed");
+
+    register_native("zhell_get_boss", "_zhell_get_boss");
 }
 
 public zhell_round_start() {
 
     get_level_data();
     lighting_effects();
-    boss = 0;
+    g_boss = 0;
     g_spawn_first = 0;
 
     new players[32], num;
@@ -150,15 +152,14 @@ public zhell_killed_human(id) {
 public zhell_last_zombie_pre(id) {
 
     if( !g_last_zombie ) return PLUGIN_HANDLED;
-    if( boss ) return PLUGIN_HANDLED;
+    if( g_boss ) return PLUGIN_HANDLED;
 
     return PLUGIN_CONTINUE;
 
 }
 public zhell_last_zombie_post(id) {
 
-    Set_BitVar(g_boss, id);
-
+    g_boss = id;
     set_user_health(id, get_user_health(id) + g_zombie_health * ( 1 + g_level ) * ( 5 ) );
     cs_set_user_armor(id, ((get_pcvar_num(cvar_zombiearmor)*g_level)*2), CS_ARMOR_VESTHELM);
     cs_set_player_maxspeed_auto(id, g_zombie_maxspeed * (1.5 + g_level / 10.0 ));
@@ -182,7 +183,6 @@ lighting_effects() {
 }
 
 public zombie_power(id) {
-    UnSet_BitVar(g_boss,id);
 
     cs_set_player_maxspeed_auto(id, g_zombie_maxspeed* ( 1 + g_level / 10.0));
     set_user_health(id, g_zombie_health * ( g_level));
@@ -259,4 +259,7 @@ public _zhell_get_boss_health() {
 }
 public Float:_zhell_get_boss_speed() {
     return g_zombie_maxspeed * (1.5 + g_level / 10.0 );
+}
+public _zhell_get_boss() {
+    return g_boss;
 }

@@ -51,8 +51,8 @@ public plugin_init() {
 
     g_Forwards[FW_USER_SPAWN_ZOMBIE] = CreateMultiForward("zhell_spawn_zombie", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_SPAWN_HUMAN] = CreateMultiForward("zhell_spawn_human", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_KILLED_ZOMBIE] = CreateMultiForward("zhell_killed_zombie", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_KILLED_HUMAN] = CreateMultiForward("zhell_killed_human", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_KILLED_ZOMBIE] = CreateMultiForward("zhell_killed_zombie", ET_CONTINUE, FP_CELL, FP_CELL);
+    g_Forwards[FW_USER_KILLED_HUMAN] = CreateMultiForward("zhell_killed_human", ET_CONTINUE, FP_CELL, FP_CELL);
     g_Forwards[FW_USER_LAST_ZOMBIE_PRE] = CreateMultiForward("zhell_last_human_pre", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_LAST_ZOMBIE_POST] = CreateMultiForward("zhell_last_human_post", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_LAST_HUMAN_PRE] = CreateMultiForward("zhell_last_zombie_pre", ET_CONTINUE, FP_CELL);
@@ -123,10 +123,10 @@ public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
 
 
     if(Get_BitVar(p_zombie, victim)) {
-        ExecuteForward(g_Forwards[FW_USER_KILLED_ZOMBIE], g_ForwardResult, victim);
+        ExecuteForward(g_Forwards[FW_USER_KILLED_ZOMBIE], g_ForwardResult, victim, attacker);
     }
     else {
-        ExecuteForward(g_Forwards[FW_USER_KILLED_HUMAN], g_ForwardResult, victim);
+        ExecuteForward(g_Forwards[FW_USER_KILLED_HUMAN], g_ForwardResult, victim, attacker);
     }
 
     CheckLastZombieHuman();
