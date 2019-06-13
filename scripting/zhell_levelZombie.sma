@@ -50,29 +50,29 @@ public plugin_init() {
 
     cvar_zombiearmor = register_cvar("zhell_zombie_armor", "100");
 
-    cvar_zombieHealth = register_cvar("zh_zombie_health", "100");
-    cvar_zombieMaxSpeed = register_cvar("zh_zombe_maxspeed", "250.0");
+    cvar_zombieHealth = register_cvar("zhell_zombie_health", "100");
+    cvar_zombieMaxSpeed = register_cvar("zhell_zombe_maxspeed", "250.0");
 
 
-    cvar_level_lighting[0] = register_cvar("zh_level1_lighting", "f")
+    cvar_level_lighting[0] = register_cvar("zhell_level1_lighting", "f")
 
-    cvar_level_lighting[1] = register_cvar("zh_level2_lighting", "e");
+    cvar_level_lighting[1] = register_cvar("zhell_level2_lighting", "e");
 
-    cvar_level_lighting[2] = register_cvar("zh_level3_lighting", "d");
+    cvar_level_lighting[2] = register_cvar("zhell_level3_lighting", "d");
 
-    cvar_level_lighting[3] = register_cvar("zh_level4_lighting", "c");
+    cvar_level_lighting[3] = register_cvar("zhell_level4_lighting", "c");
 
-    cvar_level_lighting[4] = register_cvar("zh_level5_lighting", "b");
+    cvar_level_lighting[4] = register_cvar("zhell_level5_lighting", "b");
 
-    cvar_level_lighting[5] = register_cvar("zh_level6_lighting", "c");
+    cvar_level_lighting[5] = register_cvar("zhell_level6_lighting", "c");
 
-    cvar_level_lighting[6] = register_cvar("zh_level7_lighting", "d");
+    cvar_level_lighting[6] = register_cvar("zhell_level7_lighting", "d");
 
-    cvar_level_lighting[7] = register_cvar("zh_level8_lighting", "c");
+    cvar_level_lighting[7] = register_cvar("zhell_level8_lighting", "c");
 
-    cvar_level_lighting[8] = register_cvar("zh_level9_lighting", "b");
+    cvar_level_lighting[8] = register_cvar("zhell_level9_lighting", "b");
 
-    cvar_level_lighting[9] = register_cvar("zh_level10_lighting", "a");
+    cvar_level_lighting[9] = register_cvar("zhell_level10_lighting", "a");
     g_level = 1;
     zhell_round_start();
 }
