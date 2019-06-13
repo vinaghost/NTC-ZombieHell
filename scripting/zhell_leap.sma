@@ -29,8 +29,8 @@ public plugin_init() {
 public plugin_precache() {
     precache_sound(g_sound_leap);
 }
-public Forward_TraceLine_Post(Float:start[3], Float:end[3], noMonsters, id, trace)
-{
+
+public Forward_TraceLine_Post(Float:start[3], Float:end[3], noMonsters, id, trace) {
     if(!is_user_alive(id) ) return FMRES_IGNORED;
     if(!zhell_is_zombie(id)) return FMRES_IGNORED;
 
@@ -59,8 +59,7 @@ public Forward_TraceLine_Post(Float:start[3], Float:end[3], noMonsters, id, trac
 
     return FMRES_IGNORED;
 }
-public clcmd_leap(id)
-{
+public clcmd_leap(id) {
     new Float: velocity[3];
     new Float: lheight, lforce;
     lforce = get_pcvar_num(cvar_LeapForce);
