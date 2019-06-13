@@ -47,7 +47,7 @@ const TASK_HUD = 304500
 const MAX_NAME_LENGTH = 32
 #endif
 
-new const ARG_CURRENT_XP[]          = "$current_xp$"
+/*new const ARG_CURRENT_XP[]          = "$current_xp$"
 new const ARG_NEXT_XP[]             = "$next_xp$"
 new const ARG_XP_NEEDED[]           = "$xp_needed$"
 new const ARG_LEVEL[]               = "$level$"
@@ -57,7 +57,7 @@ new const ARG_NEXT_RANK[]           = "$next_rank$"
 new const ARG_MAX_LEVELS[]          = "$max_levels$"
 new const ARG_LINE_BREAK[]          = "$br$"
 new const ARG_NAME[]                = "$name$"
-
+*/
 new const XPREWARD_KILL[]           = "kill"
 new const XPREWARD_HEADSHOT[]       = "headshot"
 new const XPREWARD_TEAMKILL[]       = "teamkill"
@@ -150,7 +150,7 @@ enum _:Settings
 	bool:IGNORE_BOTS,
 	bool:USE_COMBINED_EVENTS,
 	bool:NOTIFY_ON_KILL,
-	bool:HUDINFO_ENABLED,
+	/*bool:HUDINFO_ENALED,
 	bool:HUDINFO_ALIVE_ONLY,
 	bool:HUDINFO_TEAM_LOCK,
 	bool:HUDINFO_OTHER_PLAYERS,
@@ -165,7 +165,7 @@ enum _:Settings
 	XP_NOTIFIER_COLOR_LOSE[3],
 	Float:XP_NOTIFIER_POSITION[2],
 	Float:XP_NOTIFIER_DURATION,
-	bool:XP_NOTIFIER_USE_DHUD
+	bool:XP_NOTIFIER_USE_DHUD*/
 }
 
 new g_eSettings[Settings]
@@ -183,7 +183,7 @@ new g_iVault
 new g_iMaxLevels
 new g_iFlagZ
 new g_iScreenFade
-new g_iObject[2]
+//new g_iObject[2]
 
 new g_fwdUserLevelUpdated
 new g_fwdUserReceiveXP
@@ -204,8 +204,8 @@ public plugin_init()
 
 	register_clcmd("say /xplist",            "Cmd_XPList",      ADMIN_BAN)
 	register_clcmd("say_team /xplist",       "Cmd_XPList",      ADMIN_BAN)
-	register_clcmd("say /hudinfo",           "Cmd_HudInfo",     ADMIN_ALL)
-	register_clcmd("say_team /hudinfo",      "Cmd_HudInfo",     ADMIN_ALL)
+	//register_clcmd("say /hudinfo",           "Cmd_HudInfo",     ADMIN_ALL)
+	//register_clcmd("say_team /hudinfo",      "Cmd_HudInfo",     ADMIN_ALL)
 	register_concmd("crxranks_give_xp",      "Cmd_GiveXP",      ADMIN_RCON, "<nick|#userid> <amount>")
 	register_concmd("crxranks_reset_xp",     "Cmd_ResetXP",     ADMIN_RCON, "<nick|#userid>")
 	register_srvcmd("crxranks_update_mysql", "Cmd_UpdateMySQL")
@@ -482,7 +482,7 @@ ReadFile()
 							{
 								g_eSettings[NOTIFY_ON_KILL] = _:clamp(str_to_num(szValue), false, true)
 							}
-							else if(equal(szKey, "HUDINFO_ENABLED"))
+							/*else if(equal(szKey, "HUDINFO_ENABLED"))
 							{
 								g_eSettings[HUDINFO_ENABLED] = _:clamp(str_to_num(szValue), false, true)
 							}
@@ -580,7 +580,7 @@ ReadFile()
 								{
 									g_iObject[OBJ_XP_NOTIFIER] = CreateHudSyncObj()
 								}
-							}
+							}*/
 						}
 						case SECTION_RANKS:
 						{
@@ -622,10 +622,10 @@ public client_connect(id)
 	g_ePlayerData[id][IsBot] = is_user_bot(id) != 0
 	set_task(DELAY_ON_CONNECT, "update_vip_status", id)
 
-	if(g_eSettings[HUDINFO_ENABLED])
+	/*if(g_eSettings[HUDINFO_ENABLED])
 	{
 		set_task(HUD_REFRESH_FREQ, "DisplayHUD", id + TASK_HUD, .flags = "b")
-	}
+	}*/
 }
 
 public client_disconnected(id)
@@ -662,7 +662,7 @@ public client_infochanged(id)
 			else
 			{
 				save_or_load(id, szNewName, SL_LOAD_DATA)
-				update_hudinfo(id)
+				//update_hudinfo(id)
 			}
 		}
 
@@ -675,10 +675,10 @@ public load_after_change(id)
 	static szName[MAX_NAME_LENGTH]
 	get_user_name(id, szName, charsmax(szName))
 	save_or_load(id, szName, SL_LOAD_DATA)
-	update_hudinfo(id)
+	//update_hudinfo(id)
 }
 
-public DisplayHUD(id)
+/*public DisplayHUD(id)
 {
 	id -= TASK_HUD
 
@@ -723,7 +723,7 @@ public DisplayHUD(id)
 		set_hudmessage(HUDINFO_PARAMS)
 		ShowSyncHudMsg(id, g_iObject[OBJ_HUDINFO], g_ePlayerData[iTarget][HUDInfo])
 	}
-}
+}*/
 
 #if defined USE_CSTRIKE
 public bomb_planted(id)
@@ -781,7 +781,7 @@ public Cmd_XPList(id, iLevel, iCid)
 	menu_display(id, iMenu)
 	return PLUGIN_HANDLED
 }
-
+/*
 public Cmd_HudInfo(id, iLevel, iCid)
 {
 	if(!cmd_access(id, iLevel, iCid, 1))
@@ -799,7 +799,7 @@ public Cmd_HudInfo(id, iLevel, iCid)
 	CC_SendMessage(id, "%L", id, g_ePlayerData[id][HudInfoEnabled] ? "CRXRANKS_HUDINFO_ENABLED" : "CRXRANKS_HUDINFO_DISABLED")
 	return PLUGIN_HANDLED
 }
-
+*/
 public XPList_Handler(id, iMenu, iItem)
 {
 	menu_destroy(iMenu)
@@ -1281,7 +1281,7 @@ give_user_xp(const id, iXP, CRXRanks_XPSources:iSource = CRXRANKS_XPS_PLUGIN)
 	check_level(id, true)
 	ExecuteForward(g_fwdUserXPUpdated, iReturn, id, g_ePlayerData[id][XP], iSource)
 
-	if(g_eSettings[XP_NOTIFIER_ENABLED])
+	/*if(g_eSettings[XP_NOTIFIER_ENABLED])
 	{
 		static szKey[32], bool:bPositive
 		bPositive = iXP >= 0
@@ -1314,7 +1314,7 @@ give_user_xp(const id, iXP, CRXRanks_XPSources:iSource = CRXRANKS_XPS_PLUGIN)
 
 			ShowSyncHudMsg(id, g_iObject[OBJ_XP_NOTIFIER], "%L", id, szKey, abs(iXP))
 		}
-	}
+	}*/
 
 	return iXP
 }
@@ -1352,11 +1352,11 @@ switch_to_nvault()
 	}
 }
 
-bool:has_argument(const szMessage[], const szArg[])
+/*bool:has_argument(const szMessage[], const szArg[])
 {
 	return contain(szMessage, szArg) != -1
 }
-
+*/
 bool:should_skip(const iNum)
 {
 	return (iNum != 0 && !g_eSettings[USE_COMBINED_EVENTS])
@@ -1384,7 +1384,7 @@ send_chat_message(const id, const bool:bLog, const szInput[], any:...)
 	}
 	#endif
 }
-
+/*
 update_hudinfo(const id)
 {
 	if(!g_eSettings[HUDINFO_ENABLED])
@@ -1439,7 +1439,7 @@ update_hudinfo(const id)
 	replace_string(szMessage, charsmax(szMessage), ARG_NEXT_RANK, g_ePlayerData[id][NextRank])
 	replace_string(szMessage, charsmax(szMessage), ARG_LINE_BREAK, "^n")
 	copy(g_ePlayerData[id][HUDInfo], charsmax(g_ePlayerData[][HUDInfo]), szMessage)
-}
+}*/
 
 check_level(const id, const bool:bNotify)
 {
@@ -1471,7 +1471,7 @@ check_level(const id, const bool:bNotify)
 		{
 			g_ePlayerData[id][IsOnFinalLevel] = true
 			g_ePlayerData[id][NextXP] = ArrayGetCell(g_aLevels, iLevel)
-			copy(g_ePlayerData[id][NextRank], charsmax(g_ePlayerData[][NextRank]), g_eSettings[HUDINFO_INVALID_TEXT])
+			//copy(g_ePlayerData[id][NextRank], charsmax(g_ePlayerData[][NextRank]), g_eSettings[HUDINFO_INVALID_TEXT])
 
 			if(g_eSettings[FINAL_LEVEL_FLAGS])
 			{
@@ -1528,7 +1528,7 @@ check_level(const id, const bool:bNotify)
 		}
 	}
 
-	update_hudinfo(id)
+	//update_hudinfo(id)
 }
 
 public update_vip_status(id)
@@ -1544,7 +1544,7 @@ public plugin_natives()
 	register_library("crxranks")
 	register_native("crxranks_get_chat_prefix",         "_crxranks_get_chat_prefix")
 	register_native("crxranks_get_final_flags",         "_crxranks_get_final_flags")
-	register_native("crxranks_get_hudinfo_format",      "_crxranks_get_hudinfo_format")
+	//register_native("crxranks_get_hudinfo_format",      "_crxranks_get_hudinfo_format")
 	register_native("crxranks_get_max_levels",          "_crxranks_get_max_levels")
 	register_native("crxranks_get_rank_by_level",       "_crxranks_get_rank_by_level")
 	register_native("crxranks_get_save_type",           "_crxranks_get_save_type")
@@ -1561,15 +1561,15 @@ public plugin_natives()
 	register_native("crxranks_get_xp_reward",           "_crxranks_get_xp_reward")
 	register_native("crxranks_give_user_xp",            "_crxranks_give_user_xp")
 	register_native("crxranks_has_user_hudinfo",        "_crxranks_has_user_hudinfo")
-	register_native("crxranks_is_hi_using_dhud",        "_crxranks_is_hi_using_dhud")
-	register_native("crxranks_is_hud_enabled",          "_crxranks_is_hud_enabled")
+	//register_native("crxranks_is_hi_using_dhud",        "_crxranks_is_hi_using_dhud")
+	//register_native("crxranks_is_hud_enabled",          "_crxranks_is_hud_enabled")
 	register_native("crxranks_is_sfdn_enabled",         "_crxranks_is_sfdn_enabled")
 	register_native("crxranks_is_sfup_enabled",         "_crxranks_is_sfup_enabled")
 	register_native("crxranks_is_user_on_final",        "_crxranks_is_user_on_final")
 	register_native("crxranks_is_user_vip",             "_crxranks_is_user_vip")
 	register_native("crxranks_is_using_mysql",          "_crxranks_is_using_mysql")
-	register_native("crxranks_is_xpn_enabled",          "_crxranks_is_xpn_enabled")
-	register_native("crxranks_is_xpn_using_dhud",       "_crxranks_is_xpn_using_dhud")
+	//register_native("crxranks_is_xpn_enabled",          "_crxranks_is_xpn_enabled")
+	//register_native("crxranks_is_xpn_using_dhud",       "_crxranks_is_xpn_using_dhud")
 	register_native("crxranks_set_user_xp",             "_crxranks_set_user_xp")
 	register_native("crxranks_using_comb_events",       "_crxranks_using_comb_events")
 }
@@ -1585,11 +1585,11 @@ public _crxranks_get_final_flags(iPlugin, iParams)
 	return g_eSettings[FINAL_LEVEL_FLAGS_BIT]
 }
 
-public _crxranks_get_hudinfo_format(iPlugin, iParams)
+/*public _crxranks_get_hudinfo_format(iPlugin, iParams)
 {
 	set_string(2, g_eSettings[get_param(1) ? HUDINFO_FORMAT_FINAL : HUDINFO_FORMAT], get_param(3))
 }
-
+*/
 public _crxranks_get_max_levels(iPlugin, iParams)
 {
 	return g_iMaxLevels
@@ -1717,7 +1717,7 @@ public bool:_crxranks_has_user_hudinfo(iPlugin, iParams)
 	return g_ePlayerData[get_param(1)][HudInfoEnabled]
 }
 
-public bool:_crxranks_is_hi_using_dhud(iPlugin, iParams)
+/*public bool:_crxranks_is_hi_using_dhud(iPlugin, iParams)
 {
 	return g_eSettings[HUDINFO_USE_DHUD]
 }
@@ -1726,7 +1726,7 @@ public bool:_crxranks_is_hud_enabled(iPlugin, iParams)
 {
 	return g_eSettings[HUDINFO_ENABLED]
 }
-
+*/
 public bool:_crxranks_is_sfdn_enabled(iPlugin, iParams)
 {
 	return g_eSettings[LEVELDN_SCREEN_FADE_ENABLED]
@@ -1752,11 +1752,11 @@ public bool:_crxranks_is_using_mysql(iPlugin, iParams)
 	return g_eSettings[USE_MYSQL]
 }
 
-public bool:_crxranks_is_xpn_enabled(iPlugin, iParams)
+/*public bool:_crxranks_is_xpn_enabled(iPlugin, iParams)
 {
 	return g_eSettings[XP_NOTIFIER_ENABLED]
 }
-
+*/
 public bool:_crxranks_set_user_xp(iPlugin, iParams)
 {
 	static id, iReturn, CRXRanks_XPSources:iSource
@@ -1773,7 +1773,8 @@ public bool:_crxranks_using_comb_events(iPlugin, iParams)
 	return g_eSettings[USE_COMBINED_EVENTS]
 }
 
-public bool:_crxranks_is_xpn_using_dhud(iPlugin, iParams)
+/*public bool:_crxranks_is_xpn_using_dhud(iPlugin, iParams)
 {
 	return g_eSettings[XP_NOTIFIER_USE_DHUD]
 }
+*/

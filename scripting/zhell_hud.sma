@@ -23,7 +23,7 @@ new const g_info[][] = {
 };
 new g_Classname[] = "vinaEntity";
 
-new  g_hudSync, g_hudSync1;
+new  g_hudSync, g_hudSync1, g_hudSync2;
 
 new g_level;
 new g_boss_health, g_boss_speed;
@@ -42,6 +42,7 @@ public plugin_init() {
 
     g_hudSync = CreateHudSyncObj();
     g_hudSync1 = CreateHudSyncObj();
+    g_hudSync2 = CreateHudSyncObj();
 
     zhell_round_start();
 }
@@ -77,3 +78,87 @@ public zhell_last_zombie_post(id) {
     set_hudmessage(0, 255, 100, -1.0, 0.30, 0, 6.0, 6.0, 0.1, 0.2, -1);
     ShowSyncHudMsg(0, g_hudSync1, "Xuất hiện BOSS [%s]", name);
 }
+
+
+/*if(g_eSettings[XP_NOTIFIER_ENABLED])
+    {
+        static szKey[32], bool:bPositive
+        bPositive = iXP >= 0
+
+        copy(szKey, charsmax(szKey), bPositive ? "CRXRANKS_XP_NOTIFIER_GET" : "CRXRANKS_XP_NOTIFIER_LOSE")
+
+        if(g_eSettings[XP_NOTIFIER_USE_DHUD])
+        {
+            if(bPositive)
+            {
+                set_dhudmessage(XP_NOTIFIER_PARAMS_GET)
+            }
+            else
+            {
+                set_dhudmessage(XP_NOTIFIER_PARAMS_LOSE)
+            }
+
+            show_dhudmessage(id, "%L", id, szKey, abs(iXP))
+        }
+        else
+        {
+            if(bPositive)
+            {
+                set_hudmessage(XP_NOTIFIER_PARAMS_GET)
+            }
+            else
+            {
+                set_hudmessage(XP_NOTIFIER_PARAMS_LOSE)
+            }
+
+            ShowSyncHudMsg(id, g_iObject[OBJ_XP_NOTIFIER], "%L", id, szKey, abs(iXP))
+        }
+    }*/
+
+
+/*public DisplayHUD(id)
+{
+    id -= TASK_HUD
+
+    if(!g_ePlayerData[id][HudInfoEnabled])
+    {
+        return
+    }
+
+    static iTarget
+    iTarget = id
+
+    if(!is_user_alive(id))
+    {
+        if(g_eSettings[HUDINFO_ALIVE_ONLY])
+        {
+            return
+        }
+
+        if(g_eSettings[HUDINFO_OTHER_PLAYERS])
+        {
+            iTarget = pev(id, pev_iuser2)
+        }
+    }
+
+    if(!iTarget)
+    {
+        return
+    }
+
+    if(g_eSettings[TEAM_LOCK] && g_eSettings[HUDINFO_TEAM_LOCK] && get_user_team(iTarget) != g_eSettings[TEAM_LOCK])
+    {
+        return
+    }
+
+    if(g_eSettings[HUDINFO_USE_DHUD])
+    {
+        set_dhudmessage(HUDINFO_PARAMS)
+        show_dhudmessage(id, g_ePlayerData[iTarget][HUDInfo])
+    }
+    else
+    {
+        set_hudmessage(HUDINFO_PARAMS)
+        ShowSyncHudMsg(id, g_iObject[OBJ_HUDINFO], g_ePlayerData[iTarget][HUDInfo])
+    }
+}*/

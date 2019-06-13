@@ -1,0 +1,247 @@
+[en] -- OciXCrom
+CRXRANKS_RANKINFO_NORMAL = You have &x04%i/%i XP&x01. Your rank is &x04#%i&x01: &x03%s&x01. Next rank: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = You have &x04%i XP&x01. Your rank is &x04#%i&x01: &x03%s&x01. You are on the final level!
+CRXRANKS_GIVE_XP = &x03%s &x01gave &x04%i XP &x01to &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01took &x04%i XP &x01from &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01reset &x03%s&x01's XP
+CRXRANKS_LEVEL_REACHED = &x03%s &x01has reached &x04Level %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01got back on &x04Level %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yRank System: \rXP List
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yLevel %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+CRXRANKS_NOTIFY_KILL_GET = You received &x04%i XP &x01for killing &x03%s
+CRXRANKS_NOTIFY_KILL_LOSE = You lost &x04%i XP &x01for killing &x03%s
+CRXRANKS_NOTIFY_SUICIDE_GET = You received &x04%i XP &x01for &x03committing suicide&x01.
+CRXRANKS_NOTIFY_SUICIDE_LOSE = You lost &x04%i XP &x01for &x03committing suicide&x01.
+CRXRANKS_NOTIFY_DEATH_GET = You received &x04%i XP &x01for dying.
+CRXRANKS_NOTIFY_DEATH_LOSE = You lost &x04%i XP &x01for dying.
+CRXRANKS_MYSQL_FAILED = MySQL connection failed. The plugin will use nVault instead.
+CRXRANKS_HUDINFO_UNAVAILABLE = HUD information is &x07disabled &x01by &x04the administrator&x01.
+CRXRANKS_HUDINFO_ENABLED = HUD information &x06enabled&x01.
+CRXRANKS_HUDINFO_DISABLED = HUD information &x07disabled&x01.
+
+[mk] -- OciXCrom
+CRXRANKS_RANKINFO_NORMAL = Imash &x04%i/%i XP&x01. Tvojot rank e &x04#%i&x01: &x03%s&x01. Sleden rank: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Imash &x04%i XP&x01. Tvojot rank e &x04#%i&x01: &x03%s&x01. Ti si na poslednoto nivo!
+CRXRANKS_GIVE_XP = &x03%s &x01dade &x04%i XP &x01na &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01zema &x04%i XP &x01od &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01resetira &x01XP-to na &x03%s
+CRXRANKS_LEVEL_REACHED = &x03%s &x01go dostigna &x04Nivoto %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01se vrati na &x04Nivo %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yRank System: \rSpisok so XP
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yNivo %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+CRXRANKS_NOTIFY_KILL_GET = Dobi &x04%i XP &x01za ubistvoto na &x03%s
+CRXRANKS_NOTIFY_KILL_LOSE = Izgubi &x04%i XP &x01za ubistvoto na &x03%s
+CRXRANKS_NOTIFY_SUICIDE_GET = Dobi &x04%i XP &x01bidejkji &x03izvrshi samoubistvo&x01.
+CRXRANKS_NOTIFY_SUICIDE_LOSE = Izgubi &x04%i XP &x01bidejkji &x03izvrshi samoubistvo&x01.
+CRXRANKS_NOTIFY_DEATH_GET = Dobi &x04%i XP &x01bidejkji umre.
+CRXRANKS_NOTIFY_DEATH_LOSE = Izgubi &x04%i XP &x01bidejkji umre.
+CRXRANKS_MYSQL_FAILED = Neuspeshno povrzuvanje so MySQL. Pluginot kje koristi nVault.
+CRXRANKS_HUDINFO_UNAVAILABLE = HUD informacijata e &x07iskluchena &x01od &x04administratorot&x01.
+CRXRANKS_HUDINFO_ENABLED = HUD informacijata e &x06vkluchena&x01.
+CRXRANKS_HUDINFO_DISABLED = HUD informacijata e &x07iskluchena&x01.
+
+[bg] -- OciXCrom
+CRXRANKS_RANKINFO_NORMAL = Imash &x04%i/%i XP&x01. Tvoqt rank e &x04#%i&x01: &x03%s&x01. Sledvasht rank: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Imash &x04%i XP&x01. Tvoqt rank e &x04#%i&x01: &x03%s&x01. Ti si na poslednoto nivo!
+CRXRANKS_GIVE_XP = &x03%s &x01dade &x04%i XP &x01na &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01vze &x04%i XP &x01ot &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01resetira &x01XP-to na &x03%s
+CRXRANKS_LEVEL_REACHED = &x03%s &x01dostigna &x04Nivoto %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01se vurna na &x04Nivo %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yRank System: \rSpisuk s XP
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yNivo %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+CRXRANKS_NOTIFY_KILL_GET = Poluchi &x04%i XP &x01za ubiistvoto na &x03%s
+CRXRANKS_NOTIFY_KILL_LOSE = Izgubi &x04%i XP &x01za ubiistvoto na &x03%s
+CRXRANKS_NOTIFY_SUICIDE_GET = Poluchi &x04%i XP &x01zashtoto &x03izvurshi samoubiistvo&x01.
+CRXRANKS_NOTIFY_SUICIDE_LOSE = Izgubi &x04%i XP &x01zashtoto &x03izvurshi samoubiistvo&x01.
+CRXRANKS_NOTIFY_DEATH_GET = Poluchi &x04%i XP &x01zashtoto umrq.
+CRXRANKS_NOTIFY_DEATH_LOSE = Izgubi &x04%i XP &x01zashtoto umrq.
+CRXRANKS_MYSQL_FAILED = Neuspeshno svurzvane s MySQL. Pluginut shte polzva nVault.
+CRXRANKS_HUDINFO_UNAVAILABLE = HUD informaciqta e &x07izkliuchena &x01ot &x04administratora&x01.
+CRXRANKS_HUDINFO_ENABLED = HUD informaciqta e &x06vkliuchena&x01.
+CRXRANKS_HUDINFO_DISABLED = HUD informaciqta e &x07izkliuchena&x01.
+
+[bp] -- tarsisd2, iceeedr
+CRXRANKS_RANKINFO_NORMAL = Voce tem &x04%i/%i XP&x01. Seu rank &x04#%i&x01: &x03%s&x01. Proximo rank: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Voce tem &x04%i XP&x01. Seu rank &x04#%i&x01: &x03%s&x01. Voce esta no ultimo level!
+CRXRANKS_GIVE_XP = &x03%s &x01perdeu &x04%i XP &x01para &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01tomou &x04%i XP &x01de &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01resetou &x03%s&x01's XP
+CRXRANKS_LEVEL_REACHED = &x03%s &x01subiu para o&x04Level %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01voltou para o &x04Level %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \ySistema de Rank: \rLista de XP
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yLevel %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+CRXRANKS_NOTIFY_KILL_GET = Voce ganhou &x04%i XP &x01por matar &x03%s
+CRXRANKS_NOTIFY_KILL_LOSE = Voce perdeu &x04%i XP &x01por matar &x03%s
+CRXRANKS_NOTIFY_SUICIDE_LOSE = Voce perdeu &x04%i XP &x01por &x03suicidar&x01.
+CRXRANKS_MYSQL_FAILED = A conexao MYSQL falhou. O plugin usara nVault.
+
+[ro] -- DevilBoy.eXe
+CRXRANKS_RANKINFO_NORMAL = Ai &x04%i/%i XP&x01. Rangul tau este &x04#%i&x01: &x03%s&x01. Urmatorul rang: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Ai &x04%i XP&x01. Rangul tau este &x04#%i&x01: &x03%s&x01. Ai ajung la ultimul nivel!
+CRXRANKS_GIVE_XP = &x03%s &x01a dat &x04%i XP &x01lui &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01a luat &x04%i XP &x01de la &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01ia resetat XP-u lui &x03%s&x01
+CRXRANKS_LEVEL_REACHED = &x03%s &x01a ajuns la &x04Nivelul %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01a ajuns inapoi la &x04Nivelul %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yRang System: \rLista XP
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yNivel %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+
+[es] -- Rivotril, teol
+CRXRANKS_RANKINFO_NORMAL = Tienes &x04%i/%i EXP&x01. Tu rango es &x04#%i&x01: &x03%s&x01. Sig. Rango: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Tienes &x04%i XP&x01. Tu rango es &x04#%i&x01: &x03%s&x01. Ahora estas en el ultimo nivel!
+CRXRANKS_GIVE_XP = &x03%s &x01le dio &x04%i EXP &x01a &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01le quito &x04%i EXP &x01a &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01le reseteo &x03%s&x01's EXP
+CRXRANKS_LEVEL_REACHED = &x03%s &x01llego a &x04Nivel %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01volvio a &x04Nivel %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \ySistema de Rangos: \rLista de EXP
+CRXRANKS_ITEM_FORMAT = \d[%i EXP] \w%s \r[\yNivel %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i EXP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i EXP
+CRXRANKS_MYSQL_FAILED = La conexion MySQL ha fallado. El plugin usara nVault en su lugar.
+CRXRANKS_NOTIFY_KILL_GET = Recibiste &x04%i EXP &x01por asesinar a &x03%s
+CRXRANKS_NOTIFY_KILL_LOSE = Perdiste &x04%i EXP &x01por asesinar a &x03%s
+CRXRANKS_NOTIFY_SUICIDE_GET = Recibiste &x04%i EXP &x01por &x03cometer suicidio&x01.
+CRXRANKS_NOTIFY_SUICIDE_LOSE = Perdiste &x04%i EXP &x01por &x03cometer suicidio&x01.
+CRXRANKS_NOTIFY_DEATH_GET = Recibiste &x04%i EXP &x01por morir.
+CRXRANKS_NOTIFY_DEATH_LOSE = Perdiste &x04%i EXP &x01por morir.
+CRXRANKS_HUDINFO_UNAVAILABLE = La informacion del HUD esta &x07desactivada &x01por &x04el administrador&x01.
+CRXRANKS_HUDINFO_ENABLED = La informacion del HUD esta &x06activada&x01.
+CRXRANKS_HUDINFO_DISABLED = La informacion del HUD esta &x07desactivada&x01.
+
+[sk] -- Belo95135
+CRXRANKS_RANKINFO_NORMAL = Mas &x04%i/%i XP&x01. Tvoja priecka je &x04#%i&x01: &x03%s&x01. Najblizsi rank: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Mas &x04%i XP&x01. Tvoj priecka je &x04#%i&x01: &x03%s&x01. Nachadzas sa v najvyssej urovni!
+CRXRANKS_GIVE_XP = &x03%s &x01udelil &x04%i XP &x01hracovi &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01vzal &x04%i XP &x01hracovi &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01vynuloval hracovi &x03%s&x01 XP
+CRXRANKS_LEVEL_REACHED = &x03%s &x01dosiahol &x04uroven %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01sa vratil na &x04uroven %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCromov \yRank System: \rXP List
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yUroven %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+
+[tr] -- Czarintax, Snake.
+CRXRANKS_RANKINFO_NORMAL = Tecruben &x04%i/%i XP&x01. Siralaman &x04#%i&x01: &x03%s&x01. Sonraki rutbe: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Tecruben &x04%i XP&x01. Siralaman &x04#%i&x01: &x03%s&x01. Son seviyedesin!
+CRXRANKS_GIVE_XP = &x03%s &x04%i XP'yi &x03%s &x01oyuncusuna verdi.
+CRXRANKS_TAKE_XP = &x03%s &x04%i XP'yi &x03%s &x01oyuncusundan aldi.
+CRXRANKS_RESET_XP = &x03%s &x04%s &x01oyuncusunun tecrubesini sifirladi.
+CRXRANKS_LEVEL_REACHED = &x03%s &x04%i. &x01seviyeye ulasti. [&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x04%i. &x01seviyeye dustu. [&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom'un \yRutbe Sistemi: \rXP Listesi
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\ySeviye %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+CRXRANKS_MYSQL_FAILED = MySQL baglantisi basarisiz oldu. Eklenti onun yerine nVault kullanacak.
+CRXRANKS_NOTIFY_SUICIDE_GET = &x03Intihar ettigin &x01icin &x04%i XP &x01kazandin.
+CRXRANKS_NOTIFY_SUICIDE_LOSE = &x03Intihar ettigin &x01icin &x04%i XP %x01kaybettin.
+CRXRANKS_NOTIFY_DEATH_GET = Oldugun icin &x04%i XP &x01kazandin.
+CRXRANKS_NOTIFY_DEATH_LOSE = Oldugun icin &x04%i XP &x01kaybettin.
+CRXRANKS_HUDINFO_UNAVAILABLE = HUD bilgisi &x04yonetici &x01tarafindan &x07devre disi birakildi&x01.
+CRXRANKS_HUDINFO_ENABLED = HUD bilgisi &x06aktiflestirildi&x01.
+CRXRANKS_HUDINFO_DISABLED = HUD bilgisi &x07devre disi birakildi&x01.
+
+[de] -- Godofwar, Mordekay
+CRXRANKS_RANKINFO_NORMAL = Du hast &x04%i/%i XP&x01. Dein Rang ist &x04#%i&x01: &x03%s&x01. Nächster Rang: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Du hast &x04%i XP&x01. Dein Rang ist &x04#%i&x01: &x03%s&x01. Du bist auf dem letzten Level!
+CRXRANKS_GIVE_XP = &x03%s &x01gab &x04%i XP &x01an &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01nahm &x04%i XP &x01von &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01hat die XP von &x03%s&x01 zurückgesetzt
+CRXRANKS_LEVEL_REACHED = &x03%s &x01erreichte &x04Level %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01ist zurückgegangen auf &x04Level %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yRang System: \rXP Liste
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yLevel %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+CRXRANKS_MYSQL_FAILED = MySQL Verbindung fehlgeschlagen. Das Plugin wird daher nVault nutzen.
+CRXRANKS_NOTIFY_KILL_GET = Du erhälst &x04%i XP &x01für's Töten von &x03%s
+CRXRANKS_NOTIFY_KILL_LOSE = Du verlierst &x04%i XP &x01für's Töten von &x03%s
+CRXRANKS_NOTIFY_SUICIDE_GET = Du erhälst &x04%i XP &x01für &x03 deinen Selbstmord&x01.
+CRXRANKS_NOTIFY_SUICIDE_LOSE = Du verlierst &x04%i XP &x01durch &x03 deinen Selbstmord&x01.
+CRXRANKS_NOTIFY_DEATH_GET = Du erhälst &x04%i XP &x01für deinen Tod.
+CRXRANKS_NOTIFY_DEATH_LOSE = Du verlierst &x04%i XP &x01durch deinen Tod.
+CRXRANKS_HUDINFO_UNAVAILABLE = HUD Information ist &x07deaktiviert &x01durch &x04den Administrator&x01.
+CRXRANKS_HUDINFO_ENABLED = HUD Information &x06aktiviert&x01.
+CRXRANKS_HUDINFO_DISABLED = HUD Information &x07deaktiviert&x01.
+
+[nl] -- NapoleoN#
+CRXRANKS_RANKINFO_NORMAL = Je hebt &x04%i/%i XP&x01. Uw rang is &x04#%i&x01: &x03%s&x01. Volgend rang: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Je hebt &x04%i XP&x01. Uw rang is &x04#%i&x01: &x03%s&x01. Je bent aan het laatste level!
+CRXRANKS_GIVE_XP = &x03%s &x01 gaf &x04%i XP &x01aan &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01nam &x04%i XP &x01van &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01resette &x03%s&x01's XP
+CRXRANKS_LEVEL_REACHED = &x03%s &x01heeft &x04Level %i &x01bereikt [&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01is weer op &x04Level %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yRang Systeem: \rXP Lijst
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yLevel %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+
+[ru] -- Dev-CS Team
+CRXRANKS_RANKINFO_NORMAL = У вас &x04%i/%i опыта&x01. Ваше звание &x04#%i&x01: &x03%s&x01. Следующее звание: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = У вас &x04%i опыта&x01. Ваше звание &x04#%i&x01: &x03%s&x01. Вы достигли последнего звания!
+CRXRANKS_GIVE_XP = &x03%s &x01дал &x04%i опыта &x01игроку &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01взял &x04%i опыта &x01у игрока &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01обнулил &x03%s&x01's опыт
+CRXRANKS_LEVEL_REACHED = &x03%s &x01достиг &x04Уровень %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01откатился назад на &x04Уровень %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yСистема званий: \rСписок опыта
+CRXRANKS_ITEM_FORMAT = \d[%i опыт] \w%s \r[\yУровень %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i опыта
+CRXRANKS_XP_NOTIFIER_LOSE = -%i опыта
+
+[lt] -- Adomaz1
+CRXRANKS_RANKINFO_NORMAL = Turite &x04%i/%i patirties taškų&x01. Jūsų rangas: &x04#%i&x01: &x03%s&x01. Kitas rangas: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Turite &x04%i patirties taškų&x01. Jūsų rangas: &x04#%i&x01: &x03%s&x01. Pasiekėte paskutinįjį rangą!
+CRXRANKS_GIVE_XP = &x03%s &x01davė &x04%i patirties taškus(-ų) &x01 &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01pasiėmė &x04%i patirties taškus(-ų) &x01iš &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01anuliavo &x03%s&x01 patirties taškus
+CRXRANKS_LEVEL_REACHED = &x03%s &x01pasiekė &x04%i-ąjį lygį &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01grįžo į &x04%i-ąjį lygį &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCromo \yRangų sistema: \rPatirties taškų sąrašas
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yLygis %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+
+[sr] -- ^G[L]A^~Yuki
+CRXRANKS_RANKINFO_NORMAL = Imate &x04%i/%i XP-a&x01. Vas rank je &x04#%i&x01: &x03%s&x01. Sledeci rank: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Imate &x04%i XP-a&x01. Vas rank je &x04#%i&x01: &x03%s&x01. Vi ste na poslednjem nivou!
+CRXRANKS_GIVE_XP = &x03%s &x01je dao &x04%i XP-a &x01igracu &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01je oduzeo &x04%i XP-a &x01igracu &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01je resetovao &x03%s&x01 XP
+CRXRANKS_LEVEL_REACHED = &x03%s &x01je dostigao &x04Nivo %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01se vratio na &x04Nivo %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yRank Sistem: \rXP List
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yNivo %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+
+[fr] -- teol
+CRXRANKS_RANKINFO_NORMAL = Vous avez &x04%i/%i XP&x01. Votre rang est &x04#%i&x01: &x03%s&x01. Prochain rang: &x03%s&x01.
+CRXRANKS_RANKINFO_FINAL = Vous avez &x04%i XP&x01. Votre rang est &x04#%i&x01: &x03%s&x01. Vous etes au dernier niveau!
+CRXRANKS_GIVE_XP = &x03%s &x01donne &x04%i XP &x01a &x03%s
+CRXRANKS_TAKE_XP = &x03%s &x01prend &x04%i XP &x01a &x03%s
+CRXRANKS_RESET_XP = &x03%s &x01remet a zero les XP de &x03%s&x01
+CRXRANKS_LEVEL_REACHED = &x03%s &x01a atteint le &x04Niveau %i &x01[&x03%s&x01]
+CRXRANKS_LEVEL_LOST = &x03%s &x01est revenu au &x04Niveau %i &x01[&x03%s&x01]
+CRXRANKS_MENU_TITLE = \rOciXCrom's \yRank System: \rListe d'XP
+CRXRANKS_ITEM_FORMAT = \d[%i XP] \w%s \r[\yNiveau %i: %s\r]
+CRXRANKS_XP_NOTIFIER_GET = +%i XP
+CRXRANKS_XP_NOTIFIER_LOSE = -%i XP
+CRXRANKS_NOTIFY_KILL_GET = Vous recevez &x04%i XP &x01en tuant &x03%s
+CRXRANKS_NOTIFY_KILL_LOSE = Vous perdez &x04%i XP &x01en tuant &x03%s
+CRXRANKS_NOTIFY_SUICIDE_LOSE = Vous perdez &x04%i XP &x01en vous &x03suicidant&x01.
+CRXRANKS_MYSQL_FAILED = Echec de la connexion MySQL. Le plugin utilisera nVault en remplacement.

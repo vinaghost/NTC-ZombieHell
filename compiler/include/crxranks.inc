@@ -67,7 +67,7 @@ native crxranks_get_final_flags(buffer[] = "", len = 0)
  * @param len 			Maximum buffer length.
  * @noreturn
  */
-native crxranks_get_hudinfo_format(bool:final, buffer[], len)
+//native crxranks_get_hudinfo_format(bool:final, buffer[], len)
 
 /**
  * Returns the number of available levels.
@@ -223,14 +223,14 @@ native bool:crxranks_has_user_hudinfo(id)
  *
  * @return				True if it is, false otherwise.
  */
-native bool:crxranks_is_hi_using_dhud()
+//native bool:crxranks_is_hi_using_dhud()
 
 /**
  * Checks if the HUD information system is enabled.
  *
  * @return				True if it is, false otherwise.
  */
-native bool:crxranks_is_hud_enabled()
+//native bool:crxranks_is_hud_enabled()
 
 /**
  * Checks if the screen fade when a client loses a level is enabled.
@@ -274,14 +274,14 @@ native bool:crxranks_is_using_mysql()
  *
  * @return				True if it is, false otherwise.
  */
-native bool:crxranks_is_xpn_enabled()
+//native bool:crxranks_is_xpn_enabled()
 
 /**
  * Checks if the XP notifier system is using DHUD messages.
  *
  * @return				True if it is, false otherwise.
  */
-native bool:crxranks_is_xpn_using_dhud()
+//native bool:crxranks_is_xpn_using_dhud()
 
 /**
  * Sets the exact amount of XP that th client has.
