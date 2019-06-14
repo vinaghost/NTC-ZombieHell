@@ -42,7 +42,7 @@ public plugin_init() {
 
     new Ent = engfunc(EngFunc_CreateNamedEntity,engfunc(EngFunc_AllocString,"info_target"))
     set_pev(Ent,pev_classname,g_Classname)
-    set_pev(Ent,pev_nextthink,5.0)
+    set_pev(Ent,pev_nextthink, 5.0)
 
     register_forward(FM_Think,"ForwardThink")
 
@@ -74,7 +74,7 @@ public zhell_last_zombie_post(id) {
     new name[33];
     get_user_name(id, name, charsmax(name));
 
-    set_hudmessage(0, 255, 100, -1.0, 0.30, 0, 6.0, 6.0, 0.1, 0.2, -1);
+    set_hudmessage(0, 255, 100, -1.0, 0.30, 0, 0.0, 6.0, 0.1, 0.2, -1);
     ShowSyncHudMsg(0, g_hudSync1, "Xuất hiện BOSS [%s]", name);
 }
 public ForwardThink(Ent)
@@ -83,16 +83,17 @@ public ForwardThink(Ent)
     pev(Ent,pev_classname,Classname,32);
 
     if(!equal(Classname,g_Classname)) return FMRES_IGNORED;
-    set_hudmessage(0, 255, 0, -1.0, 0.0, 0, 0.0, 2.0,  0.0, 0.2, -1);
-    ShowSyncHudMsg(0, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]",
-                                    g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed);
-
 
     static players[32], num
     get_players(players, num, "e", "CT");
-
+    static id;
     for(new i = 0; i < num; i++) {
-       DisplayHUD(players[i]);
+        id = players[i]
+        DisplayHUD(id);
+
+        set_hudmessage(id, 255, 0, -1.0, 0.0, 0, 0.0, 2.0,  0.0, 0.2, -1);
+        ShowSyncHudMsg(id, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]",
+                                    g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed);
    }
 
     set_pev(Ent,pev_nextthink, 2.0);
@@ -130,8 +131,8 @@ public DisplayHUD(id) {
         return
     }
 
-    set_hudmessage(106, -1, 208, 0.02, 0.17, 0, 2.0, 1.0, 0.1, 0.1)
-    ShowSyncHudMsg(id, g_hudSync2, "[ XP: %d/%d ]^n[ Level: %d/%d ]^n[ Rank: %s ])",
+    set_hudmessage(106, -1, 208, 0.02, 0.17, 0, 0.0, 2.0, 0.1, 0.1)
+    ShowSyncHudMsg(id, g_hudSync2, "[ XP: %d/%d ]^n[ Level: %d/%d ]^n[ Rank: %s ]",
                    g_ePlayerData[iTarget][XP], g_ePlayerData[iTarget][NextXP], g_ePlayerData[iTarget][Level], max_level, g_ePlayerData[iTarget][Rank]);
 
 }

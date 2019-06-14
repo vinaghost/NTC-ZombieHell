@@ -216,7 +216,7 @@ native crxranks_give_user_xp(id, amount = 0, reward[] = "", CRXRanks_XPSources:s
  * @param id			Client index.
  * @return				True if he has, false otherwise.
  */
-native bool:crxranks_has_user_hudinfo(id)
+//native bool:crxranks_has_user_hudinfo(id)
 
 /**
  * Checks if the HUD info system is using DHUD messages.

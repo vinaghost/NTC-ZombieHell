@@ -23,18 +23,44 @@ enum {
 /*==============cvar==============*/
 new cvar_zombiearmor;
 
-new cvar_zombieHealth, cvar_zombieMaxSpeed;
+new cvar_zombieHealth;
 new cvar_level_lighting[10];
 
 /*==============variable==============*/
 new g_level, g_zombie_spawn = 0;
-new g_zombie_health, Float:g_zombie_maxspeed;
+new g_zombie_health;
 
 new g_last_zombie;
 
 new g_boss;
 new g_spawn_first;
 new g_spawn[33];
+
+new const Float:g_speedZombie[10] = {
+    1.0,
+    1.2,
+    1.3,
+    1.4,
+    1.5,
+    1.6,
+    1.7,
+    1.8,
+    1.9,
+    3.0
+};
+
+new const Float:g_speedBoss[10] = {
+    1.4,
+    1.5,
+    1.6,
+    1.7,
+    1.8,
+    1.9,
+    2.0,
+    2.4,
+    2.5,
+    5.0
+};
 
 //new g_maxPlayer;
 new g_msgCrosshair;
@@ -51,7 +77,7 @@ public plugin_init() {
     cvar_zombiearmor = register_cvar("zhell_zombie_armor", "100");
 
     cvar_zombieHealth = register_cvar("zhell_zombie_health", "100");
-    cvar_zombieMaxSpeed = register_cvar("zhell_zombe_maxspeed", "250.0");
+    //cvar_zombieMaxSpeed = register_cvar("zhell_zombe_maxspeed", "250.0");
 
 
     cvar_level_lighting[0] = register_cvar("zhell_level1_lighting", "f")
@@ -162,14 +188,14 @@ public zhell_last_zombie_post(id) {
     g_boss = id;
     set_user_health(id, get_user_health(id) + g_zombie_health * ( 1 + g_level ) * ( 5 ) );
     cs_set_user_armor(id, ((get_pcvar_num(cvar_zombiearmor)*g_level)*2), CS_ARMOR_VESTHELM);
-    cs_set_player_maxspeed_auto(id, g_zombie_maxspeed * (1.5 + g_level / 10.0 ));
+    cs_reset_player_maxspeed(id);
+    cs_set_player_maxspeed_auto(id, g_speedBoss[g_level - 1]);
     set_pev(id, pev_gravity, 0.7);
 
 }
 get_level_data() {
     g_zombie_spawn = g_level;
     g_zombie_health = get_pcvar_num(cvar_zombieHealth);
-    g_zombie_maxspeed = get_pcvar_float(cvar_zombieMaxSpeed);
 }
 lighting_effects() {
 
@@ -184,8 +210,7 @@ lighting_effects() {
 
 public zombie_power(id) {
 
-    cs_set_player_maxspeed_auto(id, g_zombie_maxspeed* ( 1 + g_level / 10.0));
-    set_user_health(id, g_zombie_health * ( g_level));
+    cs_set_player_maxspeed_auto(id, g_speedZombie[g_level -1]);
     cs_set_user_armor(id, (get_pcvar_num(cvar_zombiearmor)*g_level), CS_ARMOR_VESTHELM);
 
     strip_user_weapons(id);
@@ -252,13 +277,13 @@ public _zhell_get_zombie_health() {
 }
 
 public Float:_zhell_get_zombie_speed() {
-    return g_zombie_maxspeed* ( 1 + g_level / 10.0);
+    return g_speedZombie[ g_level - 1];
 }
 public _zhell_get_boss_health() {
     return g_zombie_health * ( 1 + g_level ) * ( 5 ) ;
 }
 public Float:_zhell_get_boss_speed() {
-    return g_zombie_maxspeed * (1.5 + g_level / 10.0 );
+    return g_speedBoss[ g_level - 1];
 }
 public _zhell_get_boss() {
     return g_boss;
