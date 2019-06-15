@@ -37,6 +37,8 @@ enum _:PlayerData
     Level
 }
 new g_ePlayerData[33][PlayerData], max_level;
+
+new const Float:time_repeat = 5.0;
 public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
@@ -55,6 +57,15 @@ public plugin_init() {
 
     zhell_round_start();
 }
+public client_putinserver(id) {
+    if (!is_user_bot(id)) {
+        set_task(time_repeat, "showHud", id, _, _, "b");
+    }
+}
+public client_disconnected(id) {
+    remove_task(id)
+}
+
 public zhell_spawn_human(id) {
     g_ePlayerData[id][XP] = crxranks_get_user_xp(id);
     g_ePlayerData[id][NextXP] = crxranks_get_user_next_xp(id);
@@ -77,28 +88,12 @@ public zhell_last_zombie_post(id) {
     set_hudmessage(0, 255, 100, -1.0, 0.30, 0, 0.0, 6.0, 0.1, 0.2, -1);
     ShowSyncHudMsg(0, g_hudSync1, "Xuất hiện BOSS [%s]", name);
 }
-public ForwardThink(Ent)
+public showHud(id)
 {
-    static Classname[33]
-    pev(Ent,pev_classname,Classname,32);
 
-    if(!equal(Classname,g_Classname)) return FMRES_IGNORED;
+    DisplayHUDRank(id);
+    DisplayHUDLevel(id);
 
-    static players[32], num
-    get_players(players, num, "e", "CT");
-    static id;
-    for(new i = 0; i < num; i++) {
-        id = players[i]
-        DisplayHUD(id);
-
-        set_hudmessage(id, 255, 0, -1.0, 0.0, 0, 0.0, 2.0,  0.0, 0.2, -1);
-        ShowSyncHudMsg(id, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]",
-                                    g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed);
-   }
-
-    set_pev(Ent,pev_nextthink, 2.0);
-
-    return FMRES_IGNORED
 }
 
 
@@ -109,16 +104,20 @@ public crxranks_user_receive_xp(id, xp) {
     bPositive = xp >= 0;
 
     if(bPositive) {
-        set_dhudmessage(0, 255, random(256), -1.0, -1.0, 0, 0.0, 5.0);
+        set_dhudmessage(0, 255, random(256), -1.0, -1.0, 0, 0.0, 10.0);
     }
     else {
-        set_dhudmessage(255, 0, random(256), -1.0, -1.0, 0, 0.0, 5.0);
+        set_dhudmessage(255, 0, random(256), -1.0, -1.0, 0, 0.0, 10.0);
     }
 
     show_dhudmessage(id, "%d XP", xp);
 }
-
-public DisplayHUD(id) {
+public DisplayHUDLevel(id) {
+    set_hudmessage(id, 255, 0, -1.0, 0.0, 0, 0.0, time_repeat,  0.0, 0.2, -1);
+    ShowSyncHudMsg(id, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]",
+                                    g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed);
+}
+public DisplayHUDRank(id) {
     static iTarget;
     iTarget = id;
 
@@ -131,7 +130,7 @@ public DisplayHUD(id) {
         return
     }
 
-    set_hudmessage(106, -1, 208, 0.02, 0.17, 0, 0.0, 2.0, 0.1, 0.1)
+    set_hudmessage(106, -1, 208, 0.02, 0.17, 0, 0.0, time_repeat, 0.1, 0.1)
     ShowSyncHudMsg(id, g_hudSync2, "[ XP: %d/%d ]^n[ Level: %d/%d ]^n[ Rank: %s ]",
                    g_ePlayerData[iTarget][XP], g_ePlayerData[iTarget][NextXP], g_ePlayerData[iTarget][Level], max_level, g_ePlayerData[iTarget][Rank]);
 
