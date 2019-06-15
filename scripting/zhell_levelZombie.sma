@@ -27,14 +27,11 @@ new cvar_zombieHealth;
 new cvar_level_lighting[10];
 
 /*==============variable==============*/
-new g_level, g_zombie_spawn = 0;
+new g_level, g_zombie_spawn, g_zombie_total, g_zombie_died;
+new g_boss;
 new g_zombie_health;
 
-new g_last_zombie;
 
-new g_boss;
-new g_spawn_first;
-new g_spawn[33];
 
 new const Float:g_speedZombie[10] = {
     1.0,
@@ -80,7 +77,7 @@ public plugin_init() {
     //cvar_zombieMaxSpeed = register_cvar("zhell_zombe_maxspeed", "250.0");
 
 
-    cvar_level_lighting[0] = register_cvar("zhell_level1_lighting", "f")
+    cvar_level_lighting[0] = register_cvar("zhell_level1_lighting", "f");
 
     cvar_level_lighting[1] = register_cvar("zhell_level2_lighting", "e");
 
@@ -99,6 +96,7 @@ public plugin_init() {
     cvar_level_lighting[8] = register_cvar("zhell_level9_lighting", "b");
 
     cvar_level_lighting[9] = register_cvar("zhell_level10_lighting", "a");
+
     g_level = 1;
     zhell_round_start();
 }
@@ -110,6 +108,11 @@ public plugin_natives() {
     register_native("zhell_get_boss_health", "_zhell_get_boss_health");
     register_native("zhell_get_boss_speed", "_zhell_get_boss_speed");
 
+    register_native("zhell_get_zombie_total", "_zhell_get_zombie_total");
+    register_native("zhell_get_zombie_last", "_zhell_get_zombie_last");
+
+
+
     register_native("zhell_get_boss", "_zhell_get_boss");
 }
 
@@ -118,7 +121,11 @@ public zhell_round_start() {
     get_level_data();
     lighting_effects();
     g_boss = 0;
-    g_spawn_first = 0;
+
+    g_zombie_total = 16 * (g_level + 1);
+    g_zombie_spawn = 16;
+
+    g_zombie_died = 0;
 
     new players[32], num;
 
@@ -129,16 +136,12 @@ public zhell_round_start() {
         remove_task(players[i] + TASK_RESPAWN);
     }
 }
-public zhell_round_end() {
+public zhell_round_end(team_win) {
 
-    if (zhell_get_count_human() > 0) {
-        set_dhudmessage(0, 0, 255, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
-        show_dhudmessage( 0, "Human win." );
+    if (team_win == ZHELL_HUMAN) {
         set_level(1);
     }
     else {
-        set_dhudmessage(255, 0, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
-        show_dhudmessage( 0, "Zombie win." );
         set_level(0);
     }
 }
@@ -146,38 +149,23 @@ public zhell_round_end() {
 public zhell_spawn_zombie(id) {
     if( !is_user_alive(id) ) return;
 
-    if( !Get_BitVar(g_spawn_first, id) ) {
-        Set_BitVar(g_spawn_first, id);
-        g_spawn[id] = g_zombie_spawn;
-    }
-    else {
-        g_spawn[id] --;
-    }
-
     zombie_power(id);
-
-
 }
 public zhell_killed_zombie(id) {
     cs_reset_player_maxspeed(id);
-    if( g_spawn[id] > 0) {
+    if( g_zombie_spawn >= g_zombie_total) {
         set_task(5.0, "reSpawn", id + TASK_RESPAWN);
 
-        g_last_zombie = 0;
-
-        g_spawn[id] --;
+        g_zombie_spawn++;
         return;
     }
-
-    g_last_zombie = 1;
+    g_zombie_died ++;
 }
 public zhell_killed_human(id) {
-    client_print(id, print_center, "HOI SINH SAU 10 GIAY NUA");
     set_task(10.0, "reSpawn", id + TASK_RESPAWN);
 }
 public zhell_last_zombie_pre(id) {
 
-    if( !g_last_zombie ) return PLUGIN_HANDLED;
     if( g_boss ) return PLUGIN_HANDLED;
 
     return PLUGIN_CONTINUE;
@@ -287,4 +275,12 @@ public Float:_zhell_get_boss_speed() {
 }
 public _zhell_get_boss() {
     return g_boss;
+}
+
+public _zhell_get_zombie_total() {
+    return g_zombie_total;
+}
+
+public _zhell_get_zombie_last() {
+    return g_zombie_total - g_zombie_died;
 }

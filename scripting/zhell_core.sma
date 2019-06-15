@@ -53,12 +53,12 @@ public plugin_init() {
     g_Forwards[FW_USER_SPAWN_HUMAN] = CreateMultiForward("zhell_spawn_human", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_KILLED_ZOMBIE] = CreateMultiForward("zhell_killed_zombie", ET_CONTINUE, FP_CELL, FP_CELL);
     g_Forwards[FW_USER_KILLED_HUMAN] = CreateMultiForward("zhell_killed_human", ET_CONTINUE, FP_CELL, FP_CELL);
-    g_Forwards[FW_USER_LAST_ZOMBIE_PRE] = CreateMultiForward("zhell_last_human_pre", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_LAST_ZOMBIE_POST] = CreateMultiForward("zhell_last_human_post", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_LAST_HUMAN_PRE] = CreateMultiForward("zhell_last_zombie_pre", ET_CONTINUE, FP_CELL);
-    g_Forwards[FW_USER_LAST_HUMAN_POST] = CreateMultiForward("zhell_last_zombie_post", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_ZOMBIE_PRE] = CreateMultiForward("zhell_last_zombie_pre", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_ZOMBIE_POST] = CreateMultiForward("zhell_last_zombie_post", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_HUMAN_PRE] = CreateMultiForward("zhell_last_human_pre", ET_CONTINUE, FP_CELL);
+    g_Forwards[FW_USER_LAST_HUMAN_POST] = CreateMultiForward("zhell_last_human_post", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_ROUND_START] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
-    g_Forwards[FW_ROUND_END] = CreateMultiForward("zhell_round_end", ET_CONTINUE);
+    g_Forwards[FW_ROUND_END] = CreateMultiForward("zhell_round_end", ET_CONTINUE, FP_CELL);
 
 
     g_round_start = false;
@@ -100,8 +100,13 @@ public logevent_round_end() {
     if (current_time - lastendtime < 0.5) return;
 
     lastendtime = current_time;
+    new players[32], num;
+    getHuman(players, num)
 
-    ExecuteForward(g_Forwards[FW_ROUND_END], g_ForwardResult);
+    if( num > 0)
+        ExecuteForward(g_Forwards[FW_ROUND_END], g_ForwardResult, ZHELL_HUMAN);
+    else
+        ExecuteForward(g_Forwards[FW_ROUND_END], g_ForwardResult, ZHELL_ZOMBIE);
 
 }
 public fwHamPlayerSpawnPost(id) {
@@ -154,7 +159,7 @@ CheckLastZombieHuman() {
 
         ExecuteForward(g_Forwards[FW_USER_LAST_HUMAN_PRE], g_ForwardResult, humanPlayers[0]);
 
-         if(g_ForwardResult < PLUGIN_HANDLED ){
+        if(g_ForwardResult < PLUGIN_HANDLED ){
             ExecuteForward(g_Forwards[FW_USER_LAST_HUMAN_POST], g_ForwardResult, zombiePlayers[0]);
         }
 

@@ -79,7 +79,16 @@ public zhell_round_start() {
     g_boss_speed = zhell_get_boss_speed();
     g_zombie_health = zhell_get_zombie_health();
     g_zombie_speed = zhell_get_zombie_speed();
-
+}
+public zhell_round_end(team_win) {
+    if (team_win == ZHELL_HUMAN) {
+        set_dhudmessage(0, 0, 255, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+        show_dhudmessage( 0, "Human win." );
+    }
+    else {
+        set_dhudmessage(255, 0, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+        show_dhudmessage( 0, "Zombie win." );
+    }
 }
 public zhell_last_zombie_post(id) {
     new name[33];
@@ -114,8 +123,8 @@ public crxranks_user_receive_xp(id, xp) {
 }
 public DisplayHUDLevel(id) {
     set_hudmessage(id, 255, 0, -1.0, 0.0, 0, 0.0, time_repeat,  0.0, 0.2, -1);
-    ShowSyncHudMsg(id, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]",
-                                    g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed);
+    ShowSyncHudMsg(id, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]^nCòn lại: [%d/%d]",
+                                    g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed, zhell_get_zombie_last(), zhell_get_zombie_total() );
 }
 public DisplayHUDRank(id) {
     static iTarget;
@@ -126,7 +135,7 @@ public DisplayHUDRank(id) {
 
     }
 
-    if(!iTarget) {
+    if(!iTarget || is_user_bot(id)) {
         return
     }
 
