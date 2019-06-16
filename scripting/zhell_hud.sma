@@ -38,6 +38,8 @@ enum _:PlayerData
 }
 new g_ePlayerData[33][PlayerData], max_level;
 
+new p_hud;
+
 new const Float:time_repeat = 5.0;
 public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
@@ -48,6 +50,8 @@ public plugin_init() {
 
     register_forward(FM_Think,"ForwardThink")
 
+
+    register_clcmd("say /hud", "hud");
 
     g_hudSync = CreateHudSyncObj();
     g_hudSync1 = CreateHudSyncObj();
@@ -60,6 +64,7 @@ public plugin_init() {
 public client_putinserver(id) {
     if (!is_user_bot(id)) {
         set_task(time_repeat, "showHud", id, _, _, "b");
+        UnSet_BitVar(p_hud, id);
     }
 }
 public client_disconnected(id) {
@@ -99,13 +104,21 @@ public zhell_last_zombie_post(id) {
 }
 public showHud(id)
 {
-
-    DisplayHUDRank(id);
-    DisplayHUDLevel(id);
+    if( Get_BitVar(p_hud, id) ) {
+        DisplayHUDRank(id);
+        DisplayHUDLevel(id);
+    }
 
 }
 
-
+public hud(id) {
+    if( Get_BitVar(p_hud, id) ) {
+        UnSet_BitVar(p_hud, id);
+    }
+    else {
+        Set_BitVar(p_hud, id);
+    }
+}
 
 public crxranks_user_receive_xp(id, xp) {
 
