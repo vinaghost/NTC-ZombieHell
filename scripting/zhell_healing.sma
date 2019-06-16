@@ -68,7 +68,6 @@ public zhell_killed_zombie(victim, attacker) {
 
     if(!zhell_is_zombie(attacker)) {
 
-
         static health; health = get_user_health(attacker);
         if( health < 100 ) {
             static reward; reward = (get_pcvar_num(cvar_humanHealing) + level);
@@ -81,7 +80,7 @@ public zhell_killed_zombie(victim, attacker) {
                 set_user_health(attacker, 100);
             }
             else {
-                set_user_health(attacker, health);
+                set_user_health(attacker, health + reward);
             }
         }
 
