@@ -74,6 +74,8 @@ public plugin_init() {
     cvar_zombieHealth = register_cvar("zhell_zombie_health", "100");
     cvar_lighting = register_cvar("zhell_lighting", "f");
 
+    register_clcmd("say /test", "test");
+
     g_level = 1;
     zhell_round_start();
 }
@@ -92,7 +94,9 @@ public plugin_natives() {
 
     register_native("zhell_get_boss", "_zhell_get_boss");
 }
-
+public test(id) {
+    client_print(id, print_chat, "Zom da spawn: %d, Zom da die: %d", g_zombie_spawn, g_zombie_died );
+}
 public zhell_round_start() {
 
     get_level_data();
@@ -100,7 +104,7 @@ public zhell_round_start() {
     g_boss = 0;
 
     g_zombie_total = 16 * (g_level + 1);
-    g_zombie_spawn = 16;
+    g_zombie_spawn = 0;
 
     g_zombie_died = 0;
 
@@ -127,14 +131,13 @@ public zhell_spawn_zombie(id) {
     if( !is_user_alive(id) ) return;
 
     zombie_power(id);
+    g_zombie_spawn++;
 }
 public zhell_killed_zombie(id) {
     cs_reset_player_maxspeed(id);
-    if( g_zombie_spawn >= g_zombie_total) {
-        set_task(5.0, "reSpawn", id + TASK_RESPAWN);
 
-        g_zombie_spawn++;
-        return;
+    if( g_zombie_spawn < g_zombie_total) {
+        set_task(5.0, "reSpawn", id + TASK_RESPAWN);
     }
     g_zombie_died ++;
 }
