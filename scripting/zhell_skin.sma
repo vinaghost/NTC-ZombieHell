@@ -1,6 +1,7 @@
 #include <amxmodx>
 
 #include <cs_player_models_api>
+#include <cs_weap_models_api>
 
 #include <zhell>
 #include <zhell_const>
@@ -12,8 +13,8 @@
 
 new const g_model_zombie_path[] = "models/player/zh_zombie/zh_zombie.mdl";
 new const g_model_zombie[] = "zh_zombie";
-/*new const g_model_boss_path[] = "models/player/zh_boss/zh_boss.mdl";
-new const g_model_boss[] = "zh_boss";*/
+new const g_model_boss_path[] = "models/player/zh_boss/zh_boss.mdl";
+new const g_model_boss[] = "zh_boss";
 
 
 public plugin_init() {
@@ -23,10 +24,11 @@ public plugin_init() {
 public plugin_precache() {
 
     precache_model(g_model_zombie_path);
-    //precache_model(g_model_boss_path);
+    precache_model(g_model_boss_path);
 }
 
 public zhell_spawn_human(id) {
+    cs_reset_player_weap_model(id, CSW_KNIFE);
     cs_reset_player_model(id);
 }
 
@@ -34,9 +36,10 @@ public zhell_spawn_human(id) {
 public zhell_spawn_zombie(id) {
 
     cs_set_player_model(id, g_model_zombie);
+    cs_set_player_weap_model(id, CSW_KNIFE, "");
+
 }
-/*
+
 public zhell_last_zombie_post(id) {
     cs_set_player_model(id, g_model_boss);
 }
-*/
