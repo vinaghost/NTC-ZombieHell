@@ -16,7 +16,7 @@ forward zhell_last_zombie_pre(id);
 forward zhell_last_zombie_post(id);
 
 forward zhell_round_start();
-forward zhell_round_end();
+forward zhell_round_end(team_win);
 
 
 
@@ -39,3 +39,5 @@ native zhell_get_boss();
 native zhell_get_boss_health();
 native zhell_get_boss_speed();
 
+native zhell_get_zombie_total();
+native zhell_get_zombie_last();

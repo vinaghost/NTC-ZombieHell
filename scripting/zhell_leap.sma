@@ -54,6 +54,7 @@ public zhell_round_start() {
 }
 public fwHamPlayerTakeDamagePre(victim, inflictor, attacker, Float:damage, bits) {
     if( bits == DMG_FALL && zhell_is_zombie(victim) ) {
+
         SetHamParamFloat(4, 0.0);
         return HAM_HANDLED;
     }

@@ -10,6 +10,10 @@
 #define Set_BitVar(%1,%2) %1 |= (1 << (%2 & 31))
 #define UnSet_BitVar(%1,%2) %1 &= ~(1 << (%2 & 31))
 
+enum {
+    ZHELL_ZOMBIE,
+    ZHELL_HUMAN
+}
 stock getHuman(players[32], &num) {
     get_players(players, num, "ae", "CT");
 }

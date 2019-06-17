@@ -134,6 +134,7 @@ public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
         ExecuteForward(g_Forwards[FW_USER_KILLED_HUMAN], g_ForwardResult, victim, attacker);
     }
 
+    UnSet_BitVar(p_zombie, id);
     CheckLastZombieHuman();
 }
 
