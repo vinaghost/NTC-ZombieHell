@@ -20,6 +20,10 @@ new const g_model_boss[] = "zh_boss";
 public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
+    //xoá xác
+    //tránh tình trạng khi chết skin bị đứng yên mà không nằm như skin bình thường
+    set_msg_block( get_user_msgid( "ClCorpse" ), BLOCK_SET );
+
 }
 public plugin_precache() {
 
@@ -38,6 +42,10 @@ public zhell_spawn_zombie(id) {
     cs_set_player_model(id, g_model_zombie);
     cs_set_player_weap_model(id, CSW_KNIFE, "");
 
+}
+
+public zhell_killed_zombie(id) {
+    cs_reset_player_model(id);
 }
 
 public zhell_last_zombie_post(id) {
