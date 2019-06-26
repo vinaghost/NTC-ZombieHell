@@ -34,10 +34,39 @@ native zhell_get_count_zombie();
 native zhell_get_level();
 
 native zhell_get_zombie_health();
-native zhell_get_zombie_speed();
+native Float:zhell_get_zombie_speed();
 native zhell_get_boss();
 native zhell_get_boss_health();
-native zhell_get_boss_speed();
+native Float:zhell_get_boss_speed();
 
 native zhell_get_zombie_total();
 native zhell_get_zombie_last();
+
+
+//zhell_loginsystem
+forward zhell_client_connected(id);
+
+native zhell_get_index(id);
+
+//zhell_pointsystem
+
+forward zhell_point_reward(id, point)
+
+native zhell_point_set(id, point)
+native zhell_point_get(id)
+native zhell_point_add(id, point)
+
+
+//zhell_weapon
+
+forward zhell_wpn_select_pre(id, itemid, ignorecost);
+forward zhell_wpn_select_post(id, itemid, ignorecost);
+forward zhell_wpn_remove(id, itemid)
+
+
+native zhell_weapons_register(const name[], cost, type)
+native zhell_weapons_get_id(const real_name[])
+native zhell_weapons_get_name(itemid, name[], len);
+native zhell_weapons_get_cost(itemid);
+native zhell_weapons_get_type(itemid);
+native zhell_weapons_force_buy(id, itemid, ignorecost = false);

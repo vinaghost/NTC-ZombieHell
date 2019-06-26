@@ -55,4 +55,14 @@ native points_set( id, iPoints );
  * @param       id - Player id
  *
  */
-forward points_client_connected( const id );
+forward points_client_connected( id, iPoints );
+
+
+/*
+ * Called when player just got his points
+ *
+ * @param       id - Player id
+ * @param       iPoints - Points to reward
+ *
+ */
+forward points_client_reward(id , iPoints);

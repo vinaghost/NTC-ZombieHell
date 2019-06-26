@@ -1,35 +1,36 @@
 #include <amxmodx>
 
 
+#include <zhell>
+
 #define PLUGIN_NAME "Zombie Hell: Spawn Zombie"
 #define PLUGIN_VERSION  "1.0"
 #define PLUGIN_AUTHOR   "VINAGHOST"
 
-new g_player;
 
+new bot_quota;
 public plugin_init() {
 
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
-    g_player = 0;
+
+    bot_quota = get_cvar_pointer("yb_quota");
+
+    set_pcvar_num(bot_quota, 0);
+
 }
-public client_authorized(id) {
-    if(is_user_bot(id)) return;
+public zhell_spawn_human(id) {
 
-    g_player++;
-
-    set_task( 5.0, "creatZombie" );
+    if( get_pcvar_num(bot_quota) < 1 ) set_task( 1.0, "creatZombie" );
 }
 public client_disconnected(id) {
     if(is_user_bot(id)) return;
 
-    g_player--;
-    set_task( 5.0, "creatZombie" );
+    if( get_pcvar_num(bot_quota) > 1 ) set_task( 1.0, "destroyZombie" );
+
 }
 public creatZombie() {
-    if( g_player < 1) {
-        server_cmd("yb_quota 0");
-    }
-    else {
-        server_cmd("yb_quota 16");
-    }
+    set_pcvar_num(bot_quota, 16);
+}
+public destroyZombie() {
+    set_pcvar_num(bot_quota, 0);
 }

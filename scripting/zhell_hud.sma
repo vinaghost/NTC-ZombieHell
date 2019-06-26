@@ -3,7 +3,6 @@
 
 #include <zhell>
 #include <zhell_const>
-#include <crxranks>
 
 #define PLUGIN_NAME "Zombie Hell: Hud"
 #define PLUGIN_VERSION  "1.0"
@@ -23,7 +22,7 @@ new const g_info[][] = {
 };
 new g_Classname[] = "vinaEntity";
 
-new  g_hudSync, g_hudSync1, g_hudSync2;
+new  g_hudSync, g_hudSync1/*, g_hudSync2*/;
 
 new g_level;
 new g_boss_health, g_boss_speed;
@@ -36,7 +35,6 @@ enum _:PlayerData
     NextXP,
     Level
 }
-new g_ePlayerData[33][PlayerData], max_level;
 
 new p_hud;
 
@@ -55,13 +53,11 @@ public plugin_init() {
 
     g_hudSync = CreateHudSyncObj();
     g_hudSync1 = CreateHudSyncObj();
-    g_hudSync2 = CreateHudSyncObj();
-
-    max_level = crxranks_get_max_levels();
+    //g_hudSync2 = CreateHudSyncObj();
 
     zhell_round_start();
 }
-public client_putinserver(id) {
+public zhell_client_connected(id) {
     if (!is_user_bot(id)) {
         set_task(time_repeat, "showHud", id, _, _, "b");
         UnSet_BitVar(p_hud, id);
@@ -71,12 +67,6 @@ public client_disconnected(id) {
     remove_task(id)
 }
 
-public zhell_spawn_human(id) {
-    g_ePlayerData[id][XP] = crxranks_get_user_xp(id);
-    g_ePlayerData[id][NextXP] = crxranks_get_user_next_xp(id);
-    g_ePlayerData[id][Level] = crxranks_get_user_level(id);
-    crxranks_get_user_rank(id, g_ePlayerData[id][Rank], charsmax(g_ePlayerData[][Rank]));
-}
 public zhell_round_start() {
 
     g_level = zhell_get_level();
@@ -105,7 +95,7 @@ public zhell_last_zombie_post(id) {
 public showHud(id)
 {
     if( Get_BitVar(p_hud, id) ) {
-        DisplayHUDRank(id);
+        //DisplayHUDRank(id);
         DisplayHUDLevel(id);
     }
 
@@ -120,25 +110,18 @@ public hud(id) {
     }
 }
 
-public crxranks_user_receive_xp(id, xp) {
+public zhell_point_reward(id, point) {
 
-    static bool:bPositive;
-    bPositive = xp >= 0;
-
-    if(bPositive) {
-        set_dhudmessage(0, 255, random(256), -1.0, -1.0, 0, 0.0, 10.0);
-    }
-    else {
-        set_dhudmessage(255, 0, random(256), -1.0, -1.0, 0, 0.0, 10.0);
-    }
-
-    show_dhudmessage(id, "%d XP", xp);
+    if( point <= 0 ) return;
+    set_dhudmessage(0, 255, random(256), -1.0, -1.0, 0, 0.0, 10.0);
+    show_dhudmessage(id, "%d", point);
 }
 public DisplayHUDLevel(id) {
     set_hudmessage(id, 255, 0, -1.0, 0.0, 0, 0.0, time_repeat,  0.0, 0.2, -1);
     ShowSyncHudMsg(id, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]^nCòn lại: [%d/%d]",
                                     g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed, zhell_get_zombie_last(), zhell_get_zombie_total() );
 }
+/*
 public DisplayHUDRank(id) {
     static iTarget;
     iTarget = id;
@@ -156,13 +139,4 @@ public DisplayHUDRank(id) {
     ShowSyncHudMsg(id, g_hudSync2, "[ XP: %d/%d ]^n[ Level: %d/%d ]^n[ Rank: %s ]",
                    g_ePlayerData[iTarget][XP], g_ePlayerData[iTarget][NextXP], g_ePlayerData[iTarget][Level], max_level, g_ePlayerData[iTarget][Rank]);
 
-}
-public crxranks_user_xp_updated(id, xp) {
-    g_ePlayerData[id][XP] = xp;
-    g_ePlayerData[id][NextXP] = crxranks_get_user_next_xp(id);
-}
-public crxranks_user_level_updated(id, level) {
-
-    g_ePlayerData[id][Level] = level;
-    crxranks_get_user_rank(id, g_ePlayerData[id][Rank], charsmax(g_ePlayerData[][Rank]));
-}
+}*/

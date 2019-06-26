@@ -26,10 +26,13 @@ public plugin_init() {
 	cvar_fog_color[2] = 	register_cvar("zhell_fog_color_B", "0");
 
 	msg_fog = get_user_msgid("Fog");
-	zhell_round_start();
+
 
 }
 
+public plguin_cfg() {
+	zhell_round_start();
+}
 // Round start
 public zhell_round_start() {
 

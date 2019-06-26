@@ -1,6 +1,9 @@
 #include <amxmodx>
 #include <fakemeta>
 
+#include <zhell_const>
+
+
 #define PLUGIN_NAME "Zombie Hell: Remove Object"
 #define PLUGIN_VERSION  "1.0"
 #define PLUGIN_AUTHOR   "VINAGHOST"
@@ -29,6 +32,7 @@ public plugin_init() {
     register_forward(FM_EmitSound, "fw_EmitSound")
     register_message(get_user_msgid("Scenario"), "message_scenario")
     register_message(get_user_msgid("HostagePos"), "message_hostagepos")
+
 }
 
 public plugin_precache() {
@@ -42,10 +46,7 @@ public plugin_precache() {
 
     g_fwPrecacheSound = register_forward(FM_PrecacheSound, "fw_PrecacheSound")
 
-
-    disable_buyzone();
 }
-
 // Entity Spawn Forward
 public fw_Spawn(entity) {
     // Invalid entity
@@ -95,15 +96,4 @@ public message_scenario() {
 
 public message_hostagepos() {
     return PLUGIN_HANDLED;
-}
-public disable_buyzone() {
-    new ent = find_ent_by_class(-1,"info_map_parameters");
-
-    // if we couldn't find one, make our own
-    if(!ent)
-        ent = create_entity("info_map_parameters");
-
-    // disable buying for TS team
-    DispatchKeyValue(ent,"buying","1");
-    DispatchSpawn(ent);
 }

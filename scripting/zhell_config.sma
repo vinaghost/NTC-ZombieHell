@@ -16,10 +16,10 @@ public plugin_cfg() {
     server_cmd("mp_roundtime 5");
     server_cmd("mp_buytime 5");
     server_cmd("mp_limitteams 0");
-    server_cmd("mp_timelimit 60");
+    server_cmd("mp_timelimit 0");
     server_cmd("mp_forcechasecam 1");
     server_cmd("mp_forcecamera 1");
-    server_cmd("humans_join_team CT");
+    server_cmd("humans_join_team T");
     server_cmd("sv_skycolor_r 0")
     server_cmd("sv_skycolor_g 0")
     server_cmd("sv_skycolor_b 0")

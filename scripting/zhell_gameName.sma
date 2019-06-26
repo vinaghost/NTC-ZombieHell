@@ -1,7 +1,7 @@
 #include <amxmodx>
 #include <fakemeta>
 
-new const g_ModName[] = "NTC - Zombie hell";
+new const g_ModName[] = "NTC - Zombie Hell";
 
 #define PLUGIN_NAME "Zombie Hell: Gamename changer"
 #define PLUGIN_VERSION  "1.0"

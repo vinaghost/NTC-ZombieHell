@@ -76,6 +76,15 @@ public plugin_natives() {
     register_native("zhell_get_count_zombie", "_zhell_get_count_zombie");
     register_native("zhell_get_count_human", "_zhell_get_count_human");
 }
+public client_putinserver(id) {
+
+    if( is_user_bot(id) ) {
+        Set_BitVar(p_zombie, id);
+    }
+}
+public client_disconnected(id) {
+    UnSet_BitVar(p_zombie, id)
+}
 
 public event_round_start() {
 
@@ -112,20 +121,17 @@ public logevent_round_end() {
 public fwHamPlayerSpawnPost(id) {
     if( !is_user_alive(id) ) return;
 
-    if( cs_get_user_team(id) == CS_TEAM_T ) {
-        Set_BitVar(p_zombie, id);
+    if( cs_get_user_team(id) == CS_TEAM_T && Get_BitVar(p_zombie, id) ) {
         ExecuteForward(g_Forwards[FW_USER_SPAWN_ZOMBIE], g_ForwardResult, id);
 
     }
-    else {
-        UnSet_BitVar(p_zombie, id);
+    else if( cs_get_user_team(id) == CS_TEAM_CT ){
         ExecuteForward(g_Forwards[FW_USER_SPAWN_HUMAN], g_ForwardResult, id);
     }
 }
 
 public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
     if( !is_user_connected(victim) ) return;
-
 
     if(Get_BitVar(p_zombie, victim)) {
         ExecuteForward(g_Forwards[FW_USER_KILLED_ZOMBIE], g_ForwardResult, victim, attacker);
@@ -134,12 +140,7 @@ public fwHamPlayerKilledPost(victim, attacker, shouldgib) {
         ExecuteForward(g_Forwards[FW_USER_KILLED_HUMAN], g_ForwardResult, victim, attacker);
     }
 
-    UnSet_BitVar(p_zombie, id);
     CheckLastZombieHuman();
-}
-
-public client_authorized(id) {
-    UnSet_BitVar(p_zombie, id);
 }
 CheckLastZombieHuman() {
     new humanPlayers[32], zombiePlayers[32];
@@ -148,7 +149,7 @@ CheckLastZombieHuman() {
     getZombie(zombiePlayers, zombieCount);
     getHuman(humanPlayers, humanCount);
 
-    if(zombieCount == 0) {
+    if(zombieCount == 1) {
         ExecuteForward(g_Forwards[FW_USER_LAST_ZOMBIE_PRE], g_ForwardResult, zombiePlayers[0]);
 
         if(g_ForwardResult < PLUGIN_HANDLED ){
@@ -156,7 +157,7 @@ CheckLastZombieHuman() {
         }
     }
 
-    if (humanCount == 0) {
+    if (humanCount == 1) {
 
         ExecuteForward(g_Forwards[FW_USER_LAST_HUMAN_PRE], g_ForwardResult, humanPlayers[0]);
 
