@@ -31,6 +31,11 @@ public plugin_cfg() {
     server_cmd("mp_refill_bpammo_weapons 3");
     server_cmd("mp_auto_join_team 1");
 
-     server_cmd("mp_scoreboard_showhealth 5");
+    server_cmd("mp_scoreboard_showhealth 5");
+
+    //yabp
+    server_cmd("yb_join_after_player 1");
+    server_cmd("yb_quota 16");
+
 }
 
