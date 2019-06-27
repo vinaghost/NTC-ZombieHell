@@ -25,7 +25,11 @@ public zhell_spawn_human(id) {
 public client_disconnected(id) {
     if(is_user_bot(id)) return;
 
-    if( get_pcvar_num(bot_quota) > 1 ) set_task( 1.0, "destroyZombie" );
+    new players[32], num;
+    get_players(players, num, "c")
+    if( num < 1 ) {
+        if( get_pcvar_num(bot_quota) > 1 ) set_task( 1.0, "destroyZombie" );
+    }
 
 }
 public creatZombie() {

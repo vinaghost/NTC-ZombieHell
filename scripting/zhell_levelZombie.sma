@@ -30,8 +30,6 @@ new g_level, g_zombie_spawn, g_zombie_total, g_zombie_died;
 new g_boss;
 new g_zombie_health;
 
-
-
 new const Float:g_speedZombie[10] = {
     1.0,
     1.2,
@@ -58,16 +56,11 @@ new const Float:g_speedBoss[10] = {
     5.0
 };
 
-//new g_maxPlayer;
-new g_msgCrosshair;
 
 public plugin_init() {
 
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
-    register_message(get_user_msgid("Money"), "message_Money")
-
-    g_msgCrosshair = get_user_msgid("Crosshair");
     //g_maxPlayer = get_maxplayers();
 
     cvar_zombiearmor = register_cvar("zhell_zombie_armor", "100");
@@ -184,33 +177,6 @@ public zombie_power(id) {
     strip_user_weapons(id);
     give_item(id, "weapon_knife");
     cs_set_user_money(id, 0);
-    set_task(0.1, "hide_user_money", id)
-}
-
-
-public hide_user_money(id){
-    // Not alive
-    if (!is_user_alive(id)) return;
-
-    // Hide money
-    message_begin(MSG_ONE, get_user_msgid("HideWeapon"), _, id)
-    write_byte((1<<5)) // what to hide bitsum
-    message_end()
-
-    // Hide the HL crosshair that's drawn
-    message_begin(MSG_ONE, g_msgCrosshair, _, id)
-    write_byte(0) // toggle
-    message_end()
-}
-
-// Take off player's money
-public message_Money(msg_id, msg_dest, msg_entity) {
-    if (!is_user_connected(msg_entity))   return PLUGIN_CONTINUE;
-
-    // Block zombies money message
-    if (cs_get_user_team(msg_entity) == CS_TEAM_T) return PLUGIN_HANDLED;
-
-    return PLUGIN_CONTINUE;
 }
 
 public reSpawn(id) {
@@ -262,5 +228,5 @@ public _zhell_get_zombie_total() {
 }
 
 public _zhell_get_zombie_last() {
-    return g_zombie_total - g_zombie_died;
+    return g_zombie_total - g_zombie_died + 1;
 }
