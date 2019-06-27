@@ -8,18 +8,18 @@
 #define PLUGIN_AUTHOR   "VINAGHOST"
 
 new const sound_win_zombies[][] = {
-	"sound/NTC/ntc_hwin081214.mp3",
-	"sound/NTC/ntc_hwin106.mp3",
-	"sound/NTC/ntc_hwin291115.mp3",
-	"sound/NTC/ntc_hwin_090916.mp3",
-	"sound/NTC/win_human_110517.mp3"
+	"sound/NTC/end_round/ntc_hwin081214.mp3",
+	"sound/NTC/end_round/ntc_hwin106.mp3",
+	"sound/NTC/end_round/ntc_hwin291115.mp3",
+	"sound/NTC/end_round/ntc_hwin_090916.mp3",
+	"sound/NTC/end_round/win_human_110517.mp3"
 }
 new const sound_win_humans[][] = {
-	"sound/NTC/ntc_zwin081214.mp3",
-	"sound/NTC/ntc_zwin106.mp3",
-	"sound/NTC/ntc_zwin291115.mp3",
-	"sound/NTC/ntc_zwin_090916.mp3",
-	"sound/NTC/win_zombie_110517.mp3"
+	"sound/NTC/end_round/ntc_zwin081214.mp3",
+	"sound/NTC/end_round/ntc_zwin106.mp3",
+	"sound/NTC/end_round/ntc_zwin291115.mp3",
+	"sound/NTC/end_round/ntc_zwin_090916.mp3",
+	"sound/NTC/end_round/win_zombie_110517.mp3"
 }
 
 new const sound_win_no_one[] = "ambience/3dmstart.wav";

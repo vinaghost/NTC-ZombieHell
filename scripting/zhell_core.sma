@@ -12,7 +12,7 @@
 #define PLUGIN_VERSION "1.0"
 #define PLUGIN_AUTHOR "VINAGHOST"
 
-new g_round_start, g_round_restart, g_round_end;
+new bool:g_first_round;
 
 new p_zombie;
 
@@ -30,6 +30,12 @@ enum _:TOTAL_FORWARDS
 
     FW_ROUND_START,
     FW_ROUND_END
+}
+
+enum _: {
+    COUNTDOWN,
+    START,
+    END
 }
 
 new g_ForwardResult;
@@ -60,11 +66,7 @@ public plugin_init() {
     g_Forwards[FW_ROUND_START] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
     g_Forwards[FW_ROUND_END] = CreateMultiForward("zhell_round_end", ET_CONTINUE, FP_CELL);
 
-
-    g_round_start = false;
-    g_round_restart = false;
-    g_round_end = false;
-
+    g_first_round = false;
 }
 public plugin_natives() {
     register_native("zhell_is_round_start", "_zhell_is_round_start");
@@ -126,6 +128,7 @@ public fwHamPlayerSpawnPost(id) {
 
     }
     else if( cs_get_user_team(id) == CS_TEAM_CT ){
+
         ExecuteForward(g_Forwards[FW_USER_SPAWN_HUMAN], g_ForwardResult, id);
     }
 }
