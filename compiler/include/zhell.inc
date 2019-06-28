@@ -15,6 +15,7 @@ forward zhell_last_human_post(id);
 forward zhell_last_zombie_pre(id);
 forward zhell_last_zombie_post(id);
 
+forward zhell_round_cooldown();
 forward zhell_round_start();
 forward zhell_round_end(team_win);
 

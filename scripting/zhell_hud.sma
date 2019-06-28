@@ -8,6 +8,7 @@
 #define PLUGIN_VERSION  "1.0"
 #define PLUGIN_AUTHOR   "VINAGHOST"
 
+#define TASK_COOLDOWN 2000
 new const g_info[][] = {
     "Hoàng hôn định mệnh",
     "Màn đêm buông xuống",
@@ -37,7 +38,7 @@ enum _:PlayerData
 }
 
 new p_hud;
-
+new g_cooldown;
 new const Float:time_repeat = 5.0;
 public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
@@ -66,7 +67,25 @@ public zhell_client_connected(id) {
 public client_disconnected(id) {
     remove_task(id)
 }
+public zhell_round_cooldown() {
+    g_cooldown = 10;
 
+    set_dhudmessage(0, 255, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+    show_dhudmessage( 0, "%d", g_cooldown );
+    set_task(1.0, "cooldown", TASK_COOLDOWN + g_cooldown);
+
+}
+public cooldown(taskid) {
+    taskid -= TASK_COOLDOWN;
+    g_cooldown--;
+    set_dhudmessage(0, 255, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+    show_dhudmessage( 0, "%d", g_cooldown );
+
+    if( g_cooldown <  1 ) {
+        return;
+    }
+    set_task(1.0, "cooldown", TASK_COOLDOWN + g_cooldown);
+}
 public zhell_round_start() {
 
     g_level = zhell_get_level();

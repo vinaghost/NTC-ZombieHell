@@ -57,7 +57,7 @@ public plugin_init() {
     g_Forwards[FW_USER_LAST_HUMAN_PRE] = CreateMultiForward("zhell_last_human_pre", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_LAST_HUMAN_POST] = CreateMultiForward("zhell_last_human_post", ET_CONTINUE, FP_CELL);
 
-    g_Forwards[FW_ROUND_COOLDOWN] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
+    g_Forwards[FW_ROUND_COOLDOWN] = CreateMultiForward("zhell_round_cooldown", ET_CONTINUE);
     g_Forwards[FW_ROUND_START] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
     g_Forwards[FW_ROUND_END] = CreateMultiForward("zhell_round_end", ET_CONTINUE, FP_CELL);
 }
