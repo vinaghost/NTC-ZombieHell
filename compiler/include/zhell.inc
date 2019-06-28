@@ -19,11 +19,6 @@ forward zhell_round_start();
 forward zhell_round_end(team_win);
 
 
-
-native zhell_is_round_start();
-native zhell_is_round_restart();
-native zhell_is_round_end();
-
 native zhell_is_zombie(id);
 
 native zhell_get_count_human();

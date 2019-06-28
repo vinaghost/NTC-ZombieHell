@@ -25,8 +25,8 @@ new g_Classname[] = "vinaEntity";
 new  g_hudSync, g_hudSync1/*, g_hudSync2*/;
 
 new g_level;
-new g_boss_health, g_boss_speed;
-new g_zombie_health, g_zombie_speed;
+new g_boss_health, Float:g_boss_speed;
+new g_zombie_health, Float:g_zombie_speed;
 
 enum _:PlayerData
 {
@@ -60,7 +60,7 @@ public plugin_init() {
 public zhell_client_connected(id) {
     if (!is_user_bot(id)) {
         set_task(time_repeat, "showHud", id, _, _, "b");
-        UnSet_BitVar(p_hud, id);
+        Set_BitVar(p_hud, id);
     }
 }
 public client_disconnected(id) {

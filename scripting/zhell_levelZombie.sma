@@ -83,8 +83,6 @@ public plugin_natives() {
     register_native("zhell_get_zombie_total", "_zhell_get_zombie_total");
     register_native("zhell_get_zombie_last", "_zhell_get_zombie_last");
 
-
-
     register_native("zhell_get_boss", "_zhell_get_boss");
 }
 public test(id) {

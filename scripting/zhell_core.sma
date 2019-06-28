@@ -12,8 +12,6 @@
 #define PLUGIN_VERSION "1.0"
 #define PLUGIN_AUTHOR "VINAGHOST"
 
-new bool:g_first_round;
-
 new p_zombie;
 
 enum _:TOTAL_FORWARDS
@@ -28,14 +26,9 @@ enum _:TOTAL_FORWARDS
     FW_USER_LAST_HUMAN_PRE,
     FW_USER_LAST_HUMAN_POST,
 
+    FW_ROUND_COOLDOWN,
     FW_ROUND_START,
     FW_ROUND_END
-}
-
-enum _: {
-    COUNTDOWN,
-    START,
-    END
 }
 
 new g_ForwardResult;
@@ -45,7 +38,7 @@ public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
     register_event("HLTV", "event_round_start", "a", "1=0", "2=0");
-    register_logevent("logevent_round_end", 2, "1=Round_End")
+    //register_logevent("logevent_round_end", 2, "1=Round_End")
 
     RegisterHam(Ham_Spawn, "player", "fwHamPlayerSpawnPost", 1);
     RegisterHamBots(Ham_Spawn, "fwHamPlayerSpawnPost", 1);
@@ -63,16 +56,12 @@ public plugin_init() {
     g_Forwards[FW_USER_LAST_ZOMBIE_POST] = CreateMultiForward("zhell_last_zombie_post", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_LAST_HUMAN_PRE] = CreateMultiForward("zhell_last_human_pre", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_LAST_HUMAN_POST] = CreateMultiForward("zhell_last_human_post", ET_CONTINUE, FP_CELL);
+
+    g_Forwards[FW_ROUND_COOLDOWN] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
     g_Forwards[FW_ROUND_START] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
     g_Forwards[FW_ROUND_END] = CreateMultiForward("zhell_round_end", ET_CONTINUE, FP_CELL);
-
-    g_first_round = false;
 }
 public plugin_natives() {
-    register_native("zhell_is_round_start", "_zhell_is_round_start");
-    register_native("zhell_is_round_restart", "_zhell_is_round_restart");
-    register_native("zhell_is_round_end", "_zhell_is_round_end");
-
     register_native("zhell_is_zombie", "_zhell_is_zombie");
 
     register_native("zhell_get_count_zombie", "_zhell_get_count_zombie");
@@ -90,27 +79,11 @@ public client_disconnected(id) {
 
 public event_round_start() {
 
-    g_round_start = true;
+    set_task(15.0, "event_round_cooldown");
 
-
-    ExecuteForward(g_Forwards[FW_ROUND_START], g_ForwardResult);
-
-
-    g_round_restart = false;
-    g_round_start = false;
 }
-public logevent_round_end() {
-    if (g_round_restart) return;
+public event_round_end() {
 
-    g_round_end = true
-
-    // Prevent this from getting called twice when restarting (bugfix)
-    static Float:lastendtime, Float:current_time;
-    current_time = get_gametime();
-
-    if (current_time - lastendtime < 0.5) return;
-
-    lastendtime = current_time;
     new players[32], num;
     getHuman(players, num)
 
@@ -119,7 +92,16 @@ public logevent_round_end() {
     else
         ExecuteForward(g_Forwards[FW_ROUND_END], g_ForwardResult, ZHELL_ZOMBIE);
 
+
+    set_task(15.0, "event_round_cooldown");
+
 }
+public event_round_cooldown() {
+    ExecuteForward(g_Forwards[FW_ROUND_COOLDOWN], g_ForwardResult);
+
+    set_task(10.0, "event_round_start");
+}
+
 public fwHamPlayerSpawnPost(id) {
     if( !is_user_alive(id) ) return;
 
@@ -169,32 +151,26 @@ CheckLastZombieHuman() {
         }
 
     }
+
+    if( humanCount < 1 || zombieCount < 1 ) {
+        event_round_end();
+    }
 }
 
 public message_TextMsg()
 {
     static message[32]
     get_msg_arg_string(2, message, charsmax(message))
-    if (equal(message, "#Game_Commencing") || equal(message, "#Game_will_restart_in")) {
+    /*if (equal(message, "#Game_Commencing") || equal(message, "#Game_will_restart_in")) {
         g_round_restart = true;
     }
-    else if (equal(message, "#Hostages_Not_Rescued") || equal(message, "#Round_Draw") || equal(message, "#Terrorists_Win") || equal(message, "#CTs_Win")) {
+    else */
+    if (equal(message, "#Hostages_Not_Rescued") || equal(message, "#Round_Draw") || equal(message, "#Terrorists_Win") || equal(message, "#CTs_Win")) {
         return PLUGIN_HANDLED;
     }
     return PLUGIN_CONTINUE;
 }
 
-public _zhell_is_round_start(iPlugin,iParams) {
-    return g_round_start;
-}
-
-public _zhell_is_round_restart(iPlugin,iParams) {
-    return g_round_restart;
-}
-
-public _zhell_is_round_end(iPlugin,iParams) {
-    return g_round_end;
-}
 
 public _zhell_is_zombie(iPlugin, iParams) {
     if( iParams != 1) return -1;
