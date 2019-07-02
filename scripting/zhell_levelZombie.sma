@@ -16,7 +16,7 @@
 #define PLUGIN_VERSION  "1.0"
 #define PLUGIN_AUTHOR   "VINAGHOST"
 
-enum {
+enum (+= 100) {
     TASK_RESPAWN = 1000
 };
 
@@ -56,12 +56,12 @@ new const Float:g_speedBoss[10] = {
     5.0
 };
 
+new g_first_round;
+new g_human_last = 0;
 
 public plugin_init() {
 
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
-
-    //g_maxPlayer = get_maxplayers();
 
     cvar_zombiearmor = register_cvar("zhell_zombie_armor", "100");
     cvar_zombieHealth = register_cvar("zhell_zombie_health", "100");
@@ -70,7 +70,8 @@ public plugin_init() {
     register_clcmd("say /test", "test");
 
     g_level = 1;
-    zhell_round_start();
+
+    set_task(1.0, "setting");
 }
 public plugin_natives() {
     register_native("zhell_get_level", "_zhell_get_level");
@@ -84,29 +85,34 @@ public plugin_natives() {
     register_native("zhell_get_zombie_last", "_zhell_get_zombie_last");
 
     register_native("zhell_get_boss", "_zhell_get_boss");
+
 }
 public test(id) {
-    client_print(id, print_chat, "Zom da spawn: %d, Zom da die: %d", g_zombie_spawn, g_zombie_died );
+    client_print(id, print_chat, "Zom da spawn: %d, Zom da die: %d, Zom total: %d", g_zombie_spawn, g_zombie_died, g_zombie_total );
 }
-public zhell_round_start() {
-
-    get_level_data();
+public setting() {
     lighting_effects();
+}
+public client_disconnected(id) {
+
+    remove_task(id + TASK_RESPAWN)
+}
+
+public zhell_round_start() {
+    if( g_first_round ) {
+        g_level --;
+        if ( g_level == 0 ) {
+            g_level = 1;
+        }
+    }
+    get_level_data();
+
     g_boss = 0;
 
     g_zombie_total = 16 * (g_level + 1);
     g_zombie_spawn = 0;
 
     g_zombie_died = 0;
-
-    new players[32], num;
-
-    get_players(players, num, "e", "CT");
-    //new id;
-    for(new i = 0; i < num; i++) {
-        //id = players[i];
-        remove_task(players[i] + TASK_RESPAWN);
-    }
 }
 public zhell_round_end(team_win) {
 
@@ -119,7 +125,7 @@ public zhell_round_end(team_win) {
 }
 
 public zhell_spawn_zombie(id) {
-    if( !is_user_alive(id) ) return;
+    if( !is_user_alive(id)  ) return;
 
     zombie_power(id);
     g_zombie_spawn++;
@@ -127,13 +133,20 @@ public zhell_spawn_zombie(id) {
 public zhell_killed_zombie(id) {
     cs_reset_player_maxspeed(id);
 
-    if( g_zombie_spawn < g_zombie_total) {
+    if( g_zombie_spawn < g_zombie_total ) {
         set_task(5.0, "reSpawn", id + TASK_RESPAWN);
+        client_print(0, print_chat, "Zom da spawn: %d, Zom da die: %d, Zom total: %d", g_zombie_spawn, g_zombie_died, g_zombie_total );
     }
+
     g_zombie_died ++;
 }
 public zhell_killed_human(id) {
-    set_task(10.0, "reSpawn", id + TASK_RESPAWN);
+    if( id == g_human_last ) {
+        g_human_last = 0;
+    }
+    else {
+        set_task(10.0, "reSpawn", id + TASK_RESPAWN);
+    }
 }
 public zhell_last_zombie_pre(id) {
 
@@ -141,6 +154,9 @@ public zhell_last_zombie_pre(id) {
 
     return PLUGIN_CONTINUE;
 
+}
+public zhell_last_human_post(id) {
+    g_human_last = id;
 }
 public zhell_last_zombie_post(id) {
 
@@ -171,6 +187,7 @@ public zombie_power(id) {
 
     cs_set_player_maxspeed_auto(id, g_speedZombie[g_level -1]);
     cs_set_user_armor(id, (get_pcvar_num(cvar_zombiearmor)*g_level), CS_ARMOR_VESTHELM);
+    set_user_health(id, (get_pcvar_num(cvar_zombieHealth)*g_level))
 
     strip_user_weapons(id);
     give_item(id, "weapon_knife");
@@ -200,6 +217,7 @@ set_level(level_up) // level_up:[1=level up/0=level back]
         if( g_level < 1 ) g_level = 1;
     }
 }
+
 public _zhell_get_level() {
     return g_level;
 }
@@ -226,5 +244,5 @@ public _zhell_get_zombie_total() {
 }
 
 public _zhell_get_zombie_last() {
-    return g_zombie_total - g_zombie_died + 1;
+    return g_zombie_total - g_zombie_died
 }

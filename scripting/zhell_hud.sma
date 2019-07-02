@@ -70,15 +70,15 @@ public client_disconnected(id) {
 public zhell_round_cooldown() {
     g_cooldown = 10;
 
-    set_dhudmessage(0, 255, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+    set_dhudmessage(0, 255, 0, -1.0, 0.17, 0, 1.0, 1.0, 0.0, 0.0);
     show_dhudmessage( 0, "%d", g_cooldown );
     set_task(1.0, "cooldown", TASK_COOLDOWN + g_cooldown);
-
 }
 public cooldown(taskid) {
     taskid -= TASK_COOLDOWN;
     g_cooldown--;
-    set_dhudmessage(0, 255, 0, -1.0, 0.17, 0, 3.0, 5.0, 0.0, 0.0);
+
+    set_dhudmessage(0, 255, 0, -1.0, 0.17, 0, 1.0, 1.0, 0.0, 0.0);
     show_dhudmessage( 0, "%d", g_cooldown );
 
     if( g_cooldown <  1 ) {
@@ -130,7 +130,6 @@ public hud(id) {
 }
 
 public zhell_point_reward(id, point) {
-
     if( point <= 0 ) return;
     set_dhudmessage(0, 255, random(256), -1.0, -1.0, 0, 0.0, 10.0);
     show_dhudmessage(id, "%d", point);
@@ -138,7 +137,8 @@ public zhell_point_reward(id, point) {
 public DisplayHUDLevel(id) {
     set_hudmessage(id, 255, 0, -1.0, 0.0, 0, 0.0, time_repeat,  0.0, 0.2, -1);
     ShowSyncHudMsg(id, g_hudSync, "Ngày %d: - %s^nBOSS [HP: %d - SPEED: %.1f]^nZombie [HP: %d - SPEED: %.1f]^nCòn lại: [%d/%d]",
-                                    g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed, zhell_get_zombie_last(), zhell_get_zombie_total() );
+                                    g_level, g_info[g_level - 1], g_boss_health, g_boss_speed, g_zombie_health, g_zombie_speed,
+                                    zhell_get_zombie_last(), zhell_get_zombie_total() );
 }
 /*
 public DisplayHUDRank(id) {

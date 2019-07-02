@@ -17,6 +17,12 @@ enum {
 }
 
 enum {
+    COOLDOWN,
+    START,
+    END
+}
+
+enum {
 	ZP_INVALID_WEAPON = -1,
 	ZHELL_PRIMARY,
 	ZHELL_SECONDAYRY,

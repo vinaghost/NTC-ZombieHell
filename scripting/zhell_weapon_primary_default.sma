@@ -53,7 +53,7 @@ public plugin_init() {
 }
 public zhell_wpn_select_post(id, itemid) {
 
-	for(new i = 0; i < 6; i++) {
+	for(new i = 0; i < 9; i++) {
 		if(itemid == primary[i] ) {
 			give_weapon(id, i)
 			break;

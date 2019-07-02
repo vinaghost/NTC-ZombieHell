@@ -13,9 +13,9 @@
 #define USE_NAPALM_CUSTOM_MODELS
 
 #if defined USE_NAPALM_CUSTOM_MODELS // Then set your custom models here
-new const g_model_napalm_view[] = "models/v_hegrenade.mdl"
-new const g_model_napalm_player[] = "models/p_hegrenade.mdl"
-new const g_model_napalm_world[] = "models/w_hegrenade.mdl"
+new const g_model_napalm_view[] = "models/v_napalm.mdl"
+new const g_model_napalm_player[] = "models/p_napalm.mdl"
+new const g_model_napalm_world[] = "models/w_napalm.mdl"
 #endif
 
 // Explosion sounds

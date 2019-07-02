@@ -30,11 +30,12 @@ xPaw        - code SQL in SimplePointSystem
 #define IsUserAuthorized(%1) ( g_iPlayerData[ %1 ][ DATA_STATUS ] & FULL_STATUS == FULL_STATUS )
 #define CallForward(%1) new iReturn; ExecuteForward( g_iFwdConnected, iReturn, %1 )
 
+
 #define MOTD_FLAG_ARG 1
 #define MOTD_FLAG_END 1
 
 #define PEV_PDATA_SAFE    2
-#define OFFSET_TEAM            114
+#define OFFSET_TEAM       114
 
 enum ( <<= 1 )
 {
@@ -79,17 +80,22 @@ new hash[34];
 new typedpass[33];
 new g_iPlayerData[ 33 ][ PLR_DATA ];
 new g_iFwdConnected;
+new g_iFwdSpec;
 
 new const v_login_path[] = "models/v_login.mdl";
 new const zhell_login_path[] = "models/player/zh_login/zh_login.mdl";
 new const zhell_login[] = "zh_login";
 new Handle:g_hSqlTuple;
 
+new bool:g_block;
+new spec;
 public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
     register_clcmd("say /dangki", "dangKi");
     register_clcmd("say /dangnhap", "dangNhap");
+
+    register_clcmd("say /spec", "raNgoai");
 
     register_clcmd("REGISTER_PASS", "Register")
     register_clcmd("LOGIN_PASS", "Login")
@@ -101,10 +107,13 @@ public plugin_init() {
     set_msg_block(get_user_msgid("MOTD"),BLOCK_SET)
 
     g_iFwdConnected = CreateMultiForward("zhell_client_connected", ET_IGNORE, FP_CELL);
+    g_iFwdSpec = CreateMultiForward("zhell_client_spec", ET_IGNORE, FP_CELL, FP_CELL);
+
+    register_forward(FM_ClientUserInfoChanged, "ClientUserInfoChanged")
 
 
     CC_SetPrefix("!g[NTC]");
-
+    g_block = true;
     set_task(2.0, "sql");
 }
 public plugin_precache() {
@@ -124,6 +133,8 @@ public sql() {
             PRIMARY KEY (`Id`), UNIQUE (`Name`) )", g_szSqlTable );
 
     SQL_ThreadQuery( g_hSqlTuple, "QuerySetData", szQuery );
+
+    g_block = false;
 }
 public plugin_natives() {
     register_native("zhell_get_index", "_zhell_get_index");
@@ -150,14 +161,26 @@ public client_connect(id) {
     g_iPlayerData[ id ][ DATA_INDEX  ] = 0;
     g_iPlayerData[ id ][ DATA_STATUS ] = 0;
     g_iPlayerData[ id ][ DATA_LOGIN ] = FAIL;
+
+    UnSet_BitVar(spec, id);
 }
 public client_authorized( id ) {
-   if( ( g_iPlayerData[ id ][ DATA_STATUS ] |= AUTHORIZED ) & CONNECTED ) {
+    if( g_block ) {
+
+        server_cmd("kick #%i ^"%s^"", get_user_userid(id), "Server dang chuan bi du lieu" );
+        return;
+
+    }
+    if( ( g_iPlayerData[ id ][ DATA_STATUS ] |= AUTHORIZED ) & CONNECTED ) {
         UserHasBeenAuthorized( id );
     }
 }
 
 public client_putinserver( id ) {
+    if( g_block ) {
+        server_cmd("kick #%i ^"%s^"", get_user_userid(id), "Server dang chuan bi du lieu" );
+        return;
+    }
     if( ( g_iPlayerData[ id ][ DATA_STATUS ] |= CONNECTED ) & AUTHORIZED && !is_user_bot( id ) ) {
         UserHasBeenAuthorized( id );
     }
@@ -195,6 +218,7 @@ public respawn_login(id) {
 
     //ExecuteHamB(Ham_CS_RoundRespawn, id);
     cs_set_user_team(id, CS_TEAM_SPECTATOR);
+    ExecuteHamB(Ham_CS_RoundRespawn, id);
     set_user_origin(id, {-2043, 3491, 68});
     strip_user_weapons(id);
     give_item(id, "weapon_knife");
@@ -370,6 +394,24 @@ public menuDangNhap(id, menu, item) {
     menu_destroy(menu);
     return;
 }
+public raNgoai(id) {
+    if( !IsUserAuthorized( id ) ) {
+        return;
+    }
+
+    if( Get_BitVar(spec, id) ) {
+        set_task(0.5, "respawn_ongame", id + RESPAWN_ONGAME);
+        UnSet_BitVar(spec, id)
+    }
+    else {
+        set_task(0.5, "respawn_login", id + RESPAWN);
+        Set_BitVar(spec, id);
+    }
+
+    new iReturn;
+    ExecuteForward( g_iFwdSpec, iReturn, id , !(!Get_BitVar(spec, id)));
+
+}
 public showNhacNho(id) {
 
     id -= NHACNHO;
@@ -529,7 +571,22 @@ public QuerySetData(FailState, Handle:Query, error[],errcode, data[], datasize) 
         return
     }
 }
-
+public ClientUserInfoChanged(id)
+{
+    static const name[] = "name"
+    static szOldName[32], szNewName[32]
+    pev(id, pev_netname, szOldName, charsmax(szOldName))
+    if( szOldName[0] )
+    {
+        get_user_info(id, name, szNewName, charsmax(szNewName))
+        if( !equal(szOldName, szNewName) )
+        {
+            server_cmd("kick #%i ^"%s^"", get_user_userid(id), "Vui long dang nhap lai" );
+            return FMRES_HANDLED
+        }
+    }
+    return FMRES_IGNORED
+}
 public _zhell_get_index( iPlugin, iParams ) {
 
     new id = get_param(1);

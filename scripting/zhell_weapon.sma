@@ -190,8 +190,9 @@ public auto_take_weapons(id) {
 	buy_weapon(id, p_Weapon_Auto[ZHELL_KNIFE][id], 1)
 
 	give_item(id, "weapon_hegrenade")
+	give_item(id, "weapon_hegrenade")
 	give_item(id, "weapon_smokegrenade")
-	give_item(id, "weapon_flashbang")
+	give_item(id, "weapon_smokegrenade")
 }
 
 public show_primary_menu(id) {
@@ -495,8 +496,9 @@ public knife_menu(id, menuid, item)
 		buy_weapon(id, itemid, Get_BitVar(free,id) )
 
 		give_item(id, "weapon_hegrenade")
+		give_item(id, "weapon_hegrenade")
 		give_item(id, "weapon_smokegrenade")
-		give_item(id, "weapon_flashbang")
+		give_item(id, "weapon_smokegrenade")
 
 		menu_destroy(menuid)
 	}
@@ -934,7 +936,8 @@ stock strip_weapons(id, stripwhat) {
 		weaponid = weapons[index]
 
 		if ((stripwhat == ZHELL_PRIMARY && ((1<<weaponid) & PRIMARY_WEAPONS_BIT_SUM))
-		|| (stripwhat == ZHELL_SECONDAYRY && ((1<<weaponid) & SECONDARY_WEAPONS_BIT_SUM)) )
+		|| (stripwhat == ZHELL_SECONDAYRY && ((1<<weaponid) & SECONDARY_WEAPONS_BIT_SUM))
+		|| ((1<<weaponid) & GRENADES_WEAPONS_BIT_SUM))
 		{
 		// Get weapon name
 		new wname[32]

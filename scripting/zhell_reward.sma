@@ -19,8 +19,10 @@ public plugin_init( ) {
 public client_disconnected( id ) {
     UnSet_BitVar(g_bConnected, id);
 }
-
-public zhell_( const id ) {
+public client_connect(id) {
+    UnSet_BitVar(g_bConnected, id);
+}
+public zhell_client_connected(  id ) {
     Set_BitVar(g_bConnected, id);
 }
 
@@ -28,7 +30,7 @@ public EventDeathMsg( ) {
     new iKiller = read_data( 1 ),
         iVictim = read_data( 2 );
 
-    if( Get_BitVar(g_bConnected, iKiller) || iKiller == iVictim ) return;
+    if( !Get_BitVar(g_bConnected, iKiller) || iKiller == iVictim ) return;
 
     new headShot = read_data(3)
 

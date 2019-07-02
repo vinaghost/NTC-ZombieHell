@@ -13,7 +13,7 @@
 #define PLUGIN_AUTHOR "VINAGHOST"
 
 new p_zombie;
-
+new bool:g_first_round;
 enum _:TOTAL_FORWARDS
 {
     FW_USER_SPAWN_ZOMBIE = 0,
@@ -26,7 +26,6 @@ enum _:TOTAL_FORWARDS
     FW_USER_LAST_HUMAN_PRE,
     FW_USER_LAST_HUMAN_POST,
 
-    FW_ROUND_COOLDOWN,
     FW_ROUND_START,
     FW_ROUND_END
 }
@@ -34,11 +33,13 @@ enum _:TOTAL_FORWARDS
 new g_ForwardResult;
 new g_Forwards[TOTAL_FORWARDS];
 
+
 public plugin_init() {
     register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
-    register_event("HLTV", "event_round_start", "a", "1=0", "2=0");
-    //register_logevent("logevent_round_end", 2, "1=Round_End")
+    //register_event("HLTV", "event_round_start", "a", "1=0", "2=0");
+    register_logevent("logevent_round_start", 2, "1=Round_Start")
+    register_logevent("logevent_round_end", 2, "1=Round_End")
 
     RegisterHam(Ham_Spawn, "player", "fwHamPlayerSpawnPost", 1);
     RegisterHamBots(Ham_Spawn, "fwHamPlayerSpawnPost", 1);
@@ -57,9 +58,10 @@ public plugin_init() {
     g_Forwards[FW_USER_LAST_HUMAN_PRE] = CreateMultiForward("zhell_last_human_pre", ET_CONTINUE, FP_CELL);
     g_Forwards[FW_USER_LAST_HUMAN_POST] = CreateMultiForward("zhell_last_human_post", ET_CONTINUE, FP_CELL);
 
-    g_Forwards[FW_ROUND_COOLDOWN] = CreateMultiForward("zhell_round_cooldown", ET_CONTINUE);
     g_Forwards[FW_ROUND_START] = CreateMultiForward("zhell_round_start", ET_CONTINUE);
     g_Forwards[FW_ROUND_END] = CreateMultiForward("zhell_round_end", ET_CONTINUE, FP_CELL);
+
+    g_first_round = true;
 }
 public plugin_natives() {
     register_native("zhell_is_zombie", "_zhell_is_zombie");
@@ -77,29 +79,24 @@ public client_disconnected(id) {
     UnSet_BitVar(p_zombie, id)
 }
 
-public event_round_start() {
-
-    set_task(15.0, "event_round_cooldown");
-
+public logevent_round_start() {
+    ExecuteForward(g_Forwards[FW_ROUND_START], g_ForwardResult);
 }
-public event_round_end() {
+public logevent_round_end() {
+    if (g_first_round ) {
+        g_first_round = false;
+        return;
+    }
 
-    new players[32], num;
-    getHuman(players, num)
+    new players[32], num_human, num_zom;
+    getHuman(players, num_human);
+    getZombie(players, num_zom);
 
-    if( num > 0)
+    if( num_human > 0)
         ExecuteForward(g_Forwards[FW_ROUND_END], g_ForwardResult, ZHELL_HUMAN);
     else
         ExecuteForward(g_Forwards[FW_ROUND_END], g_ForwardResult, ZHELL_ZOMBIE);
 
-
-    set_task(15.0, "event_round_cooldown");
-
-}
-public event_round_cooldown() {
-    ExecuteForward(g_Forwards[FW_ROUND_COOLDOWN], g_ForwardResult);
-
-    set_task(10.0, "event_round_start");
 }
 
 public fwHamPlayerSpawnPost(id) {
@@ -151,26 +148,20 @@ CheckLastZombieHuman() {
         }
 
     }
-
-    if( humanCount < 1 || zombieCount < 1 ) {
-        event_round_end();
-    }
 }
 
 public message_TextMsg()
 {
     static message[32]
     get_msg_arg_string(2, message, charsmax(message))
-    /*if (equal(message, "#Game_Commencing") || equal(message, "#Game_will_restart_in")) {
-        g_round_restart = true;
+    if (equal(message, "#Game_Commencing") || equal(message, "#Game_will_restart_in")) {
+        g_first_round = true;
     }
-    else */
-    if (equal(message, "#Hostages_Not_Rescued") || equal(message, "#Round_Draw") || equal(message, "#Terrorists_Win") || equal(message, "#CTs_Win")) {
+    else if (equal(message, "#Hostages_Not_Rescued") || equal(message, "#Round_Draw") || equal(message, "#Terrorists_Win") || equal(message, "#CTs_Win")) {
         return PLUGIN_HANDLED;
     }
     return PLUGIN_CONTINUE;
 }
-
 
 public _zhell_is_zombie(iPlugin, iParams) {
     if( iParams != 1) return -1;

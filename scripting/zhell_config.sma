@@ -23,19 +23,21 @@ public plugin_cfg() {
     server_cmd("sv_skycolor_r 0")
     server_cmd("sv_skycolor_g 0")
     server_cmd("sv_skycolor_b 0")
+    server_cmd("mp_round_infinite a");
     //reGameDLL
     server_cmd("mp_maxmoney 999999");
     server_cmd("mp_nadedrops 1");
-    server_cmd("mp_roundrespawn_time 300");
     server_cmd("mp_auto_reload_weapons 1");
     server_cmd("mp_refill_bpammo_weapons 3");
     server_cmd("mp_auto_join_team 1");
 
-    server_cmd("mp_scoreboard_showhealth 5");
+    server_cmd("mp_scoreboard_showhealth 3");
 
     //yabp
-    server_cmd("yb_join_after_player 1");
-    server_cmd("yb_quota 16");
+    server_cmd("yb_join_after_player 0");
+
+    //semiclip
+    server_cmd("semiclip_effects 1");
 
 }
 

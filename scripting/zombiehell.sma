@@ -32,32 +32,7 @@ new const FOG_DENSITY[] = "0.0003" // Density ##霧的密度
 new const FOG_COLOR[] = "1 1 1" // Color: Red Green Blue ##霧的顏色
 #endif
 
-// 如果你不想改變天空貼圖就把"//"去掉
-//#define DONT_CHANGE_SKY //不改變天空背景
-
-#if !(defined DONT_CHANGE_SKY)
-// 天空背景的名稱(設置多組天空時系統將會從中隨機選擇一組)
-new const SKY_NAMES[][] = { "zombiehell" }
-#endif
-
-// Explosion radius for custom grenades
-const Float:NADE_EXPLOSION_RADIUS = 300.0 //火焰彈和冰凍彈爆炸時,燃燒和冰凍的作用範圍
-
-///////////////////////////////////////////////////////////////////
-/// Game Maps                                                   ///
-///////////////////////////////////////////////////////////////////
-// 玩家完成10關挑戰後系統將會自動隨機切換以下地圖
-new const Random_Map[][] =
-{
-	"cs_assault",
-	"cs_italy",
-	"de_dust",
-	"de_dust2",
-	"de_inferno",
-	"de_train"
-}
-
-///////////////////////////////////////////////////////////////////
+// 如果你不想改變天空貼圖就把"//"去e////////////////////////////////////
 /// Task Defines                                                ///
 ///////////////////////////////////////////////////////////////////
 #define TASK_MODEL 	2000
@@ -4337,6 +4312,7 @@ public forward_spawn(entity)
 			engfunc(EngFunc_RemoveEntity, entity);
 			return FMRES_SUPERCEDE;
 		}
+
 	}
 	return FMRES_IGNORED;
 }

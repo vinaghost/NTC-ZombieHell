@@ -11,9 +11,6 @@ new msg_fog;
 new const g_fog_density[] = { 0, 0, 0, 0, 111, 18, 3, 58, 111, 18, 125, 58, 66, 96, 27, 59, 90, 101, 60, 59, 90,
 			101, 68, 59, 10, 41, 95, 59, 111, 18, 125, 59, 111, 18, 3, 60, 68, 116, 19, 60 }
 
-// The unique id of the fog task
-new const TASK_FOG = 5942
-
 // Plugin init
 public plugin_init() {
 	// Plugin Registeration
@@ -27,10 +24,10 @@ public plugin_init() {
 
 	msg_fog = get_user_msgid("Fog");
 
-
+	set_task(1.0, "setting");
 }
 
-public plguin_cfg() {
+public setting() {
 	zhell_round_start();
 }
 // Round start
@@ -42,9 +39,8 @@ public zhell_round_start() {
 	g_color[1] = get_pcvar_num(cvar_fog_color[1]);
 	g_color[2] = get_pcvar_num(cvar_fog_color[2]);
 
-	//remove_task(TASK_FOG)
-	//set_task(0.5, "task_update_fog", TASK_FOG, _, _, "b")
-	task_update_fog();
+	remove_task(113)
+	set_task(0.5, "task_update_fog", 113)
 }
 
 // Task: update fog message

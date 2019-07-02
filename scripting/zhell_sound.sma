@@ -7,16 +7,15 @@
 #define PLUGIN_VERSION  "1.0"
 #define PLUGIN_AUTHOR   "VINAGHOST"
 
-#define TASK_COOLDOWN 2000
 
-new const sound_win_zombies[][] = {
+new const sound_win_humans[][] = {
 	"sound/NTC/end_round/ntc_hwin081214.mp3",
 	"sound/NTC/end_round/ntc_hwin106.mp3",
 	"sound/NTC/end_round/ntc_hwin291115.mp3",
 	"sound/NTC/end_round/ntc_hwin_090916.mp3",
 	"sound/NTC/end_round/win_human_110517.mp3"
 }
-new const sound_win_humans[][] = {
+new const sound_win_zombies[][] = {
 	"sound/NTC/end_round/ntc_zwin081214.mp3",
 	"sound/NTC/end_round/ntc_zwin106.mp3",
 	"sound/NTC/end_round/ntc_zwin291115.mp3",
@@ -26,20 +25,7 @@ new const sound_win_humans[][] = {
 
 new const sound_win_no_one[] = "ambience/3dmstart.wav";
 
-new const sound_cooldown[][] = {
-	"vfox/one.wav",
-	"vfox/two.wav",
-	"vfox/three.wav",
-	"vfox/four.wav",
-	"vfox/five.wav",
-	"vfox/six.wav",
-	"vfox/seven.wav",
-	"vfox/eight.wav",
-	"vfox/nine.wav",
-	"vfox/ten.wav"
-}
 
-new g_cooldown;
 public plugin_init() {
 	register_plugin(PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR);
 
@@ -54,25 +40,7 @@ public plugin_precache() {
 	}
 	precache_sound(sound_win_no_one);
 }
-public zhell_round_cooldown() {
-    g_cooldown = 10;
-
-    PlaySoundToClients(sound_cooldown[g_cooldown - 1]);
-    set_task(1.0, "cooldown", TASK_COOLDOWN + g_cooldown);
-
-}
-public cooldown(taskid) {
-    taskid -= TASK_COOLDOWN;
-    g_cooldown--;
-
-    PlaySoundToClients(sound_cooldown[g_cooldown - 1]);
-
-    if( g_cooldown <  1 ) {
-        return;
-    }
-    set_task(1.0, "cooldown", TASK_COOLDOWN + g_cooldown);
-}
-public  zhell_round_end(team_win) {
+public zhell_round_end(team_win) {
 
 	if( team_win == ZHELL_HUMAN ) {
 		PlaySoundToClients(sound_win_humans[random_num(0, 5)], 1);

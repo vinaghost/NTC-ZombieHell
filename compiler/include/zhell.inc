@@ -19,6 +19,8 @@ forward zhell_round_cooldown();
 forward zhell_round_start();
 forward zhell_round_end(team_win);
 
+native zhell_get_round_status();
+native zhell_is_first_round();
 
 native zhell_is_zombie(id);
 
